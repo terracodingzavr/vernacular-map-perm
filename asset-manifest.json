@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/terracodingzavr/vernacular-map-perm.git/static/css/main.12be546b.css",
+    "main.js": "/terracodingzavr/vernacular-map-perm.git/static/js/main.ea58dea0.js",
+    "static/js/453.56516eea.chunk.js": "/terracodingzavr/vernacular-map-perm.git/static/js/453.56516eea.chunk.js",
+    "index.html": "/terracodingzavr/vernacular-map-perm.git/index.html",
+    "main.12be546b.css.map": "/terracodingzavr/vernacular-map-perm.git/static/css/main.12be546b.css.map",
+    "main.ea58dea0.js.map": "/terracodingzavr/vernacular-map-perm.git/static/js/main.ea58dea0.js.map",
+    "453.56516eea.chunk.js.map": "/terracodingzavr/vernacular-map-perm.git/static/js/453.56516eea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.12be546b.css",
+    "static/js/main.ea58dea0.js"
+  ]
+}
