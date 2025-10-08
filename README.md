@@ -2,4 +2,4 @@
 
 На веб-карте все объекты типологизированы по методы происхождения названия, для некоторых приведена информация о происхождении названия (доступна на интерактивной панели). В Репозитории на GitHub содержится текстовый документ со ссылками на конкретные ответы опроса и другие источники работы.
 
-Ссылка на карту: [[https://terracodingzavr.github.io/vernacular-map-perm/](https://terracodingzavr.github.io/vernacular-map-perm/)](url)
+Ссылка на карту: [[https://terracodingzavr.github.io/vernacular-map-perm/](https://terracodingzavr.github.io/vernacular-map-perm/)]
