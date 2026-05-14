@@ -1,3 +1,8 @@
+:root {
+  --header-height: clamp(92px, 9.5vw, 120px);
+  --about-triangle-width: clamp(78px, 8vw, 102px);
+}
+
 .App {
   text-align: center;
 }
@@ -42,7 +47,7 @@
 
 .header-trapezoid {
   position: relative;
-  height: 120px;
+  height: var(--header-height);
   background-color: #5397F9; /* насыщенный синий */
   clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
   display: flex;
@@ -254,20 +259,52 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 0;
-  height: 0;
+
+  width: var(--about-triangle-width);
+  height: var(--header-height);
+
+  background: #e41a1c;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+
+  cursor: pointer;
   z-index: 1200;
 
-  border-left: 102px solid transparent;
-  border-bottom: 120px solid red;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+
+  overflow: hidden;
+}
+
+.about-button span {
+  position: absolute;
+
+  top: 53%;
+  right: clamp(8px, 1vw, 14px);
+
+  color: #ffffff;
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+
+  transform: translateY(-50%) rotate(-45deg);
+  transform-origin: center;
+
+  pointer-events: none;
 }
 
 .about-button:hover {
-  transform: scale(1.05);
+  background: #c91416;
 }
 
+.about-button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -8px;
+}
 
 .about-panel {
   position: absolute;
