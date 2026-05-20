@@ -1,0 +1,18 @@
+{
+  "changes": [
+    {
+      "changeType": "create",
+      "feature": {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [56.2294, 58.0105]
+        },
+        "properties": {
+          "name": "Тестовое место",
+          "explainer": "Локальная тестовая заявка"
+        }
+      }
+    }
+  ]
+}
