@@ -1,0 +1,12 @@
+name = "vernacular-map-submissions"
+main = "src/index.js"
+compatibility_date = "2024-05-16"
+
+[vars]
+GITHUB_OWNER = "terracodingzavr"
+GITHUB_REPO = "vernacular-map-perm"
+GITHUB_BASE_BRANCH = "main"
+MAX_FEATURES = "10"
+MAX_BODY_BYTES = "2097152"
+CAPTCHA_ENABLED = "false"
+ALLOWED_ORIGIN = "http://localhost:3000"

@@ -1,0 +1,11 @@
+{
+  "name": "vernacular-map-submissions",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "wrangler build"
+  },
+  "dependencies": {}
+}
