@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/node_modules/
+worker/node_modules/
 /.pnp
 .pnp.js
 
@@ -10,6 +12,22 @@
 
 # production
 /build
+
+# Cloudflare Worker local files
+worker/.dev.vars
+worker/.dev.vars.*
+worker/.env
+worker/.env.*
+worker/.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+.wrangler/
+
+# local test payloads
+worker/test-submission.json
+worker/test-submissions.json
 
 # misc
 .DS_Store
