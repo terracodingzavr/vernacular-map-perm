@@ -7,6 +7,10 @@ import L from "leaflet";
 import { area as turfArea } from "@turf/turf";
 import "leaflet-textpath";
 
+// Submission components
+import SubmissionPanel from './components/SubmissionPanel';
+import SubmissionPreviewLayer from './components/SubmissionPreviewLayer';
+
 // Цвета для типов названий
 const typeColors = {
   "Ассоциация с объектом": "#ff7f00",
@@ -101,6 +105,10 @@ function App() {
   const [mapZoom, setMapZoom] = useState(12);
   const [mapReady, setMapReady] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+
+  // State for showing the submission panel and previewing user features
+  const [showSubmissionPanel, setShowSubmissionPanel] = useState(false);
+  const [previewFeatures, setPreviewFeatures] = useState([]);
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
@@ -231,6 +239,14 @@ function App() {
         <span>О карте</span>
       </button>
 
+      {/* Button to open the submission panel */}
+      <button
+        className="submission-button"
+        onClick={() => setShowSubmissionPanel(true)}
+      >
+        Предложить правку
+      </button>
+
       <MapContainer
         center={[58.01, 56.25]}
         zoom={12}
@@ -283,6 +299,16 @@ function App() {
                 handleFeatureHover(feature, layer);
                 return layer;
               }}
+            />
+          )}
+        </Pane>
+
+        {/* Preview of user submission features rendered above existing layers */}
+        <Pane name="submission-preview-pane" style={{ zIndex: 440 }}>
+          {previewFeatures.length > 0 && (
+            <SubmissionPreviewLayer
+              previewFeatures={previewFeatures}
+              pane="submission-preview-pane"
             />
           )}
         </Pane>
@@ -379,6 +405,14 @@ function App() {
             <div className="panel-type">{featureProps["Тип названия"]}</div>
           </div>
         </div>
+      )}
+
+      {/* Submission panel modal */}
+      {showSubmissionPanel && (
+        <SubmissionPanel
+          onClose={() => setShowSubmissionPanel(false)}
+          setPreviewFeatures={setPreviewFeatures}
+        />
       )}
     </div>
   );
