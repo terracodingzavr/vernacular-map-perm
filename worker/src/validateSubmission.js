@@ -88,21 +88,23 @@ export function validateSubmission(input, limits) {
 
     // Determine target layer based on geometry.type
     const typeToLayer = {
-      Point: 'public/data/points.geojson',
-      MultiPoint: 'public/data/points.geojson',
-      LineString: 'public/data/lines.geojson',
-      MultiLineString: 'public/data/lines.geojson',
-      Polygon: 'public/data/districts.geojson',
-      MultiPolygon: 'public/data/districts.geojson'
+      Point: 'points',
+      MultiPoint: 'points',
+      LineString: 'lines',
+      MultiLineString: 'lines',
+      Polygon: 'districts',
+      MultiPolygon: 'districts'
     };
 
     let targetLayer = change.targetLayer;
     const deducedLayer = typeToLayer[geomType];
 
     if (targetLayer) {
-      const trimmed = targetLayer.trim();
+      const trimmed = String(targetLayer).trim();
       if (trimmed !== deducedLayer) {
-        const err = new Error(`Change ${index + 1}: targetLayer ${targetLayer} does not match geometry.type ${geomType}`);
+        const err = new Error(
+          `Change ${index + 1}: targetLayer ${targetLayer} does not match geometry.type ${geomType}`
+        );
         err.code = 'VALIDATION_ERROR';
         throw err;
       }
@@ -114,7 +116,7 @@ export function validateSubmission(input, limits) {
     normalized.changes.push({
       changeType: 'create',
       feature,
-      targetLayer
+      targetLayer,
     });
   }
 

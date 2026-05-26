@@ -9,4 +9,5 @@ GITHUB_BASE_BRANCH = "main"
 MAX_FEATURES = "10"
 MAX_BODY_BYTES = "2097152"
 CAPTCHA_ENABLED = "false"
-ALLOWED_ORIGIN = "https://terracodingzavr.github.io/vernacular-map-perm/"
+# Comma‑separated list of allowed origins for CORS. Do not include path
+ALLOWED_ORIGINS = "http://localhost:3000,https://terracodingzavr.github.io"

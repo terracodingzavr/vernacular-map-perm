@@ -20,6 +20,8 @@ function generateSubmissionId() {
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    // Parse allowed origins list from environment.
+    const allowedOrigins = (env.ALLOWED_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean);
 
     // Health‑check endpoint
     if (request.method === 'GET' && url.pathname === '/health') {
@@ -28,22 +30,29 @@ export default {
 
     // CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN,
-          'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type'
-        }
-      });
+      const origin = request.headers.get('Origin');
+      if (origin && allowedOrigins.includes(origin)) {
+        return new Response(null, {
+          status: 204,
+          headers: {
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type'
+          }
+        });
       }
+      // For disallowed or missing origin, return minimal preflight response
+      return new Response(null, { status: 204 });
+    }
 
     // Main API endpoint
     if (request.method === 'POST' && url.pathname === '/api/submissions') {
       const origin = request.headers.get('Origin');
-      if (origin && origin !== env.ALLOWED_ORIGIN) {
+      if (!origin || !allowedOrigins.includes(origin)) {
         return errorResponse('FORBIDDEN_ORIGIN', 'Origin not allowed', env, 403);
       }
+      // Set response origin for CORS header in jsonResponse/errorResponse
+      env.__response_origin = origin;
 
       const contentType = request.headers.get('content-type') || '';
       if (!contentType.includes('application/json')) {
@@ -118,17 +127,19 @@ export default {
 
         // Update each GeoJSON file
         for (const layer in changesByLayer) {
-          const { content: fileContent, sha } = await github.getFile(layer, env.GITHUB_BASE_BRANCH, env);
+          // Convert simple layer name (points, lines, districts) to file path
+          const filePath = `public/data/${layer}.geojson`;
+          const { content: fileContent, sha } = await github.getFile(filePath, env.GITHUB_BASE_BRANCH, env);
           let geojson;
           try {
             geojson = JSON.parse(fileContent);
           } catch {
-            throw new Error(`Invalid JSON in repository file ${layer}`);
+            throw new Error(`Invalid JSON in repository file ${filePath}`);
           }
 
           const updated = applyChangesToGeoJson(geojson, changesByLayer[layer]);
           await github.createOrUpdateFile(
-            layer,
+            filePath,
             JSON.stringify(updated, null, 2),
             branchName,
             `feat: add submission ${submissionId} changes to ${layer}`,
