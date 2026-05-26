@@ -150,6 +150,8 @@ function App() {
   // Which city is currently selected (perm or cheb)
   // We keep selectedCity only to move the map between Perm and Cheboksary.
   const [selectedCity, setSelectedCity] = useState("perm");
+  const [titleCity, setTitleCity] = useState("perm");
+  const [titlePhase, setTitlePhase] = useState("in");
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [mapZoom, setMapZoom] = useState(12);
@@ -162,6 +164,19 @@ function App() {
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedCity === titleCity) return undefined;
+
+    setTitlePhase("out");
+
+    const timeoutId = window.setTimeout(() => {
+      setTitleCity(selectedCity);
+      setTitlePhase("in");
+    }, 180);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [selectedCity, titleCity]);
 
   useEffect(() => {
     let isMounted = true;
@@ -306,11 +321,23 @@ function App() {
   const explainerSentences = splitIntoSentences(explainer);
   const isExpandable = explainerSentences.length > 3;
   const visibleExplainer = expanded ? explainer : getTextPreview(explainer);
+  const titleCityName = titleCity === "perm" ? "Перми" : "Чебоксар";
 
   return (
     <div className="App">
       <div className="header-trapezoid">
-        <h1 className="header-title">Вернакулярная карта Перми</h1>
+        <h1 className="header-title">
+          Вернакулярная карта{" "}
+          <span
+            className={`header-city-word ${
+              titlePhase === "out"
+                ? "header-city-word-out"
+                : "header-city-word-in"
+            }`}
+          >
+            {titleCityName}
+          </span>
+        </h1>
       </div>
 
       <button
