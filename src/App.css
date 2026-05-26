@@ -1,6 +1,7 @@
 :root {
   --header-height: clamp(92px, 9.5vw, 120px);
-  --about-triangle-width: clamp(78px, 8vw, 102px);
+  /* Increase the base of the about triangle by roughly 60px */
+  --about-triangle-width: clamp(138px, calc(8vw + 60px), 162px);
 }
 
 .App {
@@ -306,6 +307,57 @@
   outline-offset: -8px;
 }
 
+/* Triangular button on the left side for submitting edits */
+.edit-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: var(--about-triangle-width);
+  height: var(--header-height);
+
+  background: #ffffff;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  /* Mirror of about-button: diagonal from top-left to bottom-right */
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+
+  cursor: pointer;
+  z-index: 1200;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.edit-button:hover {
+  background: #f5f5f5;
+}
+
+.edit-button:focus-visible {
+  outline: 3px solid #0072bc;
+  outline-offset: -8px;
+}
+
+/* Icon inside the edit triangle */
+.edit-button .edit-icon {
+  position: absolute;
+  top: 53%;
+  left: clamp(8px, 1vw, 14px);
+  color: #0072bc;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateY(-50%) rotate(45deg);
+  transform-origin: center;
+  pointer-events: none;
+}
+
 .about-panel {
   position: absolute;
   top: 120px;
@@ -466,4 +518,60 @@
 
 .panel-navigation button:not(:disabled):hover {
   background: #005a9e;
+}
+
+/* Map navigation panel (city switcher) */
+.map-nav {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nav-button {
+  background: #0072bc;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav-button:hover {
+  background: #005a9e;
+}
+
+.nav-button.active {
+  font-weight: 700;
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+/* Photo gallery inside the info panel */
+.panel-photos {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.panel-photo img {
+  max-width: 100%;
+  border-radius: 4px;
+  display: block;
+}
+
+.panel-photo-caption {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
 }

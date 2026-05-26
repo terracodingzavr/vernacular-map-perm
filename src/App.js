@@ -64,6 +64,53 @@ const getTextPreview = (text, limit = 3) => {
   return sentences.slice(0, limit).join(" ");
 };
 
+/**
+ * Normalize and resolve photo definitions in feature properties.
+ *
+ * A feature may define either a `photo` field (string) or an array
+ * `photos` containing objects or strings. This helper normalizes
+ * those definitions into an array of objects with resolved `src`,
+ * optional `alt` and `caption` fields. Relative paths are
+ * automatically prefixed with `process.env.PUBLIC_URL` so that
+ * resources in the `public` directory resolve correctly when
+ * deployed on GitHub Pages or another base path.
+ *
+ * @param {object} props Feature properties
+ * @returns {Array<{src: string, alt: string, caption: string}>}
+ */
+const getFeaturePhotos = (props = {}) => {
+  const result = [];
+  const resolveSrc = (src) => {
+    if (!src) return null;
+    // Absolute URL (http or https) or protocol-relative
+    if (/^(?:https?:)?\/\//.test(src)) return src;
+    // Ensure leading slash
+    const normalized = src.startsWith("/") ? src : `/${src}`;
+    // process.env.PUBLIC_URL may be undefined in tests; default to empty string
+    const base = process.env.PUBLIC_URL || "";
+    return `${base}${normalized}`;
+  };
+
+  if (Array.isArray(props.photos)) {
+    props.photos.forEach((p) => {
+      if (!p) return;
+      if (typeof p === "string") {
+        const src = resolveSrc(p);
+        if (src) result.push({ src, alt: "", caption: "" });
+      } else if (typeof p === "object" && p.src) {
+        const src = resolveSrc(p.src);
+        if (src) {
+          result.push({ src, alt: p.alt || "", caption: p.caption || "" });
+        }
+      }
+    });
+  } else if (typeof props.photo === "string") {
+    const src = resolveSrc(props.photo);
+    if (src) result.push({ src, alt: "", caption: "" });
+  }
+  return result;
+};
+
 function MapEvents({ mapRef, setMapZoom, setMapReady }) {
   const map = useMapEvents({
     zoomend: (event) => {
@@ -100,6 +147,9 @@ function App() {
   const [points, setPoints] = useState(null);
   const [lines, setLines] = useState(null);
   const [districts, setDistricts] = useState(null);
+  // Which city is currently selected (perm or cheb)
+  // We keep selectedCity only to move the map between Perm and Cheboksary.
+  const [selectedCity, setSelectedCity] = useState("perm");
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [mapZoom, setMapZoom] = useState(12);
@@ -148,6 +198,7 @@ function App() {
 
     const map = mapRef.current;
 
+    // Remove existing label layer if present
     if (labelLayerRef.current && map.hasLayer(labelLayerRef.current)) {
       map.removeLayer(labelLayerRef.current);
     }
@@ -159,28 +210,41 @@ function App() {
       const name = feature.properties?.["name"];
       if (!name) return;
 
-      const featureArea = turfArea(feature);
-      const shouldShow = mapZoom >= 15 || featureArea > 1_000_000;
+      // Skip features with invalid geometry or empty coordinates
+      const geometry = feature.geometry;
+      if (!geometry || !geometry.coordinates || geometry.coordinates.length === 0) return;
 
+      let featureArea;
+      try {
+        featureArea = turfArea(feature);
+      } catch (err) {
+        featureArea = 0;
+      }
+
+      // Show label either at high zoom or for large polygons
+      const shouldShow = mapZoom >= 15 || featureArea > 1_000_000;
       if (!shouldShow) return;
 
-      const layer = L.geoJSON(feature, {
-        interactive: false,
-        style: () => ({
-          opacity: 0,
-          fillOpacity: 0,
-        }),
-        onEachFeature: (_, lyr) => {
-          lyr.bindTooltip(name, {
-            permanent: true,
-            direction: "center",
-            className: "feature-label",
-            interactive: false,
-          });
-        },
-      });
-
-      layer.eachLayer((l) => labelLayer.addLayer(l));
+      // Compute center of the feature via bounds. Catch any errors for invalid geometries.
+      try {
+        const geoLayer = L.geoJSON(feature, { interactive: false });
+        const bounds = geoLayer.getBounds();
+        if (!bounds.isValid()) return;
+        const center = bounds.getCenter();
+        // Create a tooltip manually and add it to the label layer
+        const tooltip = L.tooltip({
+          permanent: true,
+          direction: "center",
+          className: "feature-label",
+          interactive: false,
+        })
+          .setLatLng(center)
+          .setContent(name);
+        labelLayer.addLayer(tooltip);
+      } catch (err) {
+        // Skip features that throw errors (e.g., invalid geometry)
+        return;
+      }
     });
 
     labelLayer.addTo(map);
@@ -189,7 +253,6 @@ function App() {
       if (map.hasLayer(labelLayer)) {
         map.removeLayer(labelLayer);
       }
-
       if (labelLayerRef.current === labelLayer) {
         labelLayerRef.current = null;
       }
@@ -218,6 +281,26 @@ function App() {
     setExpanded(false);
   };
 
+  /**
+   * Navigate the map to a specific city and toggle the visible dataset.
+   *
+   * When called, this function updates the selectedCity state,
+   * then uses the Leaflet map instance to set the view to the
+   * appropriate coordinates. The zoom level is preserved unless
+   * otherwise specified.
+   *
+   * @param {string} city Either "perm" or "cheb"
+   */
+  const handleCityNavigation = (city) => {
+    setSelectedCity(city);
+    const coords = city === "perm" ? [58.01, 56.25] : [56.1439, 47.2489];
+    if (mapRef.current) {
+      const currentZoom = mapRef.current.getZoom();
+      // Use flyTo for smooth animation when switching cities
+      mapRef.current.flyTo(coords, currentZoom);
+    }
+  };
+
   const featureProps = selectedFeature?.properties || {};
   const explainer = featureProps["explainer"] || "";
   const explainerSentences = splitIntoSentences(explainer);
@@ -239,12 +322,14 @@ function App() {
         <span>О карте</span>
       </button>
 
-      {/* Button to open the submission panel */}
+      {/* New edit button positioned on the left side of the header */}
       <button
-        className="submission-button"
+        className="edit-button"
         onClick={() => setShowSubmissionPanel(true)}
+        aria-label="Предложить правку"
+        title="Предложить правку"
       >
-        Предложить правку
+        <span className="edit-icon">✎</span>
       </button>
 
       <MapContainer
@@ -264,6 +349,7 @@ function App() {
         />
 
         <Pane name="polygons-pane" style={{ zIndex: 410 }}>
+          {/* Always render districts on the polygons pane; the dataset includes both Perm and Cheboksary objects */}
           {districts && (
             <GeoJSON
               data={districts}
@@ -275,6 +361,7 @@ function App() {
         </Pane>
 
         <Pane name="lines-pane" style={{ zIndex: 420 }}>
+          {/* Always render lines regardless of selected city */}
           {lines && (
             <GeoJSON
               data={lines}
@@ -286,6 +373,7 @@ function App() {
         </Pane>
 
         <Pane name="points-pane" style={{ zIndex: 430 }}>
+          {/* Always render points regardless of selected city */}
           {points && (
             <GeoJSON
               data={points}
@@ -295,7 +383,6 @@ function App() {
                   ...styleByType(feature),
                   pane: "points-pane",
                 });
-
                 handleFeatureHover(feature, layer);
                 return layer;
               }}
@@ -313,6 +400,22 @@ function App() {
           )}
         </Pane>
       </MapContainer>
+
+      {/* Navigation buttons for quickly moving the map between cities */}
+      <div className="map-nav">
+        <button
+          className={`nav-button ${selectedCity === "perm" ? "active" : ""}`}
+          onClick={() => handleCityNavigation("perm")}
+        >
+          Пермь
+        </button>
+        <button
+          className={`nav-button ${selectedCity === "cheb" ? "active" : ""}`}
+          onClick={() => handleCityNavigation("cheb")}
+        >
+          Чебоксары
+        </button>
+      </div>
 
       {showAbout && (
         <div className="about-panel">
@@ -391,6 +494,23 @@ function App() {
           <div className="panel-explainer">
             {visibleExplainer || "Описание пока не добавлено."}
           </div>
+
+          {/* Photos section: render only if photos are defined */}
+          {(() => {
+            const photos = getFeaturePhotos(featureProps);
+            return photos.length > 0 ? (
+              <div className="panel-photos">
+                {photos.map((p, index) => (
+                  <div key={index} className="panel-photo">
+                    <img src={p.src} alt={p.alt || featureProps["name"] || ""} />
+                    {p.caption && (
+                      <div className="panel-photo-caption">{p.caption}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : null;
+          })()}
 
           <div className="panel-bottom">
             {isExpandable && (
