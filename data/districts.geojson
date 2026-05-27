@@ -22,7 +22,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -81,7 +82,8 @@
             "src": "/images/descriptions/image_09_1.jpeg",
             "alt": "Тире точка Тире"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -134,7 +136,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -255,7 +258,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -336,7 +340,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -389,7 +394,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -458,7 +464,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -646,7 +653,8 @@
             "alt": "Велта",
             "caption": "Велта"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -746,7 +754,8 @@
             "alt": "Ротонда в Горьковском парке",
             "caption": "Ротонда в Горьковском парке"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -810,7 +819,8 @@
             "alt": "Фонтан в Сквере имени Дзержинского",
             "caption": "Фонтан в сквере имени Дзержинского"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -863,7 +873,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -952,7 +963,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1153,7 +1165,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1338,7 +1351,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1459,7 +1473,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1928,7 +1943,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2065,7 +2081,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2238,7 +2255,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2363,7 +2381,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2484,7 +2503,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -2757,7 +2777,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3182,7 +3203,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3463,7 +3485,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3564,7 +3587,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3705,7 +3729,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -3810,7 +3835,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4030,7 +4056,8 @@
             "alt": "Аэродром Бахаревка в 90-ые",
             "caption": "Аэродром Бахаревка в 90-ые"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -4259,7 +4286,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5428,7 +5456,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5573,7 +5602,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5658,7 +5688,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -5879,7 +5910,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6020,7 +6052,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6201,7 +6234,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6394,7 +6428,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6499,7 +6534,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -6696,7 +6732,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7337,7 +7374,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7606,7 +7644,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -7927,7 +7966,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8050,7 +8090,8 @@
             "src": "/images/descriptions/image_24_1.jpeg",
             "alt": "Рабочий поселок"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8258,7 +8299,8 @@
             "alt": "Микрорайон Садовый",
             "caption": "Микрорайон Садовый"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8355,7 +8397,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -8714,7 +8757,8 @@
             "src": "/images/descriptions/image_20_1.jpeg",
             "alt": "ПНОС"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10531,7 +10575,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10648,7 +10693,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -10737,7 +10783,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11090,7 +11137,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11283,7 +11331,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11504,7 +11553,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11621,7 +11671,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12342,7 +12393,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12615,7 +12667,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12672,7 +12725,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -12885,7 +12939,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13110,7 +13165,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13439,7 +13495,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13632,7 +13689,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -13997,7 +14055,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14158,7 +14217,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14353,7 +14413,8 @@
             "src": "/images/descriptions/image_31_1.jpeg",
             "alt": "Дружба"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14482,7 +14543,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14595,7 +14657,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14816,7 +14879,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -14933,7 +14997,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15038,7 +15103,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15191,7 +15257,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15280,7 +15347,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15453,7 +15521,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15574,7 +15643,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15706,7 +15776,8 @@
             "src": "/images/descriptions/image_25_2.jpeg",
             "alt": "Затон"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15819,7 +15890,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -15984,7 +16056,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16085,7 +16158,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16430,7 +16504,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16527,7 +16602,8 @@
         "auxiliary_storage_callouts_originx": 455855.3664211495,
         "auxiliary_storage_callouts_originy": 6428935.32823979,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16672,7 +16748,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16741,7 +16818,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -16922,7 +17000,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17003,7 +17082,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17148,7 +17228,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17253,7 +17334,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17418,7 +17500,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17491,7 +17574,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17584,7 +17668,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17657,7 +17742,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17732,7 +17818,8 @@
             "src": "/images/descriptions/image_10_2.jpeg",
             "alt": "Сад камней"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -17983,7 +18070,8 @@
             "src": "/images/descriptions/image_11_1.jpeg",
             "alt": "Красные казармы"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18092,7 +18180,8 @@
             "alt": "Парковка перед зданием университета до реконструкции Комсомольского проспекта",
             "caption": "Парковка перед зданием университета до реконструкции Комсомольского проспекта"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18157,7 +18246,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18262,7 +18352,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18351,7 +18442,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18460,7 +18552,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18549,7 +18642,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18646,7 +18740,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18711,7 +18806,8 @@
             "alt": "ТРК Планета на месте бывшего Ипподрома",
             "caption": "ТРК Планета на месте бывшего Ипподрома"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18818,7 +18914,8 @@
             "src": "/images/descriptions/image_15_1.jpeg",
             "alt": "Морион"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18899,7 +18996,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -18979,7 +19077,8 @@
             "alt": "Здание печатной фабрики Гознак",
             "caption": "Здание печатной фабрики Гознак"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19084,7 +19183,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19161,7 +19261,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19222,7 +19323,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19350,7 +19452,8 @@
             "alt": "Роща",
             "caption": "Роща"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19455,7 +19558,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -19592,7 +19696,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20065,7 +20170,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20221,7 +20327,8 @@
             "alt": "Разрушенный рынок Гача",
             "caption": "Разрушенный рынок Гача"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20306,7 +20413,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20695,7 +20803,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20832,7 +20941,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -20981,7 +21091,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21117,7 +21228,8 @@
             "alt": "Микрорайон Садовый",
             "caption": "Микрорайон Садовый"
           }
-        ]
+        ],
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21194,7 +21306,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21315,7 +21428,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21376,7 +21490,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21445,7 +21560,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21530,7 +21646,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21643,7 +21760,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21716,7 +21834,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21809,7 +21928,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21890,7 +22010,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -21983,7 +22104,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22044,7 +22166,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22177,7 +22300,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22254,7 +22378,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22311,7 +22436,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22428,7 +22554,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22501,7 +22628,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22598,7 +22726,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22675,7 +22804,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22816,7 +22946,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22901,7 +23032,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -22982,7 +23114,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23043,7 +23176,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23096,7 +23230,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23149,7 +23284,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23206,7 +23342,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23295,7 +23432,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23356,7 +23494,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23421,7 +23560,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23506,7 +23646,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23627,7 +23768,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23688,7 +23830,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23769,7 +23912,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23822,7 +23966,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23895,7 +24040,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -23952,7 +24098,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24021,7 +24168,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24082,7 +24230,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24139,7 +24288,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24208,7 +24358,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24269,7 +24420,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24374,7 +24526,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24455,7 +24608,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24528,7 +24682,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24593,7 +24748,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24658,7 +24814,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24723,7 +24880,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24796,7 +24954,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24857,7 +25016,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24922,7 +25082,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -24995,7 +25156,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25060,7 +25222,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25133,7 +25296,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25214,7 +25378,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25279,7 +25444,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25336,7 +25502,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25401,7 +25568,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25458,7 +25626,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25591,7 +25760,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25684,7 +25854,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25745,7 +25916,8 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Чебоксары"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -25890,11 +26062,3402 @@
         "auxiliary_storage_callouts_originx": null,
         "auxiliary_storage_callouts_originy": null,
         "auxiliary_storage_callouts_destinationx": null,
-        "auxiliary_storage_callouts_destinationy": null
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Пермь"
       },
       "geometry": {
         "type": "MultiPolygon",
         "coordinates": []
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 207,
+        "fid": 188,
+        "name": "Мигалово",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 109,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.790687963986905,
+                56.84905140858177
+              ],
+              [
+                35.792293666582495,
+                56.84190163796374
+              ],
+              [
+                35.793132466445854,
+                56.83996159296969
+              ],
+              [
+                35.794642306199904,
+                56.83789035289122
+              ],
+              [
+                35.79640378591297,
+                56.83621885725585
+              ],
+              [
+                35.79871647696482,
+                56.83420640860735
+              ],
+              [
+                35.80037011098117,
+                56.83318375481885
+              ],
+              [
+                35.79994860000001,
+                56.83238380000002
+              ],
+              [
+                35.79779950000001,
+                56.82827639999999
+              ],
+              [
+                35.7901044,
+                56.8264975
+              ],
+              [
+                35.7701664,
+                56.8230027
+              ],
+              [
+                35.7679873,
+                56.82203799999999
+              ],
+              [
+                35.7616767,
+                56.8176606
+              ],
+              [
+                35.7599731,
+                56.817193700000004
+              ],
+              [
+                35.7588178,
+                56.81645570000001
+              ],
+              [
+                35.7433418,
+                56.8160917
+              ],
+              [
+                35.7309988,
+                56.819144
+              ],
+              [
+                35.72730120000001,
+                56.8253055
+              ],
+              [
+                35.7239737,
+                56.826060700000006
+              ],
+              [
+                35.7276293,
+                56.835382200000005
+              ],
+              [
+                35.7223742,
+                56.83513170000003
+              ],
+              [
+                35.72141729999999,
+                56.8359387
+              ],
+              [
+                35.7215606,
+                56.8365438
+              ],
+              [
+                35.7252607,
+                56.83715189999999
+              ],
+              [
+                35.7271892,
+                56.8371549
+              ],
+              [
+                35.7297909,
+                56.83651970000002
+              ],
+              [
+                35.7355213,
+                56.83713039999999
+              ],
+              [
+                35.74048129999999,
+                56.838403099999994
+              ],
+              [
+                35.74033580047239,
+                56.83865197308855
+              ],
+              [
+                35.7427325775128,
+                56.839407744109565
+              ],
+              [
+                35.743876940183526,
+                56.83986000000545
+              ],
+              [
+                35.74594997413156,
+                56.84072844709521
+              ],
+              [
+                35.74793912809326,
+                56.841567380623786
+              ],
+              [
+                35.752504595921,
+                56.84312722267473
+              ],
+              [
+                35.75735765227333,
+                56.844408472877696
+              ],
+              [
+                35.759616420476824,
+                56.84495569425308
+              ],
+              [
+                35.762007000087415,
+                56.845453757053164
+              ],
+              [
+                35.76478103106412,
+                56.84588627989735
+              ],
+              [
+                35.76837588762139,
+                56.84626637160392
+              ],
+              [
+                35.770209264465606,
+                56.84647279910296
+              ],
+              [
+                35.77141953283989,
+                56.846780799921305
+              ],
+              [
+                35.773151055414985,
+                56.84707569194668
+              ],
+              [
+                35.774672878024234,
+                56.84741317663564
+              ],
+              [
+                35.77597900924005,
+                56.84784240033858
+              ],
+              [
+                35.77741695186295,
+                56.84804554266495
+              ],
+              [
+                35.77998128287382,
+                56.84840267730736
+              ],
+              [
+                35.78280923669888,
+                56.84863858089011
+              ],
+              [
+                35.790687963986905,
+                56.84905140858177
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 208,
+        "fid": 189,
+        "name": "Казармы",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Исторический объект",
+        "idlabel": 110,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.859379681368914,
+                56.84904485579685
+              ],
+              [
+                35.86515541757095,
+                56.84988360294248
+              ],
+              [
+                35.86532317754362,
+                56.849595285731525
+              ],
+              [
+                35.86791147426486,
+                56.85000155025217
+              ],
+              [
+                35.86829492563097,
+                56.849896708217464
+              ],
+              [
+                35.86762388574028,
+                56.848343701179324
+              ],
+              [
+                35.86857053130036,
+                56.84749836646441
+              ],
+              [
+                35.868750274128224,
+                56.84701343715703
+              ],
+              [
+                35.86531119468843,
+                56.84643675628835
+              ],
+              [
+                35.864352566273155,
+                56.84654160801629
+              ],
+              [
+                35.859080109989144,
+                56.848848271715326
+              ],
+              [
+                35.859379681368914,
+                56.84904485579685
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 209,
+        "fid": 190,
+        "name": "Соминка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Природный объект",
+        "idlabel": 111,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.854758591352756,
+                56.89618952179088
+              ],
+              [
+                35.8549407,
+                56.89666
+              ],
+              [
+                35.8566194,
+                56.8987034
+              ],
+              [
+                35.8605667,
+                56.90096820000001
+              ],
+              [
+                35.8655471,
+                56.898504600000024
+              ],
+              [
+                35.8694779,
+                56.89634289999999
+              ],
+              [
+                35.8745527,
+                56.898441100000014
+              ],
+              [
+                35.87895030000001,
+                56.89428900000001
+              ],
+              [
+                35.8856743,
+                56.893338899999996
+              ],
+              [
+                35.88762406665881,
+                56.897562683474234
+              ],
+              [
+                35.90061268608091,
+                56.895645434018114
+              ],
+              [
+                35.919018351654174,
+                56.893760534863986
+              ],
+              [
+                35.92000094577983,
+                56.89122100646677
+              ],
+              [
+                35.920935608484726,
+                56.88917878625375
+              ],
+              [
+                35.92107940274701,
+                56.88786961202278
+              ],
+              [
+                35.91997698006945,
+                56.88625926481274
+              ],
+              [
+                35.918491106025776,
+                56.88493689529777
+              ],
+              [
+                35.91672962631271,
+                56.883653759357195
+              ],
+              [
+                35.915315649400185,
+                56.88198430736935
+              ],
+              [
+                35.91429710670895,
+                56.88047846318192
+              ],
+              [
+                35.9151478894275,
+                56.879411241221014
+              ],
+              [
+                35.916837472009426,
+                56.87734873207194
+              ],
+              [
+                35.916549883484855,
+                56.87613081609
+              ],
+              [
+                35.89565178403186,
+                56.87911660402406
+              ],
+              [
+                35.86804328567195,
+                56.88474704632833
+              ],
+              [
+                35.854758591352756,
+                56.89618952179088
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 210,
+        "fid": 191,
+        "name": "Вагонка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 112,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.8444614061959,
+                56.861454815663016
+              ],
+              [
+                35.834659051110016,
+                56.87372105895555
+              ],
+              [
+                35.83453922255811,
+                56.87497834292597
+              ],
+              [
+                35.83509043389689,
+                56.87582960494233
+              ],
+              [
+                35.83590526804987,
+                56.8764320248108
+              ],
+              [
+                35.83950012460714,
+                56.8781213678769
+              ],
+              [
+                35.84242394127373,
+                56.8794177886879
+              ],
+              [
+                35.844149472421236,
+                56.87987610852011
+              ],
+              [
+                35.8453717236507,
+                56.8799284875717
+              ],
+              [
+                35.850116934306314,
+                56.87986301374574
+              ],
+              [
+                35.85316057952482,
+                56.8803082335006
+              ],
+              [
+                35.85780992733889,
+                56.883843613880366
+              ],
+              [
+                35.86804328567195,
+                56.88474704632833
+              ],
+              [
+                35.89101086616579,
+                56.880063126260815
+              ],
+              [
+                35.888162499537515,
+                56.875973662750525
+              ],
+              [
+                35.88224296907319,
+                56.87501763236878
+              ],
+              [
+                35.880461602707406,
+                56.87518048906687
+              ],
+              [
+                35.87995332464636,
+                56.874205100389844
+              ],
+              [
+                35.87721098720064,
+                56.872603082311215
+              ],
+              [
+                35.87484046894163,
+                56.869008800852136
+              ],
+              [
+                35.8734376235145,
+                56.86891859695685
+              ],
+              [
+                35.86894405281789,
+                56.86801478191167
+              ],
+              [
+                35.8610114026815,
+                56.865558652434096
+              ],
+              [
+                35.85494807795489,
+                56.86396699440099
+              ],
+              [
+                35.849903049753834,
+                56.86263723227251
+              ],
+              [
+                35.8444614061959,
+                56.861454815663016
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 211,
+        "fid": 192,
+        "name": "Карьеры",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 113,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.8828612,
+                56.92524080000001
+              ],
+              [
+                35.8920123,
+                56.92546560000002
+              ],
+              [
+                35.8921818,
+                56.92639170000001
+              ],
+              [
+                35.8962183,
+                56.926360200000005
+              ],
+              [
+                35.897239512344655,
+                56.92625517901223
+              ],
+              [
+                35.89757503228999,
+                56.92535601991422
+              ],
+              [
+                35.90017531186641,
+                56.924532044188645
+              ],
+              [
+                35.90010341473527,
+                56.92216464762048
+              ],
+              [
+                35.899456340554956,
+                56.92205346784643
+              ],
+              [
+                35.89848572928449,
+                56.919201920458114
+              ],
+              [
+                35.893692587208115,
+                56.91722663835037
+              ],
+              [
+                35.888300302372194,
+                56.91934581109628
+              ],
+              [
+                35.8827409,
+                56.91927110000002
+              ],
+              [
+                35.8828612,
+                56.92524080000001
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 212,
+        "fid": 193,
+        "name": "ТЭЦ",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 114,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.89889314636097,
+                56.913655167601746
+              ],
+              [
+                35.906154756606675,
+                56.90784589194888
+              ],
+              [
+                35.909222367535556,
+                56.908159929958735
+              ],
+              [
+                35.91382378392887,
+                56.90682525017606
+              ],
+              [
+                35.91693932627851,
+                56.90398562565251
+              ],
+              [
+                35.91890451452983,
+                56.90145987955216
+              ],
+              [
+                35.91149911002183,
+                56.89876381701116
+              ],
+              [
+                35.89553794690751,
+                56.911601090098316
+              ],
+              [
+                35.89584950114248,
+                56.91256926809786
+              ],
+              [
+                35.89889314636097,
+                56.913655167601746
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 213,
+        "fid": 194,
+        "name": "Выставка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Исторический объект",
+        "idlabel": 115,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                36.0430007,
+                56.9009803
+              ],
+              [
+                36.0447182,
+                56.9038562
+              ],
+              [
+                36.0508989,
+                56.905891100000005
+              ],
+              [
+                36.0511949,
+                56.907891000000006
+              ],
+              [
+                36.0600133,
+                56.907891000000006
+              ],
+              [
+                36.0561249,
+                56.900497600000016
+              ],
+              [
+                36.0584163,
+                56.900004599999995
+              ],
+              [
+                36.060916,
+                56.902279700000015
+              ],
+              [
+                36.0682068,
+                56.90076300000001
+              ],
+              [
+                36.0649584,
+                56.8954003
+              ],
+              [
+                36.0588419,
+                56.89429610000001
+              ],
+              [
+                36.0583059337664,
+                56.89431111650374
+              ],
+              [
+                36.0537915,
+                56.8944376
+              ],
+              [
+                36.0520306,
+                56.893778400000016
+              ],
+              [
+                36.04949760000001,
+                56.8925729
+              ],
+              [
+                36.0490508,
+                56.89227939999999
+              ],
+              [
+                36.0453862,
+                56.893429299999994
+              ],
+              [
+                36.0439283,
+                56.89277560000002
+              ],
+              [
+                36.040112,
+                56.894552100000006
+              ],
+              [
+                36.0375516,
+                56.89570850000001
+              ],
+              [
+                36.0363392,
+                56.8959649
+              ],
+              [
+                36.0368853,
+                56.897160500000005
+              ],
+              [
+                36.037084300000004,
+                56.898168000000005
+              ],
+              [
+                36.0402655,
+                56.900889
+              ],
+              [
+                36.0410175,
+                56.9013367
+              ],
+              [
+                36.0430007,
+                56.9009803
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 214,
+        "fid": 195,
+        "name": "Стекляшка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 116,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.96291360322518,
+                56.8634364266708
+              ],
+              [
+                35.96497465431803,
+                56.86618743694201
+              ],
+              [
+                35.9648787914765,
+                56.86697340271073
+              ],
+              [
+                35.987598284918505,
+                56.86728778439319
+              ],
+              [
+                35.98687931360705,
+                56.85832687073068
+              ],
+              [
+                35.96291360322518,
+                56.8634364266708
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 215,
+        "fid": 196,
+        "name": "Силикатка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 117,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.96109220923616,
+                56.860986547200675
+              ],
+              [
+                35.95714385845075,
+                56.86150404847742
+              ],
+              [
+                35.952942369848756,
+                56.86143690472858
+              ],
+              [
+                35.95267425346386,
+                56.86716252325824
+              ],
+              [
+                35.95338723334772,
+                56.869657842478674
+              ],
+              [
+                35.95484914168101,
+                56.87180591043069
+              ],
+              [
+                35.96716152539037,
+                56.869756898631046
+              ],
+              [
+                35.96816808522641,
+                56.86849943907238
+              ],
+              [
+                35.96802257940178,
+                56.86701690512943
+              ],
+              [
+                35.9648787914765,
+                56.86697340271073
+              ],
+              [
+                35.96497465431803,
+                56.86618743694201
+              ],
+              [
+                35.96291360322518,
+                56.8634364266708
+              ],
+              [
+                35.96109220923616,
+                56.860986547200675
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 216,
+        "fid": 197,
+        "name": "Горбатка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 118,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": []
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 217,
+        "fid": 198,
+        "name": "Горбатка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 119,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.834659051110016,
+                56.87372105895555
+              ],
+              [
+                35.83786070008208,
+                56.8697600636965
+              ],
+              [
+                35.81835243820157,
+                56.87199582513529
+              ],
+              [
+                35.824200071534726,
+                56.884200733027264
+              ],
+              [
+                35.83613499530485,
+                56.88820705492381
+              ],
+              [
+                35.8453717236507,
+                56.8799284875717
+              ],
+              [
+                35.844149472421236,
+                56.87987610852011
+              ],
+              [
+                35.84242394127373,
+                56.8794177886879
+              ],
+              [
+                35.83950012460714,
+                56.8781213678769
+              ],
+              [
+                35.83590526804987,
+                56.8764320248108
+              ],
+              [
+                35.83509043389689,
+                56.87582960494233
+              ],
+              [
+                35.83453922255811,
+                56.87497834292597
+              ],
+              [
+                35.834659051110016,
+                56.87372105895555
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 218,
+        "fid": 199,
+        "name": "Кошмары",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 120,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.90280760158697,
+                56.84944817642586
+              ],
+              [
+                35.904281492775446,
+                56.851610509864166
+              ],
+              [
+                35.90593512679179,
+                56.851938125242874
+              ],
+              [
+                35.908116006436536,
+                56.85183984093044
+              ],
+              [
+                35.90770858936005,
+                56.85097492784954
+              ],
+              [
+                35.91221414291183,
+                56.84986099518671
+              ],
+              [
+                35.912118280070295,
+                56.84936299103537
+              ],
+              [
+                35.91137534304846,
+                56.84720052772506
+              ],
+              [
+                35.91372398266588,
+                56.846361720444506
+              ],
+              [
+                35.91058447460586,
+                56.84413354731502
+              ],
+              [
+                35.90492856695576,
+                56.84619133541848
+              ],
+              [
+                35.903322864360184,
+                56.84491997650714
+              ],
+              [
+                35.899871802065206,
+                56.8458112429499
+              ],
+              [
+                35.89522245425114,
+                56.84628308129812
+              ],
+              [
+                35.8968521225571,
+                56.85021483621433
+              ],
+              [
+                35.89946438498872,
+                56.84942851827602
+              ],
+              [
+                35.90280760158697,
+                56.84944817642586
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 219,
+        "fid": 200,
+        "name": "Крупа",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 121,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.94270451794504,
+                56.81573894541875
+              ],
+              [
+                35.93611394759005,
+                56.80973077132716
+              ],
+              [
+                35.932495125322404,
+                56.80702809074258
+              ],
+              [
+                35.929091994448186,
+                56.80491566586981
+              ],
+              [
+                35.92627602347833,
+                56.804023425817604
+              ],
+              [
+                35.9236568,
+                56.80125130000001
+              ],
+              [
+                35.921888,
+                56.8017996
+              ],
+              [
+                35.92117060000001,
+                56.8020223
+              ],
+              [
+                35.9210333,
+                56.802334800000004
+              ],
+              [
+                35.9205758,
+                56.802716900000014
+              ],
+              [
+                35.91911027607418,
+                56.8043645789334
+              ],
+              [
+                35.91863096186654,
+                56.805138722564635
+              ],
+              [
+                35.91818759622449,
+                56.806798485109894
+              ],
+              [
+                35.90524611261833,
+                56.811783891118836
+              ],
+              [
+                35.90129177040533,
+                56.813358092091235
+              ],
+              [
+                35.91293910565087,
+                56.82247403891281
+              ],
+              [
+                35.91689344786387,
+                56.82556902147211
+              ],
+              [
+                35.94270451794504,
+                56.81573894541875
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 220,
+        "fid": 201,
+        "name": "Первомайка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 122,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.82089666514804,
+                56.84159516523328
+              ],
+              [
+                35.8295722523111,
+                56.84536030050934
+              ],
+              [
+                35.83914655361401,
+                56.84771946119291
+              ],
+              [
+                35.84136338182557,
+                56.8450064135807
+              ],
+              [
+                35.842717444462906,
+                56.84533408677751
+              ],
+              [
+                35.847474637976376,
+                56.84581248449337
+              ],
+              [
+                35.849499740504776,
+                56.84371535326811
+              ],
+              [
+                35.84926008340083,
+                56.84235215496147
+              ],
+              [
+                35.84886464917931,
+                56.841146207383595
+              ],
+              [
+                35.84894852916569,
+                56.84092991919843
+              ],
+              [
+                35.84797791789468,
+                56.83951090662693
+              ],
+              [
+                35.84704924661687,
+                56.83896032837465
+              ],
+              [
+                35.84597678107668,
+                56.83851789355426
+              ],
+              [
+                35.844826426977704,
+                56.838360582135884
+              ],
+              [
+                35.8438618071343,
+                56.83830814484951
+              ],
+              [
+                35.84316081010524,
+                56.83840646470119
+              ],
+              [
+                35.84149519323277,
+                56.83877680049116
+              ],
+              [
+                35.83958991925635,
+                56.83916351891047
+              ],
+              [
+                35.839038707917254,
+                56.83913402357853
+              ],
+              [
+                35.83811003663944,
+                56.83848184307925
+              ],
+              [
+                35.83802016522546,
+                56.83831797684629
+              ],
+              [
+                35.837930293811475,
+                56.83761334387167
+              ],
+              [
+                35.8367979139953,
+                56.83709878955413
+              ],
+              [
+                35.83509634855723,
+                56.83677104426392
+              ],
+              [
+                35.833886080182275,
+                56.83659406061429
+              ],
+              [
+                35.83243615470336,
+                56.83606965970358
+              ],
+              [
+                35.83090234923806,
+                56.835656688817
+              ],
+              [
+                35.82893716098565,
+                56.83519782693416
+              ],
+              [
+                35.82827810394979,
+                56.83635808111338
+              ],
+              [
+                35.82637282997336,
+                56.83856049861633
+              ],
+              [
+                35.823580824712316,
+                56.83986484551333
+              ],
+              [
+                35.82089666514804,
+                56.84159516523328
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 221,
+        "fid": 202,
+        "name": "Пожарка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 123,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.92647703168222,
+                56.869455746383856
+              ],
+              [
+                35.92754978252848,
+                56.865575917176564
+              ],
+              [
+                35.92216320381107,
+                56.864989541415575
+              ],
+              [
+                35.92216320381107,
+                56.86749716908811
+              ],
+              [
+                35.922710991477246,
+                56.86906902905817
+              ],
+              [
+                35.92647703168222,
+                56.869455746383856
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 222,
+        "fid": 203,
+        "name": "Долина нищих",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Другое",
+        "idlabel": 124,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.952942369848756,
+                56.86143690472858
+              ],
+              [
+                35.94440120972546,
+                56.86139107228073
+              ],
+              [
+                35.935630458067216,
+                56.86331664677687
+              ],
+              [
+                35.93459026110505,
+                56.863342492740195
+              ],
+              [
+                35.93353233351286,
+                56.86724502824388
+              ],
+              [
+                35.94593490607456,
+                56.86685468349169
+              ],
+              [
+                35.95275759631538,
+                56.86538283268205
+              ],
+              [
+                35.952942369848756,
+                56.86143690472858
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 223,
+        "fid": 204,
+        "name": "Привокзалка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 125,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.88672818915521,
+                56.84068429170654
+              ],
+              [
+                35.88971715715986,
+                56.84143218582026
+              ],
+              [
+                35.90607667055054,
+                56.835293564108945
+              ],
+              [
+                35.90213471726646,
+                56.832056657096196
+              ],
+              [
+                35.881193251278226,
+                56.840041345533024
+              ],
+              [
+                35.88408705811349,
+                56.84009981714039
+              ],
+              [
+                35.88672818915521,
+                56.84068429170654
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 224,
+        "fid": 205,
+        "name": "Бобачёвка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 126,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.945027632752506,
+                56.83129805434532
+              ],
+              [
+                35.94640851416099,
+                56.83252180097715
+              ],
+              [
+                35.949352872866704,
+                56.83443226423503
+              ],
+              [
+                35.95216028465587,
+                56.83384540027303
+              ],
+              [
+                35.95243417848896,
+                56.8327215925481
+              ],
+              [
+                35.953050439613406,
+                56.83107328020865
+              ],
+              [
+                35.95613174523565,
+                56.828238512803885
+              ],
+              [
+                35.951361427642674,
+                56.825341083870796
+              ],
+              [
+                35.946077559112666,
+                56.8217127371977
+              ],
+              [
+                35.94007471927081,
+                56.82331150124554
+              ],
+              [
+                35.93549840980962,
+                56.825147497657014
+              ],
+              [
+                35.932451340916515,
+                56.8267648485106
+              ],
+              [
+                35.92835434566322,
+                56.82841335048248
+              ],
+              [
+                35.92732724378914,
+                56.829712119115115
+              ],
+              [
+                35.926653921449464,
+                56.82997436500822
+              ],
+              [
+                35.92682510509515,
+                56.831535314470386
+              ],
+              [
+                35.926996288740824,
+                56.831847496555326
+              ],
+              [
+                35.92760113762223,
+                56.832546774981786
+              ],
+              [
+                35.930716679973614,
+                56.83422623857266
+              ],
+              [
+                35.931846492035106,
+                56.83458834352757
+              ],
+              [
+                35.934585430366,
+                56.834363589140175
+              ],
+              [
+                35.935281577191766,
+                56.83427618429188
+              ],
+              [
+                35.939150327584144,
+                56.833314717494694
+              ],
+              [
+                35.945027632752506,
+                56.83129805434532
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 225,
+        "fid": 206,
+        "name": "Комса",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 127,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.84611772227835,
+                56.85343169629952
+              ],
+              [
+                35.850773917440854,
+                56.85397457379963
+              ],
+              [
+                35.85370686390353,
+                56.851734373306606
+              ],
+              [
+                35.853181900723435,
+                56.85140363596659
+              ],
+              [
+                35.8519379662315,
+                56.84926937378131
+              ],
+              [
+                35.851139109218316,
+                56.848283328506035
+              ],
+              [
+                35.849518570705875,
+                56.84784646469936
+              ],
+              [
+                35.848320285186105,
+                56.84769668164885
+              ],
+              [
+                35.84683669359021,
+                56.84966877713249
+              ],
+              [
+                35.84558134685522,
+                56.851603326785686
+              ],
+              [
+                35.84679104461804,
+                56.85181549711335
+              ],
+              [
+                35.84611772227835,
+                56.85343169629952
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 226,
+        "fid": 207,
+        "name": "Гавань",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 128,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.96551361826481,
+                56.83334314535029
+              ],
+              [
+                35.97064783373011,
+                56.83657086908135
+              ],
+              [
+                35.97259386701131,
+                56.840624948844656
+              ],
+              [
+                35.97521449424564,
+                56.84093033743259
+              ],
+              [
+                35.977113286626434,
+                56.83708853476909
+              ],
+              [
+                35.978776864886896,
+                56.83336662993952
+              ],
+              [
+                35.98085193744599,
+                56.828723575000815
+              ],
+              [
+                35.98203216949656,
+                56.82687370603238
+              ],
+              [
+                35.98200314495076,
+                56.826513044292845
+              ],
+              [
+                35.981392421740175,
+                56.82618453374293
+              ],
+              [
+                35.98055397123072,
+                56.82618453374293
+              ],
+              [
+                35.97876320656238,
+                56.82817820862426
+              ],
+              [
+                35.97634101620172,
+                56.82831413713809
+              ],
+              [
+                35.97569923926856,
+                56.82887483704307
+              ],
+              [
+                35.9744260366431,
+                56.82868227438575
+              ],
+              [
+                35.975119569780546,
+                56.82717005674892
+              ],
+              [
+                35.97230403226732,
+                56.82714173748416
+              ],
+              [
+                35.970689238693545,
+                56.82936190287464
+              ],
+              [
+                35.96551361826481,
+                56.83334314535029
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 227,
+        "fid": 208,
+        "name": "Хим",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 129,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                36.02609943100356,
+                56.80407708530214
+              ],
+              [
+                36.03645067186102,
+                56.80110728022832
+              ],
+              [
+                36.036616291714736,
+                56.79766110467368
+              ],
+              [
+                36.03487728325069,
+                56.79618731449163
+              ],
+              [
+                36.0326828201889,
+                56.79537103654261
+              ],
+              [
+                36.03193753084715,
+                56.79439601459415
+              ],
+              [
+                36.02547835655209,
+                56.794373339363474
+              ],
+              [
+                36.02537484414351,
+                56.79516696427899
+              ],
+              [
+                36.02152418254453,
+                56.79520097640003
+              ],
+              [
+                36.02440182750291,
+                56.80107327346437
+              ],
+              [
+                36.02609943100356,
+                56.80407708530214
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 228,
+        "fid": 209,
+        "name": "Химбарахло",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 130,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.96551361826481,
+                56.83334314535029
+              ],
+              [
+                35.94457305801013,
+                56.84836951192003
+              ],
+              [
+                35.95301967054982,
+                56.848743112602115
+              ],
+              [
+                35.96084520863807,
+                56.84573155854677
+              ],
+              [
+                35.97144512498588,
+                56.83823188160546
+              ],
+              [
+                35.97064783373011,
+                56.83657086908135
+              ],
+              [
+                35.96551361826481,
+                56.83334314535029
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 229,
+        "fid": 210,
+        "name": "Торфушка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 131,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.954655166605285,
+                56.876673346862944
+              ],
+              [
+                35.95215016631778,
+                56.87880573483266
+              ],
+              [
+                35.95670471229506,
+                56.878477683062194
+              ],
+              [
+                35.963774609800716,
+                56.8785398999985
+              ],
+              [
+                35.96958165592175,
+                56.87897541565325
+              ],
+              [
+                35.97170366029753,
+                56.87944486191023
+              ],
+              [
+                35.974322524234466,
+                56.878918855465294
+              ],
+              [
+                35.97749000393685,
+                56.878720894133544
+              ],
+              [
+                35.97999500422436,
+                56.878935823530675
+              ],
+              [
+                35.9812378,
+                56.87929359999999
+              ],
+              [
+                35.987427195160016,
+                56.873720608861014
+              ],
+              [
+                35.98825529442862,
+                56.87360747249805
+              ],
+              [
+                35.98802756712975,
+                56.871322044661056
+              ],
+              [
+                35.976868929485406,
+                56.8711636434959
+              ],
+              [
+                35.976454879851104,
+                56.87007744600081
+              ],
+              [
+                35.970885912269786,
+                56.869613539538584
+              ],
+              [
+                35.96821529212856,
+                56.87040557148688
+              ],
+              [
+                35.96716152539037,
+                56.869756898631046
+              ],
+              [
+                35.96047536815825,
+                56.87086961465026
+              ],
+              [
+                35.954655166605285,
+                56.876673346862944
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 230,
+        "fid": 211,
+        "name": "Карьер",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Инфраструктурный объект",
+        "idlabel": 132,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                36.02023815952422,
+                56.85063652232906
+              ],
+              [
+                36.0104207,
+                56.844372400000005
+              ],
+              [
+                36.008551107991565,
+                56.844524446320044
+              ],
+              [
+                36.00494936112687,
+                56.84253381671534
+              ],
+              [
+                35.99933821864293,
+                56.84081266620423
+              ],
+              [
+                35.99672221302542,
+                56.84052234386028
+              ],
+              [
+                35.994864469905735,
+                56.84104077503781
+              ],
+              [
+                35.99395455490834,
+                56.84989447104067
+              ],
+              [
+                36.02023815952422,
+                56.85063652232906
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 231,
+        "fid": 212,
+        "name": "Трёха",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 133,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.909067068276315,
+                56.85210238506776
+              ],
+              [
+                35.90713349890686,
+                56.85240298300514
+              ],
+              [
+                35.90713349890687,
+                56.85320888452489
+              ],
+              [
+                35.91070681092789,
+                56.85961401823465
+              ],
+              [
+                35.91284067353347,
+                56.85928691429228
+              ],
+              [
+                35.909067068276315,
+                56.85210238506776
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 232,
+        "fid": 213,
+        "name": "Комсомольская роща",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Природный объект",
+        "idlabel": 134,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.82130130266257,
+                56.87815105573603
+              ],
+              [
+                35.8033221,
+                56.88090849999999
+              ],
+              [
+                35.7972822,
+                56.881821400000014
+              ],
+              [
+                35.7977646,
+                56.882343700000014
+              ],
+              [
+                35.798397,
+                56.884257900000016
+              ],
+              [
+                35.7963581,
+                56.884370700000005
+              ],
+              [
+                35.7970653,
+                56.88532339999999
+              ],
+              [
+                35.79461580000001,
+                56.884589700000014
+              ],
+              [
+                35.7932743,
+                56.884648700000014
+              ],
+              [
+                35.7929043,
+                56.885095200000016
+              ],
+              [
+                35.7919074,
+                56.88515639999999
+              ],
+              [
+                35.7851486,
+                56.88780749999999
+              ],
+              [
+                35.7855616,
+                56.8882923
+              ],
+              [
+                35.7811859,
+                56.891345
+              ],
+              [
+                35.7810009,
+                56.89191770000001
+              ],
+              [
+                35.7803446,
+                56.8926039
+              ],
+              [
+                35.7823582,
+                56.896727900000016
+              ],
+              [
+                35.7844641,
+                56.89775169999999
+              ],
+              [
+                35.785023,
+                56.89750960000001
+              ],
+              [
+                35.7868543,
+                56.89784070000002
+              ],
+              [
+                35.7878828,
+                56.896329300000005
+              ],
+              [
+                35.789238,
+                56.89581949999999
+              ],
+              [
+                35.7906534,
+                56.89504640000002
+              ],
+              [
+                35.7927137,
+                56.89299490000001
+              ],
+              [
+                35.7998623,
+                56.89494809999999
+              ],
+              [
+                35.8014452,
+                56.89382929999999
+              ],
+              [
+                35.803913,
+                56.895296400000014
+              ],
+              [
+                35.80486630000001,
+                56.89579520000001
+              ],
+              [
+                35.801133,
+                56.898285200000004
+              ],
+              [
+                35.8037346,
+                56.89927740000001
+              ],
+              [
+                35.8069569,
+                56.89963929999999
+              ],
+              [
+                35.81463072848571,
+                56.89595555106942
+              ],
+              [
+                35.82564735994861,
+                56.887458681685104
+              ],
+              [
+                35.824200071534726,
+                56.884200733027264
+              ],
+              [
+                35.82130130266257,
+                56.87815105573603
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 233,
+        "fid": 214,
+        "name": "Исаевский ручей",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Природный объект",
+        "idlabel": 135,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.93281165349945,
+                56.9028012252317
+              ],
+              [
+                35.93434620000001,
+                56.902347100000014
+              ],
+              [
+                35.9388636,
+                56.90101009999999
+              ],
+              [
+                35.942162,
+                56.89869720000001
+              ],
+              [
+                35.9444141,
+                56.895921900000005
+              ],
+              [
+                35.94511236117653,
+                56.89573173145011
+              ],
+              [
+                35.94524341465226,
+                56.89495810838403
+              ],
+              [
+                35.94484152037142,
+                56.89449972773305
+              ],
+              [
+                35.94556256599292,
+                56.89428021951427
+              ],
+              [
+                35.9443036912603,
+                56.89295345855914
+              ],
+              [
+                35.94361219668886,
+                56.89263709497548
+              ],
+              [
+                35.94248334657651,
+                56.89251765088502
+              ],
+              [
+                35.9401251727816,
+                56.89229813102025
+              ],
+              [
+                35.93757196205628,
+                56.891497518230615
+              ],
+              [
+                35.93625989543356,
+                56.8906323206063
+              ],
+              [
+                35.93440408948969,
+                56.8914329519355
+              ],
+              [
+                35.932229132205165,
+                56.89173641255236
+              ],
+              [
+                35.92999507282052,
+                56.89228521804687
+              ],
+              [
+                35.930396967101345,
+                56.89451909604337
+              ],
+              [
+                35.93173267456413,
+                56.89930921642712
+              ],
+              [
+                35.93281165349945,
+                56.9028012252317
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 234,
+        "fid": 215,
+        "name": "Чайка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 136,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.949352872866704,
+                56.83443226423503
+              ],
+              [
+                35.94640851416099,
+                56.83252180097715
+              ],
+              [
+                35.945027632752506,
+                56.83129805434532
+              ],
+              [
+                35.939150327584144,
+                56.833314717494694
+              ],
+              [
+                35.935281577191766,
+                56.83427618429188
+              ],
+              [
+                35.934585430366,
+                56.834363589140175
+              ],
+              [
+                35.931846492035106,
+                56.83458834352757
+              ],
+              [
+                35.930716679973614,
+                56.83422623857266
+              ],
+              [
+                35.92706360865439,
+                56.835612433459815
+              ],
+              [
+                35.938363930197916,
+                56.84430210296424
+              ],
+              [
+                35.94422685853012,
+                56.84181954606691
+              ],
+              [
+                35.950089786862335,
+                56.8407592372162
+              ],
+              [
+                35.955108129988,
+                56.84081058971361
+              ],
+              [
+                35.96020758781259,
+                56.83715117651441
+              ],
+              [
+                35.95644917283556,
+                56.836388378816366
+              ],
+              [
+                35.95216028465587,
+                56.83384540027303
+              ],
+              [
+                35.949352872866704,
+                56.83443226423503
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 235,
+        "fid": 216,
+        "name": "Элеватор",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 137,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                36.00878999270455,
+                56.79922518412213
+              ],
+              [
+                36.008281714643495,
+                56.798441996055956
+              ],
+              [
+                35.99899086450415,
+                56.800215472884425
+              ],
+              [
+                36.00218237791079,
+                56.80617607029603
+              ],
+              [
+                36.007631591542136,
+                56.80506945121587
+              ],
+              [
+                36.00635498617948,
+                56.80273962005
+              ],
+              [
+                36.01058669654829,
+                56.80189178444368
+              ],
+              [
+                36.00878999270455,
+                56.79922518412213
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 236,
+        "fid": 217,
+        "name": "Перемерки",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 138,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.964640723912645,
+                56.82539755379222
+              ],
+              [
+                35.97274953204952,
+                56.82666526863084
+              ],
+              [
+                35.983860726872656,
+                56.82354764801382
+              ],
+              [
+                35.98823428228176,
+                56.82009338359204
+              ],
+              [
+                35.98490092383482,
+                56.81742807801337
+              ],
+              [
+                35.98040916422547,
+                56.817298689421925
+              ],
+              [
+                35.97511361605444,
+                56.82024863826704
+              ],
+              [
+                35.97383701069179,
+                56.82103783958385
+              ],
+              [
+                35.97241856028883,
+                56.82128365299183
+              ],
+              [
+                35.96449887887234,
+                56.82079202456295
+              ],
+              [
+                35.96040901354383,
+                56.822021083538466
+              ],
+              [
+                35.958068570378956,
+                56.825565722514646
+              ],
+              [
+                35.964640723912645,
+                56.82539755379222
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 237,
+        "fid": 218,
+        "name": "Затверечье",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Природный объект",
+        "idlabel": 139,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.93459026110505,
+                56.863342492740195
+              ],
+              [
+                35.93556249065211,
+                56.859313537624736
+              ],
+              [
+                35.922441824424794,
+                56.863539567623114
+              ],
+              [
+                35.92137798662256,
+                56.86432139545227
+              ],
+              [
+                35.92102337402182,
+                56.86490290968527
+              ],
+              [
+                35.92057419806088,
+                56.8688440456225
+              ],
+              [
+                35.91823375489601,
+                56.87383124848056
+              ],
+              [
+                35.92062147974099,
+                56.87972200933709
+              ],
+              [
+                35.9230801271061,
+                56.879579918575374
+              ],
+              [
+                35.924096683228214,
+                56.88034203543092
+              ],
+              [
+                35.92884849207811,
+                56.88010952685097
+              ],
+              [
+                35.93121257608303,
+                56.8744255339969
+              ],
+              [
+                35.93353233351286,
+                56.86724502824388
+              ],
+              [
+                35.93459026110505,
+                56.863342492740195
+              ]
+            ],
+            [
+              [
+                35.92647703168222,
+                56.869455746383856
+              ],
+              [
+                35.922710991477246,
+                56.86906902905817
+              ],
+              [
+                35.92216320381107,
+                56.86749716908811
+              ],
+              [
+                35.92216320381107,
+                56.864989541415575
+              ],
+              [
+                35.92754978252848,
+                56.865575917176564
+              ],
+              [
+                35.92647703168222,
+                56.869455746383856
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 238,
+        "fid": 219,
+        "name": "Маяковка",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 140,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.931196421702516,
+                56.87446437708208
+              ],
+              [
+                35.937950215497075,
+                56.87514496211126
+              ],
+              [
+                35.93989467459112,
+                56.87490273196883
+              ],
+              [
+                35.94128357394401,
+                56.87428261565255
+              ],
+              [
+                35.94181549284512,
+                56.87376261435458
+              ],
+              [
+                35.94221497837343,
+                56.873092764530014
+              ],
+              [
+                35.94404364201978,
+                56.87326198515385
+              ],
+              [
+                35.94458738134091,
+                56.87207336768466
+              ],
+              [
+                35.94602947258391,
+                56.87221548697962
+              ],
+              [
+                35.94647864854485,
+                56.871039756561736
+              ],
+              [
+                35.947731613067454,
+                56.871091437796466
+              ],
+              [
+                35.95338723334772,
+                56.869657842478674
+              ],
+              [
+                35.95267425346386,
+                56.86716252325824
+              ],
+              [
+                35.95275759631538,
+                56.86538283268205
+              ],
+              [
+                35.94593490607456,
+                56.86685468349169
+              ],
+              [
+                35.944364862242686,
+                56.86690409752745
+              ],
+              [
+                35.93353233351286,
+                56.86724502824388
+              ],
+              [
+                35.931196421702516,
+                56.87446437708208
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 239,
+        "fid": 220,
+        "name": "Застава",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Исторический объект",
+        "idlabel": 141,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.87484046894163,
+                56.869008800852136
+              ],
+              [
+                35.87721098720064,
+                56.872603082311215
+              ],
+              [
+                35.87910870906235,
+                56.873711700360985
+              ],
+              [
+                35.8888659213449,
+                56.87207336768466
+              ],
+              [
+                35.88637478719286,
+                56.8676351418756
+              ],
+              [
+                35.88482133594588,
+                56.86798858404837
+              ],
+              [
+                35.8801719881318,
+                56.868853103847115
+              ],
+              [
+                35.87669696012643,
+                56.86912817413724
+              ],
+              [
+                35.87484046894163,
+                56.869008800852136
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 240,
+        "fid": 221,
+        "name": "Речной",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Исторический объект",
+        "idlabel": 142,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.9190204046608,
+                56.863259569088214
+              ],
+              [
+                35.9109679259725,
+                56.86405869670263
+              ],
+              [
+                35.91216396921342,
+                56.86654967662923
+              ],
+              [
+                35.916915778063306,
+                56.86718284285353
+              ],
+              [
+                35.91885432694733,
+                56.867286215913005
+              ],
+              [
+                35.9190204046608,
+                56.863259569088214
+              ]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "qc_id": 241,
+        "fid": 222,
+        "name": "Нога",
+        "original_name": null,
+        "explainer": null,
+        "Тип названия": "Ассоциация с реальным названием",
+        "idlabel": 143,
+        "auxiliary_storage_labeling_labelrotation": null,
+        "auxiliary_storage_labeling_positionx": null,
+        "auxiliary_storage_labeling_positiony": null,
+        "auxiliary_storage_labeling_lineanchorpercent": null,
+        "auxiliary_storage_labeling_lineanchorclipping": null,
+        "auxiliary_storage_labeling_lineanchortype": null,
+        "auxiliary_storage_labeling_lineanchortextpoint": null,
+        "auxiliary_storage_labeling_show": null,
+        "auxiliary_storage_callouts_originx": null,
+        "auxiliary_storage_callouts_originy": null,
+        "auxiliary_storage_callouts_destinationx": null,
+        "auxiliary_storage_callouts_destinationy": null,
+        "city": "Тверь",
+        "photos": null
+      },
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                35.86802652084149,
+                56.85506037062809
+              ],
+              [
+                35.865885614848516,
+                56.862551200187376
+              ],
+              [
+                35.870424656137956,
+                56.862938895695734
+              ],
+              [
+                35.87256556213093,
+                56.85544814377631
+              ],
+              [
+                35.86802652084149,
+                56.85506037062809
+              ]
+            ]
+          ]
+        ]
       }
     }
   ]
