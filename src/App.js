@@ -11,19 +11,85 @@ import "leaflet-textpath";
 import SubmissionPanel from './components/SubmissionPanel';
 import SubmissionPreviewLayer from './components/SubmissionPreviewLayer';
 
-// Цвета для типов названий
-const typeColors = {
-  "Ассоциация с объектом": "#ff7f00",
-  "Ассоциация с официальным названием": "#377eb8",
-  "Визуальная ассоциация": "#4daf4a",
-  "Историческая ассоциация": "#e41a1c",
-  "Реальное название": "#984ea3",
-  "Другое": "#999999",
+// Конфигурация городов: центр карты, подпись в заголовке и городская легенда.
+const cityConfigs = {
+  perm: {
+    label: "Пермь",
+    cityName: "Пермь",
+    titleName: "Перми",
+    center: [58.01, 56.25],
+    legendTitle: "Тип названия",
+    legendLabels: {
+      "Реальное название": "Официальное название",
+    },
+    typeColors: {
+      "Ассоциация с объектом": "#ff7f00",
+      "Ассоциация с официальным названием": "#377eb8",
+      "Визуальная ассоциация": "#4daf4a",
+      "Историческая ассоциация": "#e41a1c",
+      "Реальное название": "#984ea3",
+      "Другое": "#999999",
+    },
+  },
+  cheb: {
+    label: "Чебоксары",
+    cityName: "Чебоксары",
+    titleName: "Чебоксар",
+    center: [56.1439, 47.2489],
+    legendTitle: "Тип названия",
+    legendLabels: {
+      "Реальное название": "Официальное название",
+    },
+    typeColors: {
+      "Ассоциация с объектом": "#ff7f00",
+      "Ассоциация с официальным названием": "#377eb8",
+      "Визуальная ассоциация": "#4daf4a",
+      "Историческая ассоциация": "#e41a1c",
+      "Реальное название": "#984ea3",
+      "Другое": "#999999",
+    },
+  },
+  tver: {
+    label: "Тверь",
+    cityName: "Тверь",
+    titleName: "Твери",
+    center: [56.8587, 35.9176],
+    legendTitle: "Происхождение вернакулярного названия:",
+    typeColors: {
+      "Инфраструктурный объект": "#ff7f00",
+      "Исторический объект": "#e41a1c",
+      "Природный объект": "#4daf4a",
+      "Ассоциация с реальным названием": "#377eb8",
+      "Другое": "#999999",
+    },
+  },
+};
+
+const cityNameToKey = {
+  "Пермь": "perm",
+  "Чебоксары": "cheb",
+  "Тверь": "tver",
+};
+
+const getFeatureCityKey = (feature) => {
+  const city = feature.properties?.city || feature.properties?.["Город"];
+  return cityNameToKey[city] || "perm";
+};
+
+const getFeatureTypeColors = (feature) => {
+  const cityKey = getFeatureCityKey(feature);
+  return cityConfigs[cityKey]?.typeColors || cityConfigs.perm.typeColors;
+};
+
+const getDisplayTypeName = (type, cityKey) => {
+  const config = cityConfigs[cityKey] || cityConfigs.perm;
+  return config.legendLabels?.[type] || type;
 };
 
 // Стиль объектов
 const styleByType = (feature) => {
   const type = feature.properties?.["Тип названия"];
+  const typeColors = getFeatureTypeColors(feature);
   const color = typeColors[type] || "#cccccc";
   const geometryType = feature.geometry?.type;
 
@@ -147,8 +213,8 @@ function App() {
   const [points, setPoints] = useState(null);
   const [lines, setLines] = useState(null);
   const [districts, setDistricts] = useState(null);
-  // Which city is currently selected (perm or cheb)
-  // We keep selectedCity only to move the map between Perm and Cheboksary.
+  // Which city is currently selected.
+  // We keep selectedCity to move the map, update the title and switch the visible legend.
   const [selectedCity, setSelectedCity] = useState("perm");
   const [titleCity, setTitleCity] = useState("perm");
   const [titlePhase, setTitlePhase] = useState("in");
@@ -304,15 +370,17 @@ function App() {
    * appropriate coordinates. The zoom level is preserved unless
    * otherwise specified.
    *
-   * @param {string} city Either "perm" or "cheb"
+   * @param {string} city City config key: "perm", "cheb" or "tver"
    */
   const handleCityNavigation = (city) => {
+    const config = cityConfigs[city];
+    if (!config) return;
+
     setSelectedCity(city);
-    const coords = city === "perm" ? [58.01, 56.25] : [56.1439, 47.2489];
     if (mapRef.current) {
       const currentZoom = mapRef.current.getZoom();
       // Use flyTo for smooth animation when switching cities
-      mapRef.current.flyTo(coords, currentZoom);
+      mapRef.current.flyTo(config.center, currentZoom);
     }
   };
 
@@ -321,7 +389,9 @@ function App() {
   const explainerSentences = splitIntoSentences(explainer);
   const isExpandable = explainerSentences.length > 3;
   const visibleExplainer = expanded ? explainer : getTextPreview(explainer);
-  const titleCityName = titleCity === "perm" ? "Перми" : "Чебоксар";
+  const currentCityConfig = cityConfigs[selectedCity] || cityConfigs.perm;
+  const currentTypeColors = currentCityConfig.typeColors;
+  const titleCityName = cityConfigs[titleCity]?.titleName || cityConfigs.perm.titleName;
 
   return (
     <div className="App">
@@ -362,6 +432,7 @@ function App() {
       <MapContainer
         center={[58.01, 56.25]}
         zoom={12}
+        attributionControl={false}
         style={{ height: "calc(100vh - var(--header-height))", width: "100%" }}
       >
         <MapEvents
@@ -430,18 +501,15 @@ function App() {
 
       {/* Navigation buttons for quickly moving the map between cities */}
       <div className="map-nav">
-        <button
-          className={`nav-button ${selectedCity === "perm" ? "active" : ""}`}
-          onClick={() => handleCityNavigation("perm")}
-        >
-          Пермь
-        </button>
-        <button
-          className={`nav-button ${selectedCity === "cheb" ? "active" : ""}`}
-          onClick={() => handleCityNavigation("cheb")}
-        >
-          Чебоксары
-        </button>
+        {Object.entries(cityConfigs).map(([cityKey, config]) => (
+          <button
+            key={cityKey}
+            className={`nav-button ${selectedCity === cityKey ? "active" : ""}`}
+            onClick={() => handleCityNavigation(cityKey)}
+          >
+            {config.label}
+          </button>
+        ))}
       </div>
 
       {showAbout && (
@@ -472,7 +540,22 @@ function App() {
 
             <p>
               "Местные эксперты": журналист Иван Козлов,
-              Юрий Бобров.
+              Юрий Дягилев.
+            </p>
+
+            <p>
+              Данные по Чебоксарам: студент Станислав Клементьев.
+            </p>
+
+            <p>
+              Данные по Твери:{" "}
+              <a
+                href="https://altsyplenkov.github.io/projects/vernacular-districts-tver.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                студент Александр Цыпленков
+              </a>.
             </p>
 
             <p>
@@ -483,17 +566,19 @@ function App() {
       )}
 
       <div className="legend-box-horizontal">
-        <h4>Тип названия</h4>
+        <h4>{currentCityConfig.legendTitle}</h4>
 
         <div className="legend-vertical">
-          {Object.entries(typeColors).map(([name, color]) => (
+          {Object.entries(currentTypeColors).map(([name, color]) => (
             <div key={name} className="legend-entry">
               <div
                 className="legend-color-box"
                 style={{ backgroundColor: color }}
               ></div>
 
-              <div className="legend-label">{name}</div>
+              <div className="legend-label">
+                {getDisplayTypeName(name, selectedCity)}
+              </div>
             </div>
           ))}
         </div>
@@ -511,7 +596,7 @@ function App() {
             {featureProps["original_name"] && (
               <div
                 className="panel-original"
-                style={{ color: typeColors["Реальное название"] }}
+                style={{ color: currentTypeColors["Реальное название"] || cityConfigs.perm.typeColors["Реальное название"] }}
               >
                 {featureProps["original_name"]}
               </div>
@@ -549,7 +634,9 @@ function App() {
               </button>
             )}
 
-            <div className="panel-type">{featureProps["Тип названия"]}</div>
+            <div className="panel-type">
+              {getDisplayTypeName(featureProps["Тип названия"], getFeatureCityKey(selectedFeature))}
+            </div>
           </div>
         </div>
       )}

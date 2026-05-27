@@ -134,6 +134,7 @@
   margin: 0 0 10px 0;
   font-size: 18px;
   font-weight: 700; /* Bold */
+  line-height: 1.25;
 }
 
 .legend-vertical {
@@ -622,4 +623,16 @@
   font-size: 12px;
   color: #666;
   margin-top: 4px;
+}
+
+
+.about-content a {
+  color: #0072bc;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-content a:hover,
+.about-content a:focus-visible {
+  text-decoration: underline;
 }
