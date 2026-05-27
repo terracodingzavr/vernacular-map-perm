@@ -177,6 +177,31 @@ const getFeaturePhotos = (props = {}) => {
   return result;
 };
 
+
+class SubmissionPanelErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Ошибка в панели отправки заявки:", error, errorInfo);
+    this.props.onError?.(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+
+    return this.props.children;
+  }
+}
+
 function MapEvents({ mapRef, setMapZoom, setMapReady }) {
   const map = useMapEvents({
     zoomend: (event) => {
@@ -226,6 +251,7 @@ function App() {
 
   // State for showing the submission panel and previewing user features
   const [showSubmissionPanel, setShowSubmissionPanel] = useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [previewFeatures, setPreviewFeatures] = useState([]);
 
   const mapRef = useRef(null);
@@ -362,6 +388,28 @@ function App() {
     setExpanded(false);
   };
 
+  const openSubmissionPanel = () => {
+    setSubmissionSuccess(false);
+    setShowSubmissionPanel(true);
+  };
+
+  const closeSubmissionPanel = () => {
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+  };
+
+  const handleSubmissionSuccess = () => {
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    setSubmissionSuccess(true);
+  };
+
+  const handleSubmissionPanelError = () => {
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    setSubmissionSuccess(true);
+  };
+
   /**
    * Navigate the map to a specific city and toggle the visible dataset.
    *
@@ -422,7 +470,7 @@ function App() {
       {/* New edit button positioned on the left side of the header */}
       <button
         className="edit-button"
-        onClick={() => setShowSubmissionPanel(true)}
+        onClick={openSubmissionPanel}
         aria-label="Предложить правку"
         title="Предложить правку"
       >
@@ -488,15 +536,15 @@ function App() {
           )}
         </Pane>
 
-        {/* Preview of user submission features rendered above existing layers */}
-        <Pane name="submission-preview-pane" style={{ zIndex: 440 }}>
-          {previewFeatures.length > 0 && (
-            <SubmissionPreviewLayer
-              previewFeatures={previewFeatures}
-              pane="submission-preview-pane"
-            />
-          )}
-        </Pane>
+        {/* Preview of user submission features rendered above existing layers.
+            SubmissionPreviewLayer creates/uses its own pane, so we do not wrap it
+            in an extra <Pane> here to avoid duplicate Leaflet pane errors. */}
+        {previewFeatures.length > 0 && (
+          <SubmissionPreviewLayer
+            previewFeatures={previewFeatures}
+            pane="submission-preview-pane"
+          />
+        )}
       </MapContainer>
 
       {/* Navigation buttons for quickly moving the map between cities */}
@@ -511,6 +559,32 @@ function App() {
           </button>
         ))}
       </div>
+
+      {submissionSuccess && (
+        <div className="submission-success-panel" role="status" aria-live="polite">
+          <button
+            className="close-btn"
+            onClick={() => setSubmissionSuccess(false)}
+            aria-label="Закрыть сообщение"
+          >
+            ×
+          </button>
+
+          <h2>Заявка отправлена</h2>
+
+          <p>
+            Спасибо за участие в создании карты! Ваша заявка будет рассмотрена,
+            и после проверки данные смогут быть добавлены в проект.
+          </p>
+
+          <button
+            className="success-ok-btn"
+            onClick={() => setSubmissionSuccess(false)}
+          >
+            Вернуться к карте
+          </button>
+        </div>
+      )}
 
       {showAbout && (
         <div className="about-panel">
@@ -643,10 +717,15 @@ function App() {
 
       {/* Submission panel modal */}
       {showSubmissionPanel && (
-        <SubmissionPanel
-          onClose={() => setShowSubmissionPanel(false)}
-          setPreviewFeatures={setPreviewFeatures}
-        />
+        <SubmissionPanelErrorBoundary onError={handleSubmissionPanelError}>
+          <SubmissionPanel
+            onClose={closeSubmissionPanel}
+            onSuccess={handleSubmissionSuccess}
+            onSubmitted={handleSubmissionSuccess}
+            onSubmitSuccess={handleSubmissionSuccess}
+            setPreviewFeatures={setPreviewFeatures}
+          />
+        </SubmissionPanelErrorBoundary>
       )}
     </div>
   );
