@@ -1,13 +1,5 @@
 {
   "type": "FeatureCollection",
-  "name": "lines",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-    }
-  },
-  "xy_coordinate_resolution": 1e-15,
   "features": [
     {
       "type": "Feature",
@@ -648,6 +640,33 @@
               56.26650337487309,
               58.01677099122637
             ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "drawn_feature_1780093661453",
+      "properties": {
+        "name": "Деревенские дороги",
+        "explainer": "Да я отвечаю",
+        "city": "Пермь",
+        "Тип названия": "Другое"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            56.08460426330567,
+            57.98489902439143
+          ],
+          [
+            56.09138488769532,
+            57.980462254165325
+          ],
+          [
+            56.10262870788575,
+            57.984944526880525
           ]
         ]
       }
