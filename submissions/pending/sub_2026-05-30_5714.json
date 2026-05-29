@@ -1,0 +1,36 @@
+{
+  "changes": [
+    {
+      "changeType": "create",
+      "feature": {
+        "type": "Feature",
+        "id": "drawn_feature_1780093661453",
+        "properties": {
+          "name": "Деревенские дороги",
+          "explainer": "Да я отвечаю",
+          "city": "Пермь",
+          "Тип названия": "Другое"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              56.08460426330567,
+              57.98489902439143
+            ],
+            [
+              56.09138488769532,
+              57.980462254165325
+            ],
+            [
+              56.10262870788575,
+              57.984944526880525
+            ]
+          ]
+        }
+      },
+      "targetLayer": "lines"
+    }
+  ],
+  "submissionId": "sub_2026-05-30_5714"
+}
