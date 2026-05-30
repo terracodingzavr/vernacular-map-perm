@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, TileLayer, GeoJSON, Pane, ZoomControl } from "react-leaflet";
 import { useMapEvents } from "react-leaflet/hooks";
 import "leaflet/dist/leaflet.css";
@@ -364,6 +364,425 @@ const getGeometryEditLabel = (geometryType) => {
 };
 
 const getSegmentMidpoint = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+
+const SNAP_TOLERANCE_PX = 14;
+
+const normalizeCoord = (coord) => {
+  if (!Array.isArray(coord) || coord.length < 2) return null;
+
+  const lng = Number(coord[0]);
+  const lat = Number(coord[1]);
+
+  if (!Number.isFinite(lng) || !Number.isFinite(lat)) return null;
+  return [lng, lat];
+};
+
+const isSameFeatureId = (feature, excludedFeatureId) => {
+  if (excludedFeatureId === null || excludedFeatureId === undefined) return false;
+  const currentId = normalizeFeatureId(feature);
+  if (currentId === null || currentId === undefined) return false;
+  return String(currentId) === String(excludedFeatureId);
+};
+
+const addSnapVertex = (target, coord) => {
+  const normalized = normalizeCoord(coord);
+  if (normalized) target.push(normalized);
+};
+
+const addSnapSegment = (target, start, end) => {
+  const a = normalizeCoord(start);
+  const b = normalizeCoord(end);
+  if (!a || !b) return;
+  if (a[0] === b[0] && a[1] === b[1]) return;
+  target.push([a, b]);
+};
+
+const isRingClosedForSnapping = (ring) => {
+  if (!Array.isArray(ring) || ring.length < 2) return false;
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+  return (
+    Array.isArray(first) &&
+    Array.isArray(last) &&
+    first[0] === last[0] &&
+    first[1] === last[1]
+  );
+};
+
+const collectLineSnapSources = (coords, vertices, segments, closeRing = false) => {
+  if (!Array.isArray(coords)) return;
+
+  coords.forEach((coord) => addSnapVertex(vertices, coord));
+
+  for (let index = 0; index < coords.length - 1; index += 1) {
+    addSnapSegment(segments, coords[index], coords[index + 1]);
+  }
+
+  if (closeRing && coords.length > 2 && !isRingClosedForSnapping(coords)) {
+    addSnapSegment(segments, coords[coords.length - 1], coords[0]);
+  }
+};
+
+const collectGeometrySnapSources = (geometry, vertices, segments) => {
+  if (!geometry) return;
+
+  switch (geometry.type) {
+    case "Point":
+      addSnapVertex(vertices, geometry.coordinates);
+      break;
+
+    case "MultiPoint":
+      geometry.coordinates?.forEach((coord) => addSnapVertex(vertices, coord));
+      break;
+
+    case "LineString":
+      collectLineSnapSources(geometry.coordinates, vertices, segments, false);
+      break;
+
+    case "MultiLineString":
+      geometry.coordinates?.forEach((line) =>
+        collectLineSnapSources(line, vertices, segments, false)
+      );
+      break;
+
+    case "Polygon":
+      geometry.coordinates?.forEach((ring) =>
+        collectLineSnapSources(ring, vertices, segments, true)
+      );
+      break;
+
+    case "MultiPolygon":
+      geometry.coordinates?.forEach((polygon) => {
+        polygon?.forEach((ring) =>
+          collectLineSnapSources(ring, vertices, segments, true)
+        );
+      });
+      break;
+
+    default:
+      break;
+  }
+};
+
+const buildSnapSources = (collections = [], excludedFeatureId = null) => {
+  const vertices = [];
+  const segments = [];
+
+  collections.forEach((collection) => {
+    if (!collection || !Array.isArray(collection.features)) return;
+
+    collection.features.forEach((feature) => {
+      if (isSameFeatureId(feature, excludedFeatureId)) return;
+      collectGeometrySnapSources(feature.geometry, vertices, segments);
+    });
+  });
+
+  return { vertices, segments };
+};
+
+const distanceBetweenLayerPoints = (a, b) => {
+  const dx = a.x - b.x;
+  const dy = a.y - b.y;
+  return Math.sqrt(dx * dx + dy * dy);
+};
+
+const getClosestLayerPointOnSegment = (point, start, end) => {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+
+  if (lengthSquared === 0) return start;
+
+  const t = Math.max(
+    0,
+    Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared)
+  );
+
+  return L.point(start.x + t * dx, start.y + t * dy);
+};
+
+const coordToLeafletLatLng = (coord) => L.latLng(coord[1], coord[0]);
+
+const latLngToCoord = (latlng) => [latlng.lng, latlng.lat];
+
+const snapCoordinateToSources = (coord, snapSources, map, tolerancePx = SNAP_TOLERANCE_PX) => {
+  const normalized = normalizeCoord(coord);
+  if (!normalized || !map || !snapSources) return coord;
+
+  const inputLatLng = coordToLeafletLatLng(normalized);
+  const inputPoint = map.latLngToLayerPoint(inputLatLng);
+
+  let bestVertex = null;
+  let bestVertexDistance = Infinity;
+
+  (snapSources.vertices || []).forEach((vertex) => {
+    const vertexPoint = map.latLngToLayerPoint(coordToLeafletLatLng(vertex));
+    const distance = distanceBetweenLayerPoints(inputPoint, vertexPoint);
+
+    if (distance < bestVertexDistance) {
+      bestVertexDistance = distance;
+      bestVertex = vertex;
+    }
+  });
+
+  if (bestVertex && bestVertexDistance <= tolerancePx) {
+    return bestVertex;
+  }
+
+  let bestSegmentPoint = null;
+  let bestSegmentDistance = Infinity;
+
+  (snapSources.segments || []).forEach(([startCoord, endCoord]) => {
+    const startPoint = map.latLngToLayerPoint(coordToLeafletLatLng(startCoord));
+    const endPoint = map.latLngToLayerPoint(coordToLeafletLatLng(endCoord));
+    const projectedPoint = getClosestLayerPointOnSegment(inputPoint, startPoint, endPoint);
+    const distance = distanceBetweenLayerPoints(inputPoint, projectedPoint);
+
+    if (distance < bestSegmentDistance) {
+      bestSegmentDistance = distance;
+      bestSegmentPoint = projectedPoint;
+    }
+  });
+
+  if (bestSegmentPoint && bestSegmentDistance <= tolerancePx) {
+    return latLngToCoord(map.layerPointToLatLng(bestSegmentPoint));
+  }
+
+  return normalized;
+};
+
+
+const coordsAreEqual = (a, b, epsilon = 1e-10) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) return false;
+  return Math.abs(a[0] - b[0]) <= epsilon && Math.abs(a[1] - b[1]) <= epsilon;
+};
+
+const dedupeConsecutiveCoords = (coords) =>
+  coords.filter((coord, index) => index === 0 || !coordsAreEqual(coord, coords[index - 1]));
+
+const getClosestLayerPointOnSegmentWithT = (point, start, end) => {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+
+  if (lengthSquared === 0) {
+    return { point: start, t: 0 };
+  }
+
+  const t = Math.max(
+    0,
+    Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared)
+  );
+
+  return {
+    point: L.point(start.x + t * dx, start.y + t * dy),
+    t,
+  };
+};
+
+const addTracePath = (paths, feature, coords, closed = false, sourceLabel = "trace") => {
+  if (!Array.isArray(coords)) return;
+
+  let cleaned = coords.map(normalizeCoord).filter(Boolean);
+  if (closed && cleaned.length > 1 && coordsAreEqual(cleaned[0], cleaned[cleaned.length - 1])) {
+    cleaned = cleaned.slice(0, -1);
+  }
+
+  if (cleaned.length < 2) return;
+
+  const featureId = normalizeFeatureId(feature);
+  const pathIndex = paths.length;
+  paths.push({
+    id: `${sourceLabel}_${featureId ?? "noid"}_${pathIndex}`,
+    featureId,
+    cityKey: getFeatureCityKey(feature),
+    coords: cleaned,
+    closed,
+  });
+};
+
+const collectFeatureTracePaths = (feature, paths, sourceLabel = "feature") => {
+  const geometry = feature?.geometry;
+  if (!geometry) return;
+
+  switch (geometry.type) {
+    case "LineString":
+      addTracePath(paths, feature, geometry.coordinates, false, sourceLabel);
+      break;
+
+    case "MultiLineString":
+      geometry.coordinates?.forEach((line, index) =>
+        addTracePath(paths, feature, line, false, `${sourceLabel}_line${index}`)
+      );
+      break;
+
+    case "Polygon":
+      // For the first version, trace only the outer boundary.
+      addTracePath(paths, feature, geometry.coordinates?.[0] || [], true, `${sourceLabel}_outer`);
+      break;
+
+    case "MultiPolygon":
+      geometry.coordinates?.forEach((polygon, index) =>
+        addTracePath(paths, feature, polygon?.[0] || [], true, `${sourceLabel}_poly${index}_outer`)
+      );
+      break;
+
+    default:
+      break;
+  }
+};
+
+const buildTraceSources = (collections = [], excludedFeatureId = null, activeCityKey = null) => {
+  const paths = [];
+
+  collections.forEach((collection, collectionIndex) => {
+    if (!collection || !Array.isArray(collection.features)) return;
+
+    collection.features.forEach((feature, featureIndex) => {
+      if (isSameFeatureId(feature, excludedFeatureId)) return;
+      if (activeCityKey && getFeatureCityKey(feature) !== activeCityKey) return;
+
+      collectFeatureTracePaths(feature, paths, `c${collectionIndex}_f${featureIndex}`);
+    });
+  });
+
+  return { paths };
+};
+
+const findTraceCandidate = (coord, traceSources, map, tolerancePx = SNAP_TOLERANCE_PX) => {
+  const normalized = normalizeCoord(coord);
+  if (!normalized || !map || !traceSources) return null;
+
+  const inputPoint = map.latLngToLayerPoint(coordToLeafletLatLng(normalized));
+  let best = null;
+
+  (traceSources.paths || []).forEach((path) => {
+    const coords = path.coords || [];
+    const segmentCount = path.closed ? coords.length : coords.length - 1;
+
+    for (let segmentIndex = 0; segmentIndex < segmentCount; segmentIndex += 1) {
+      const startCoord = coords[segmentIndex];
+      const endCoord = coords[(segmentIndex + 1) % coords.length];
+      if (!startCoord || !endCoord) continue;
+
+      const startPoint = map.latLngToLayerPoint(coordToLeafletLatLng(startCoord));
+      const endPoint = map.latLngToLayerPoint(coordToLeafletLatLng(endCoord));
+      const projected = getClosestLayerPointOnSegmentWithT(inputPoint, startPoint, endPoint);
+      const distance = distanceBetweenLayerPoints(inputPoint, projected.point);
+
+      if (!best || distance < best.distance) {
+        best = {
+          pathId: path.id,
+          path,
+          segmentIndex,
+          t: projected.t,
+          coord: latLngToCoord(map.layerPointToLatLng(projected.point)),
+          distance,
+        };
+      }
+    }
+  });
+
+  if (!best || best.distance > tolerancePx) return null;
+  return best;
+};
+
+const getCoordsDistance = (coords, map) => {
+  if (!Array.isArray(coords) || coords.length < 2) return 0;
+
+  let total = 0;
+
+  for (let index = 0; index < coords.length - 1; index += 1) {
+    const a = coords[index];
+    const b = coords[index + 1];
+
+    if (map) {
+      total += distanceBetweenLayerPoints(
+        map.latLngToLayerPoint(coordToLeafletLatLng(a)),
+        map.latLngToLayerPoint(coordToLeafletLatLng(b))
+      );
+    } else {
+      const dx = a[0] - b[0];
+      const dy = a[1] - b[1];
+      total += Math.sqrt(dx * dx + dy * dy);
+    }
+  }
+
+  return total;
+};
+
+const buildForwardTraceCoords = (startCandidate, endCandidate) => {
+  const path = startCandidate.path;
+  const coords = path.coords || [];
+  const n = coords.length;
+
+  if (n < 2) return null;
+
+  const result = [startCandidate.coord];
+  let vertexIndex = (startCandidate.segmentIndex + 1) % n;
+  const stopIndex = (endCandidate.segmentIndex + 1) % n;
+  let guard = 0;
+
+  while (vertexIndex !== stopIndex && guard <= n + 2) {
+    result.push(coords[vertexIndex]);
+    vertexIndex = (vertexIndex + 1) % n;
+    guard += 1;
+  }
+
+  result.push(endCandidate.coord);
+  return dedupeConsecutiveCoords(result);
+};
+
+const buildReverseTraceCoords = (startCandidate, endCandidate) => {
+  const path = startCandidate.path;
+  const coords = path.coords || [];
+  const n = coords.length;
+
+  if (n < 2) return null;
+
+  const result = [startCandidate.coord];
+  let vertexIndex = startCandidate.segmentIndex;
+  const stopIndex = endCandidate.segmentIndex;
+  let guard = 0;
+
+  while (vertexIndex !== stopIndex && guard <= n + 2) {
+    result.push(coords[vertexIndex]);
+    vertexIndex = (vertexIndex - 1 + n) % n;
+    guard += 1;
+  }
+
+  result.push(endCandidate.coord);
+  return dedupeConsecutiveCoords(result);
+};
+
+const buildTraceCoordsBetween = (startCandidate, endCandidate, map) => {
+  if (!startCandidate || !endCandidate) return null;
+  if (startCandidate.pathId !== endCandidate.pathId) return null;
+
+  const path = startCandidate.path;
+  if (!path || !Array.isArray(path.coords) || path.coords.length < 2) return null;
+
+  if (!path.closed) {
+    const startPosition = startCandidate.segmentIndex + startCandidate.t;
+    const endPosition = endCandidate.segmentIndex + endCandidate.t;
+
+    return startPosition <= endPosition
+      ? buildForwardTraceCoords(startCandidate, endCandidate)
+      : buildReverseTraceCoords(startCandidate, endCandidate);
+  }
+
+  const forward = buildForwardTraceCoords(startCandidate, endCandidate);
+  const reverse = buildReverseTraceCoords(startCandidate, endCandidate);
+
+  if (!forward) return reverse;
+  if (!reverse) return forward;
+
+  return getCoordsDistance(forward, map) <= getCoordsDistance(reverse, map)
+    ? forward
+    : reverse;
+};
+
+
 
 const buildEditedFeatureFromState = (originalFeature, geometryType, coords, formValues) => {
   if (!originalFeature) return null;
@@ -739,9 +1158,69 @@ function App() {
   });
   const [editSubmitError, setEditSubmitError] = useState("");
   const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
+  const [snappingEnabled, setSnappingEnabled] = useState(true);
+  const [tracingEnabled, setTracingEnabled] = useState(false);
+  const [traceStart, setTraceStart] = useState(null);
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
+
+  const activeSnapExcludeId = editingFeatureOriginal
+    ? normalizeFeatureId(editingFeatureOriginal)
+    : null;
+
+  const snapSources = useMemo(
+    () => buildSnapSources([points, lines, districts], activeSnapExcludeId),
+    [points, lines, districts, activeSnapExcludeId]
+  );
+
+  const traceSources = useMemo(
+    () => buildTraceSources([points, lines, districts], activeSnapExcludeId, selectedCity),
+    [points, lines, districts, activeSnapExcludeId, selectedCity]
+  );
+
+  const snapCoordinate = useCallback(
+    (coord) => {
+      if (!snappingEnabled) return coord;
+      return snapCoordinateToSources(coord, snapSources, mapRef.current);
+    },
+    [snappingEnabled, snapSources]
+  );
+
+  const getTraceCandidate = useCallback(
+    (coord) => {
+      if (!snappingEnabled || !tracingEnabled) return null;
+      return findTraceCandidate(coord, traceSources, mapRef.current);
+    },
+    [snappingEnabled, tracingEnabled, traceSources]
+  );
+
+  const toggleSnapping = () => {
+    setSnappingEnabled((value) => {
+      const nextValue = !value;
+
+      if (!nextValue) {
+        setTracingEnabled(false);
+        setTraceStart(null);
+      }
+
+      return nextValue;
+    });
+  };
+
+  const toggleTracing = () => {
+    setTracingEnabled((value) => {
+      const nextValue = !value;
+
+      if (nextValue && !snappingEnabled) {
+        setSnappingEnabled(true);
+      }
+
+      setTraceStart(null);
+      setDrawingError("");
+      return nextValue;
+    });
+  };
 
   useEffect(() => {
     if (selectedCity === titleCity) return undefined;
@@ -997,6 +1476,8 @@ function App() {
     setDrawingError("");
     setDrawFeatureDraft(null);
     setDrawSubmitError("");
+    setTracingEnabled(false);
+    setTraceStart(null);
   };
 
   const closeEditTools = () => {
@@ -1060,8 +1541,13 @@ function App() {
     setDrawingError("");
     setDrawingCoords([]);
     setDrawingHistory([]);
+    setTraceStart(null);
     setDrawingMode(mode);
     setDrawFeatureCityKey(selectedCity);
+
+    if (mode === "point") {
+      setTracingEnabled(false);
+    }
   };
 
   const openDrawDetailsForm = useCallback(
@@ -1102,17 +1588,84 @@ function App() {
       if (!drawingMode) return;
 
       if (drawingMode === "point") {
-        openDrawDetailsForm("point", [coord]);
+        const snappedCoord = snapCoordinate(coord);
+        openDrawDetailsForm("point", [snappedCoord]);
         return;
       }
 
+      if (tracingEnabled) {
+        const traceCandidate = getTraceCandidate(coord);
+
+        if (!traceCandidate) {
+          setDrawingError("Для трассировки кликните рядом с существующей линией или границей.");
+          return;
+        }
+
+        if (!traceStart) {
+          const startCoord = traceCandidate.coord;
+
+          setDrawingCoords((coords) => {
+            setDrawingHistory((history) => [...history, coords]);
+
+            if (coords.length && coordsAreEqual(coords[coords.length - 1], startCoord)) {
+              return coords;
+            }
+
+            return [...coords, startCoord];
+          });
+
+          setTraceStart(traceCandidate);
+          setDrawingError("Начало трассировки выбрано. Кликните вторую точку на той же границе.");
+          return;
+        }
+
+        if (traceStart.pathId !== traceCandidate.pathId) {
+          setDrawingError("Выберите вторую точку на той же линии или границе.");
+          return;
+        }
+
+        const tracedCoords = buildTraceCoordsBetween(traceStart, traceCandidate, mapRef.current);
+
+        if (!tracedCoords || tracedCoords.length < 2) {
+          setDrawingError("Не удалось построить трассу по выбранной границе.");
+          return;
+        }
+
+        setDrawingCoords((coords) => {
+          setDrawingHistory((history) => [...history, coords]);
+
+          let baseCoords = [...coords];
+          if (
+            baseCoords.length &&
+            coordsAreEqual(baseCoords[baseCoords.length - 1], traceStart.coord)
+          ) {
+            baseCoords = baseCoords.slice(0, -1);
+          }
+
+          return dedupeConsecutiveCoords([...baseCoords, ...tracedCoords]);
+        });
+
+        setTraceStart(null);
+        setDrawingError("Трасса добавлена. Можно продолжить рисование.");
+        return;
+      }
+
+      const snappedCoord = snapCoordinate(coord);
+
       setDrawingCoords((coords) => {
         setDrawingHistory((history) => [...history, coords]);
-        return [...coords, coord];
+        return [...coords, snappedCoord];
       });
       setDrawingError("");
     },
-    [drawingMode, openDrawDetailsForm]
+    [
+      drawingMode,
+      openDrawDetailsForm,
+      snapCoordinate,
+      tracingEnabled,
+      getTraceCandidate,
+      traceStart,
+    ]
   );
 
   const removeDrawingVertex = useCallback(
@@ -1149,25 +1702,27 @@ function App() {
     (vertexIndex, coord) => {
       if (drawingMode !== "line" && drawingMode !== "polygon") return;
 
+      const snappedCoord = snapCoordinate(coord);
+
       setDrawingCoords((coords) => {
         if (
           typeof vertexIndex !== "number" ||
           vertexIndex < 0 ||
           vertexIndex >= coords.length ||
-          !Array.isArray(coord)
+          !Array.isArray(snappedCoord)
         ) {
           return coords;
         }
 
         setDrawingHistory((history) => [...history, coords]);
         const next = [...coords];
-        next[vertexIndex] = coord;
+        next[vertexIndex] = snappedCoord;
         return next;
       });
 
       setDrawingError("");
     },
-    [drawingMode]
+    [drawingMode, snapCoordinate]
   );
 
   const undoLastDrawingAction = useCallback(() => {
@@ -1177,12 +1732,14 @@ function App() {
       const previousCoords = history[history.length - 1];
       setDrawingCoords(previousCoords);
       setDrawingError("");
+      setTraceStart(null);
       return history.slice(0, -1);
     });
   }, []);
 
   const completeDrawing = useCallback(() => {
     if (!drawingMode || drawingMode === "point") return;
+    setTraceStart(null);
     openDrawDetailsForm(drawingMode, drawingCoords);
   }, [drawingMode, drawingCoords, openDrawDetailsForm]);
 
@@ -1206,13 +1763,15 @@ function App() {
     (coord) => {
       if (!editingFeatureOriginal || getEditableGeometryKind(editGeometryType) !== "point" || editFormOpen) return;
 
+      const snappedCoord = snapCoordinate(coord);
+
       setEditGeometryCoords((coords) => {
         pushEditHistory(coords);
-        return [coord];
+        return [snappedCoord];
       });
       setEditSubmitError("");
     },
-    [editingFeatureOriginal, editGeometryType, editFormOpen, pushEditHistory]
+    [editingFeatureOriginal, editGeometryType, editFormOpen, pushEditHistory, snapCoordinate]
   );
 
   const removeEditVertex = useCallback(
@@ -1274,13 +1833,15 @@ function App() {
       const kind = getEditableGeometryKind(editGeometryType);
       if (kind !== "point" && kind !== "line" && kind !== "polygon") return;
 
+      const snappedCoord = snapCoordinate(coord);
+
       setEditGeometryCoords((coords) => {
         if (!coords.length) return coords;
 
         if (kind === "point") {
           pushEditHistory(coords);
           setEditSubmitError("");
-          return [coord];
+          return [snappedCoord];
         }
 
         if (
@@ -1294,11 +1855,11 @@ function App() {
         pushEditHistory(coords);
         setEditSubmitError("");
         const next = [...coords];
-        next[vertexIndex] = coord;
+        next[vertexIndex] = snappedCoord;
         return next;
       });
     },
-    [editingFeatureOriginal, editFormOpen, editGeometryType, pushEditHistory]
+    [editingFeatureOriginal, editFormOpen, editGeometryType, pushEditHistory, snapCoordinate]
   );
 
   const undoLastEditAction = useCallback(() => {
@@ -1579,6 +2140,7 @@ function App() {
     drawingMode &&
     drawingMode !== "point" &&
     drawingCoords.length >= getMinimumVerticesForDrawingMode(drawingMode);
+  const canUseTracing = Boolean(drawingMode && drawingMode !== "point" && snappingEnabled);
   const drawFeatureConfig =
     cityConfigs[drawFeatureCityKey || selectedCity] || currentCityConfig;
   const drawTypeOptions = Object.keys(drawFeatureConfig.typeColors || {});
@@ -1790,6 +2352,8 @@ function App() {
             onRemoveEditVertex={removeEditVertex}
             onMoveEditVertex={moveEditVertex}
             onAddEditVertex={addEditVertex}
+            snapCoordinate={snapCoordinate}
+            snappingEnabled={snappingEnabled}
           />
         )}
       </MapContainer>
@@ -1878,7 +2442,7 @@ function App() {
 
           {(getEditableGeometryKind(editGeometryType) === "line" || getEditableGeometryKind(editGeometryType) === "polygon") && (
             <div className="edit-geometry-note">
-              Клик по маленькой точке на грани добавляет вершину. Клик по вершине с × удаляет её.
+              Клик по маленькой точке на грани добавляет вершину. Клик по вершине с × удаляет её. Магнит притягивает вершины к соседним точкам и границам.
             </div>
           )}
 
@@ -1899,6 +2463,17 @@ function App() {
                 disabled={!canUndoEdit}
               >
                 ↶ Отменить
+              </button>
+            )}
+
+            {canEditGeometry && (
+              <button
+                type="button"
+                className={`edit-geometry-btn snap-toggle ${snappingEnabled ? "active" : ""}`}
+                onClick={toggleSnapping}
+                title="Примагничивание к вершинам и границам существующих объектов"
+              >
+                🧲 Магнит: {snappingEnabled ? "вкл" : "выкл"}
               </button>
             )}
 
@@ -2088,6 +2663,33 @@ function App() {
               ×
             </button>
           </div>
+
+          <button
+            className={`draw-snap-button ${snappingEnabled ? "active" : ""}`}
+            type="button"
+            onClick={toggleSnapping}
+            title="Примагничивание к вершинам и границам существующих объектов"
+            aria-label="Переключить примагничивание"
+          >
+            🧲 Магнит: {snappingEnabled ? "вкл" : "выкл"}
+          </button>
+
+          <button
+            className={`draw-trace-button ${tracingEnabled ? "active" : ""}`}
+            type="button"
+            onClick={toggleTracing}
+            disabled={!canUseTracing}
+            title="Трассировка по существующей линии или границе"
+            aria-label="Переключить трассировку"
+          >
+            ⛓ Трасса: {tracingEnabled ? "вкл" : "выкл"}
+          </button>
+
+          {traceStart && (
+            <div className="draw-trace-status">
+              Начало трассировки выбрано. Кликните вторую точку на той же границе.
+            </div>
+          )}
 
           {drawingMode && drawingMode !== "point" && (
             <button

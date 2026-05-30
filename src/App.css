@@ -1057,6 +1057,47 @@
 }
 
 
+
+/* Snapping / magnet controls */
+.draw-snap-button,
+.draw-trace-button {
+  min-width: 108px;
+  padding: 8px 10px;
+  color: #0072bc;
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+.draw-snap-button:hover,
+.draw-snap-button:focus-visible,
+.draw-snap-button.active,
+.draw-trace-button:hover:not(:disabled),
+.draw-trace-button:focus-visible:not(:disabled),
+.draw-trace-button.active,
+.edit-geometry-btn.snap-toggle.active {
+  background: #2ca25f;
+  color: #ffffff;
+  outline: none;
+}
+
+.draw-snap-button:not(.active),
+.draw-trace-button:not(.active) {
+  opacity: 0.86;
+}
+
+.edit-geometry-btn.snap-toggle {
+  background: rgba(44, 162, 95, 0.12);
+  color: #207a47;
+}
+
+
 /* Stage 2 existing feature editing */
 .edit-select-banner,
 .edit-geometry-toolbar {
@@ -1295,4 +1336,29 @@
   border-color: #2ca25f;
   color: #ffffff;
   transform: scale(1.16);
+}
+
+
+.draw-trace-button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.draw-trace-button.active {
+  background: #6a51a3;
+  color: #ffffff;
+}
+
+.draw-trace-status {
+  max-width: 230px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #4c3d73;
+  border-left: 4px solid #6a51a3;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
 }

@@ -314,6 +314,8 @@ const SubmissionPreviewLayer = ({
   onRemoveEditVertex,
   onMoveEditVertex,
   onAddEditVertex,
+  snapCoordinate,
+  snappingEnabled = false,
 }) => {
   if (!previewFeatures || previewFeatures.length === 0) return null;
 
@@ -326,10 +328,22 @@ const SubmissionPreviewLayer = ({
       vertexIndex: feature.properties?.__drawingVertexIndex ?? feature.properties?.__editVertexIndex ?? null,
       insertIndex: feature.properties?.__editInsertIndex ?? null,
       name: feature.properties?.name || '',
+      snappingEnabled,
     }))
   );
 
   const geometryLayerEntries = [];
+
+  const getSnappedCoord = (coord) => {
+    if (!snappingEnabled || typeof snapCoordinate !== 'function') return coord;
+    const snapped = snapCoordinate(coord);
+    return Array.isArray(snapped) ? snapped : coord;
+  };
+
+  const moveLayerToCoord = (layer, coord) => {
+    if (!layer || !Array.isArray(coord) || typeof layer.setLatLng !== 'function') return;
+    layer.setLatLng(coordToLatLng(coord));
+  };
 
   const updateLiveGeometryLayers = (vertexIndex, coord) => {
     geometryLayerEntries.forEach(({ layer, feature }) => {
@@ -412,14 +426,18 @@ const SubmissionPreviewLayer = ({
 
               layer.on('drag', (event) => {
                 const latlng = event.target.getLatLng();
-                updateLiveGeometryLayers(props.__drawingVertexIndex, [latlng.lng, latlng.lat]);
+                const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
+                moveLayerToCoord(event.target, snappedCoord);
+                updateLiveGeometryLayers(props.__drawingVertexIndex, snappedCoord);
               });
 
               layer.on('dragend', (event) => {
                 enableMapDragging(layer, mapDraggingWasEnabled);
                 layer.getElement()?.classList.remove('is-dragging');
                 const latlng = event.target.getLatLng();
-                onMoveDrawingVertex(props.__drawingVertexIndex, [latlng.lng, latlng.lat]);
+                const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
+                moveLayerToCoord(event.target, snappedCoord);
+                onMoveDrawingVertex(props.__drawingVertexIndex, snappedCoord);
                 window.setTimeout(() => {
                   wasDragged = false;
                 }, 0);
@@ -470,14 +488,18 @@ const SubmissionPreviewLayer = ({
 
               layer.on('drag', (event) => {
                 const latlng = event.target.getLatLng();
-                updateLiveGeometryLayers(props.__editVertexIndex, [latlng.lng, latlng.lat]);
+                const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
+                moveLayerToCoord(event.target, snappedCoord);
+                updateLiveGeometryLayers(props.__editVertexIndex, snappedCoord);
               });
 
               layer.on('dragend', (event) => {
                 enableMapDragging(layer, mapDraggingWasEnabled);
                 layer.getElement()?.classList.remove('is-dragging');
                 const latlng = event.target.getLatLng();
-                onMoveEditVertex(props.__editVertexIndex, [latlng.lng, latlng.lat]);
+                const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
+                moveLayerToCoord(event.target, snappedCoord);
+                onMoveEditVertex(props.__editVertexIndex, snappedCoord);
                 window.setTimeout(() => {
                   wasDragged = false;
                 }, 0);
