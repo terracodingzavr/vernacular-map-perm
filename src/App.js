@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, GeoJSON, Pane } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON, Pane, ZoomControl } from "react-leaflet";
 import { useMapEvents } from "react-leaflet/hooks";
 import "leaflet/dist/leaflet.css";
 import "./App.css";
@@ -10,6 +10,7 @@ import "leaflet-textpath";
 // Submission components
 import SubmissionPanel from './components/SubmissionPanel';
 import SubmissionPreviewLayer from './components/SubmissionPreviewLayer';
+import { submitUserSubmission } from './utils/submissionApi';
 
 // Конфигурация городов: центр карты, подпись в заголовке и городская легенда.
 const cityConfigs = {
@@ -72,6 +73,10 @@ const cityNameToKey = {
 };
 
 const getFeatureCityKey = (feature) => {
+  if (!feature || !feature.properties) {
+    return "perm";
+  }
+
   const city = feature.properties?.city || feature.properties?.["Город"];
   return cityNameToKey[city] || "perm";
 };
@@ -85,6 +90,440 @@ const getDisplayTypeName = (type, cityKey) => {
   const config = cityConfigs[cityKey] || cityConfigs.perm;
   return config.legendLabels?.[type] || type;
 };
+
+const getTargetLayerByGeometryType = (type) => {
+  switch (type) {
+    case "Point":
+    case "MultiPoint":
+      return "points";
+    case "LineString":
+    case "MultiLineString":
+      return "lines";
+    case "Polygon":
+    case "MultiPolygon":
+      return "districts";
+    default:
+      return null;
+  }
+};
+
+const getMinimumVerticesForDrawingMode = (mode) => {
+  if (mode === "line") return 2;
+  if (mode === "polygon") return 3;
+  return 1;
+};
+
+const buildGeometryFromDrawing = (mode, coords) => {
+  if (mode === "point" && coords.length >= 1) {
+    return {
+      type: "Point",
+      coordinates: coords[0],
+    };
+  }
+
+  if (mode === "line" && coords.length >= 2) {
+    return {
+      type: "LineString",
+      coordinates: coords,
+    };
+  }
+
+  if (mode === "polygon" && coords.length >= 3) {
+    return {
+      type: "Polygon",
+      coordinates: [[...coords, coords[0]]],
+    };
+  }
+
+  return null;
+};
+
+const buildDrawingPreviewFeatures = (mode, coords) => {
+  if (!mode || !coords.length) return [];
+
+  const minimumVertices = getMinimumVerticesForDrawingMode(mode);
+  const canRemoveVertex = mode !== "point" && coords.length > minimumVertices;
+
+  const previewFeatures = coords.map((coord, index) => ({
+    type: "Feature",
+    id: `drawing_vertex_${index}`,
+    properties: {
+      name: index === coords.length - 1 ? "Новая вершина" : "",
+      __previewKind: "drawing-vertex",
+      __drawingVertexIndex: index,
+      __drawingMode: mode,
+      __canDeleteVertex: canRemoveVertex,
+    },
+    geometry: {
+      type: "Point",
+      coordinates: coord,
+    },
+  }));
+
+  if (mode === "line" && coords.length >= 2) {
+    previewFeatures.push({
+      type: "Feature",
+      id: "drawing_line_preview",
+      properties: { name: "Новая линия" },
+      geometry: {
+        type: "LineString",
+        coordinates: coords,
+      },
+    });
+  }
+
+  if (mode === "polygon") {
+    if (coords.length >= 3) {
+      previewFeatures.push({
+        type: "Feature",
+        id: "drawing_polygon_preview",
+        properties: { name: "Новый полигон" },
+        geometry: {
+          type: "Polygon",
+          coordinates: [[...coords, coords[0]]],
+        },
+      });
+    } else if (coords.length >= 2) {
+      previewFeatures.push({
+        type: "Feature",
+        id: "drawing_polygon_line_preview",
+        properties: { name: "Новый полигон" },
+        geometry: {
+          type: "LineString",
+          coordinates: coords,
+        },
+      });
+    }
+  }
+
+  return previewFeatures;
+};
+
+const getDrawingModeLabel = (mode) => {
+  if (mode === "point") return "точки";
+  if (mode === "line") return "линии";
+  if (mode === "polygon") return "полигона";
+  return "объекта";
+};
+
+
+const cloneFeature = (feature) => JSON.parse(JSON.stringify(feature));
+
+const normalizeFeatureId = (feature) => {
+  const rawId = feature?.id ?? feature?.properties?.id ?? feature?.properties?.feature_id;
+  if (rawId === undefined || rawId === null || rawId === "") return null;
+  const numeric = Number(rawId);
+  return Number.isFinite(numeric) ? numeric : String(rawId);
+};
+
+const getEditableGeometryKind = (geometryType) => {
+  if (geometryType === "Point" || geometryType === "MultiPoint") return "point";
+  if (geometryType === "LineString" || geometryType === "MultiLineString") return "line";
+  if (geometryType === "Polygon" || geometryType === "MultiPolygon") return "polygon";
+  return null;
+};
+
+const isClosedRing = (ring) => {
+  if (!Array.isArray(ring) || ring.length < 2) return false;
+
+  const first = ring[0];
+  const last = ring[ring.length - 1];
+
+  return (
+    Array.isArray(first) &&
+    Array.isArray(last) &&
+    first[0] === last[0] &&
+    first[1] === last[1]
+  );
+};
+
+const getOuterRingWithoutClosingPoint = (ring) => {
+  if (!Array.isArray(ring)) return [];
+  return isClosedRing(ring) ? ring.slice(0, -1) : ring;
+};
+
+const getCoordsFromEditableFeature = (feature) => {
+  const geometry = feature?.geometry;
+  const kind = getEditableGeometryKind(geometry?.type);
+
+  if (!geometry || !kind) return [];
+
+  if (kind === "point") {
+    if (geometry.type === "MultiPoint") {
+      const firstPoint = geometry.coordinates?.[0];
+      return Array.isArray(firstPoint) ? [firstPoint] : [];
+    }
+
+    return Array.isArray(geometry.coordinates) ? [geometry.coordinates] : [];
+  }
+
+  if (kind === "line") {
+    if (geometry.type === "MultiLineString") {
+      return Array.isArray(geometry.coordinates?.[0]) ? geometry.coordinates[0] : [];
+    }
+
+    return Array.isArray(geometry.coordinates) ? geometry.coordinates : [];
+  }
+
+  if (kind === "polygon") {
+    if (geometry.type === "MultiPolygon") {
+      const firstOuterRing = geometry.coordinates?.[0]?.[0] || [];
+      return getOuterRingWithoutClosingPoint(firstOuterRing);
+    }
+
+    const outerRing = geometry.coordinates?.[0] || [];
+    return getOuterRingWithoutClosingPoint(outerRing);
+  }
+
+  return [];
+};
+
+const buildGeometryFromEditableCoords = (geometryType, coords, originalGeometry = null) => {
+  const kind = getEditableGeometryKind(geometryType);
+
+  if (kind === "point" && coords.length >= 1) {
+    if (geometryType === "MultiPoint") {
+      const restPoints = Array.isArray(originalGeometry?.coordinates)
+        ? originalGeometry.coordinates.slice(1)
+        : [];
+
+      return {
+        type: "MultiPoint",
+        coordinates: [coords[0], ...restPoints],
+      };
+    }
+
+    return {
+      type: "Point",
+      coordinates: coords[0],
+    };
+  }
+
+  if (kind === "line" && coords.length >= 2) {
+    if (geometryType === "MultiLineString") {
+      const restLines = Array.isArray(originalGeometry?.coordinates)
+        ? originalGeometry.coordinates.slice(1)
+        : [];
+
+      return {
+        type: "MultiLineString",
+        coordinates: [coords, ...restLines],
+      };
+    }
+
+    return {
+      type: "LineString",
+      coordinates: coords,
+    };
+  }
+
+  if (kind === "polygon" && coords.length >= 3) {
+    const closedOuterRing = [...coords, coords[0]];
+
+    if (geometryType === "MultiPolygon") {
+      const firstPolygon = Array.isArray(originalGeometry?.coordinates?.[0])
+        ? originalGeometry.coordinates[0]
+        : [];
+      const firstPolygonInnerRings = firstPolygon.slice(1);
+      const restPolygons = Array.isArray(originalGeometry?.coordinates)
+        ? originalGeometry.coordinates.slice(1)
+        : [];
+
+      return {
+        type: "MultiPolygon",
+        coordinates: [[closedOuterRing, ...firstPolygonInnerRings], ...restPolygons],
+      };
+    }
+
+    const innerRings = Array.isArray(originalGeometry?.coordinates)
+      ? originalGeometry.coordinates.slice(1)
+      : [];
+
+    return {
+      type: "Polygon",
+      coordinates: [closedOuterRing, ...innerRings],
+    };
+  }
+
+  return null;
+};
+
+const getMinimumVerticesForGeometryType = (geometryType) => {
+  const kind = getEditableGeometryKind(geometryType);
+  if (kind === "line") return 2;
+  if (kind === "polygon") return 3;
+  return 1;
+};
+
+const getGeometryEditLabel = (geometryType) => {
+  const kind = getEditableGeometryKind(geometryType);
+  if (kind === "point") return "точки";
+  if (kind === "line") return "линии";
+  if (kind === "polygon") return "полигона";
+  return "объекта";
+};
+
+const getSegmentMidpoint = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+
+const buildEditedFeatureFromState = (originalFeature, geometryType, coords, formValues) => {
+  if (!originalFeature) return null;
+
+  const geometry =
+    buildGeometryFromEditableCoords(geometryType, coords, originalFeature.geometry) || originalFeature.geometry;
+
+  const originalProps = originalFeature.properties || {};
+  const properties = {
+    ...originalProps,
+    name: formValues?.name?.trim() || originalProps.name || "",
+    explainer: formValues?.explainer?.trim() || originalProps.explainer || "",
+    ["Тип названия"]: formValues?.type || originalProps["Тип названия"] || "Другое",
+  };
+
+  const originalName = formValues?.original_name?.trim();
+  if (originalName) {
+    properties.original_name = originalName;
+  } else if (formValues && Object.prototype.hasOwnProperty.call(formValues, "original_name")) {
+    delete properties.original_name;
+  }
+
+  return {
+    ...originalFeature,
+    geometry,
+    properties,
+  };
+};
+
+const buildEditPreviewFeatures = (originalFeature, geometryType, coords, options = {}) => {
+  if (!originalFeature) return [];
+
+  const {
+    includeGeometry = true,
+    includeHandles = true,
+    deletePreview = false,
+    formValues = null,
+  } = options;
+
+  const features = [];
+  const geometry = buildGeometryFromEditableCoords(geometryType, coords, originalFeature.geometry) || originalFeature.geometry;
+  const baseFeature = buildEditedFeatureFromState(originalFeature, geometryType, coords, formValues) || {
+    ...originalFeature,
+    geometry,
+  };
+
+  if (deletePreview) {
+    features.push({
+      ...baseFeature,
+      properties: {
+        ...(baseFeature.properties || {}),
+        name: baseFeature.properties?.name || "Объект к удалению",
+        __previewKind: "delete-target",
+      },
+    });
+    return features;
+  }
+
+  if (includeGeometry) {
+    features.push({
+      ...baseFeature,
+      properties: {
+        ...(baseFeature.properties || {}),
+        name: baseFeature.properties?.name || "Редактируемый объект",
+        __previewKind: "edit-geometry",
+      },
+    });
+  }
+
+  if (!includeHandles) return features;
+
+  const kind = getEditableGeometryKind(geometryType);
+  if (!kind) return features;
+
+  const minimumVertices = getMinimumVerticesForGeometryType(geometryType);
+  const canRemoveVertex = (kind === "line" || kind === "polygon") && coords.length > minimumVertices;
+
+  coords.forEach((coord, index) => {
+    features.push({
+      type: "Feature",
+      id: `edit_vertex_${normalizeFeatureId(originalFeature) || "feature"}_${index}`,
+      properties: {
+        name: "",
+        __previewKind: "edit-vertex",
+        __editVertexIndex: index,
+        __canDeleteVertex: canRemoveVertex,
+      },
+      geometry: {
+        type: "Point",
+        coordinates: coord,
+      },
+    });
+  });
+
+  if (kind === "line" || kind === "polygon") {
+    const segmentCount = kind === "polygon" ? coords.length : coords.length - 1;
+
+    for (let index = 0; index < segmentCount; index += 1) {
+      const start = coords[index];
+      const end = coords[(index + 1) % coords.length];
+      if (!start || !end) continue;
+
+      features.push({
+        type: "Feature",
+        id: `edit_midpoint_${normalizeFeatureId(originalFeature) || "feature"}_${index}`,
+        properties: {
+          name: "",
+          __previewKind: "edit-midpoint",
+          __editInsertIndex: index + 1,
+        },
+        geometry: {
+          type: "Point",
+          coordinates: getSegmentMidpoint(start, end),
+        },
+      });
+    }
+  }
+
+  return features;
+};
+
+
+function DrawingMapEvents({ drawingMode, onAddCoordinate, onCompleteDrawing }) {
+  useMapEvents({
+    click: (event) => {
+      if (!drawingMode) return;
+      onAddCoordinate([event.latlng.lng, event.latlng.lat]);
+    },
+    contextmenu: (event) => {
+      if (!drawingMode || drawingMode === "point") return;
+      event.originalEvent?.preventDefault();
+      onCompleteDrawing();
+    },
+  });
+
+  return null;
+}
+
+
+function EditingMapEvents({
+  editingFeature,
+  editGeometryType,
+  editFormOpen,
+  onMovePoint,
+  onCompleteEdit,
+}) {
+  useMapEvents({
+    click: (event) => {
+      if (!editingFeature || editFormOpen || getEditableGeometryKind(editGeometryType) !== "point") return;
+      onMovePoint([event.latlng.lng, event.latlng.lat]);
+    },
+    contextmenu: (event) => {
+      if (!editingFeature || editFormOpen) return;
+      event.originalEvent?.preventDefault();
+      onCompleteEdit();
+    },
+  });
+
+  return null;
+}
 
 // Стиль объектов
 const styleByType = (feature) => {
@@ -100,6 +539,17 @@ const styleByType = (feature) => {
       fillOpacity: 0.4,
       opacity: 1,
       weight: 1,
+    };
+  }
+
+  if (geometryType === "Point" || geometryType === "MultiPoint") {
+    return {
+      color: "#000000",
+      fillColor: color,
+      fillOpacity: 1,
+      opacity: 1,
+      weight: 1.4,
+      radius: 6,
     };
   }
 
@@ -244,6 +694,7 @@ function App() {
   const [titleCity, setTitleCity] = useState("perm");
   const [titlePhase, setTitlePhase] = useState("in");
   const [selectedFeature, setSelectedFeature] = useState(null);
+  const [selectedFeatureLayer, setSelectedFeatureLayer] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [mapZoom, setMapZoom] = useState(12);
   const [mapReady, setMapReady] = useState(false);
@@ -251,8 +702,43 @@ function App() {
 
   // State for showing the submission panel and previewing user features
   const [showSubmissionPanel, setShowSubmissionPanel] = useState(false);
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
+  const [submissionNotice, setSubmissionNotice] = useState(null);
   const [previewFeatures, setPreviewFeatures] = useState([]);
+  const [submittedPreviewFeatures, setSubmittedPreviewFeatures] = useState([]);
+  const [editMenuOpen, setEditMenuOpen] = useState(false);
+  const [drawToolbarOpen, setDrawToolbarOpen] = useState(false);
+  const [drawingMode, setDrawingMode] = useState(null);
+  const [drawingCoords, setDrawingCoords] = useState([]);
+  const [drawingHistory, setDrawingHistory] = useState([]);
+  const [drawingError, setDrawingError] = useState("");
+  const [drawFeatureDraft, setDrawFeatureDraft] = useState(null);
+  const [drawFeatureCityKey, setDrawFeatureCityKey] = useState(null);
+  const [drawForm, setDrawForm] = useState({
+    name: "",
+    explainer: "",
+    type: "",
+    original_name: "",
+  });
+  const [drawSubmitError, setDrawSubmitError] = useState("");
+  const [isSubmittingDrawFeature, setIsSubmittingDrawFeature] = useState(false);
+
+  const [editSelectMode, setEditSelectMode] = useState(false);
+  const [editingFeatureOriginal, setEditingFeatureOriginal] = useState(null);
+  const [editTargetLayer, setEditTargetLayer] = useState(null);
+  const [editGeometryType, setEditGeometryType] = useState(null);
+  const [editGeometryCoords, setEditGeometryCoords] = useState([]);
+  const [editGeometryHistory, setEditGeometryHistory] = useState([]);
+  const [editFormOpen, setEditFormOpen] = useState(false);
+  const [editAction, setEditAction] = useState("update");
+  const [editForm, setEditForm] = useState({
+    name: "",
+    explainer: "",
+    type: "",
+    original_name: "",
+    reason: "",
+  });
+  const [editSubmitError, setEditSubmitError] = useState("");
+  const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
@@ -329,7 +815,7 @@ function App() {
       }
 
       // Show label either at high zoom or for large polygons
-      const shouldShow = mapZoom >= 15 || featureArea > 1_000_000;
+      const shouldShow = mapZoom >= 15 || featureArea > 700_000;
       if (!shouldShow) return;
 
       // Compute center of the feature via bounds. Catch any errors for invalid geometries.
@@ -366,7 +852,71 @@ function App() {
     };
   }, [mapReady, mapZoom, districts]);
 
-  const handleFeatureHover = useCallback((feature, layer) => {
+  const resetEditState = () => {
+    setEditSelectMode(false);
+    setEditingFeatureOriginal(null);
+    setEditTargetLayer(null);
+    setEditGeometryType(null);
+    setEditGeometryCoords([]);
+    setEditGeometryHistory([]);
+    setEditFormOpen(false);
+    setEditAction("update");
+    setEditForm({
+      name: "",
+      explainer: "",
+      type: "",
+      original_name: "",
+      reason: "",
+    });
+    setEditSubmitError("");
+    setIsSubmittingEdit(false);
+  };
+
+  const startEditingFeature = useCallback((feature, targetLayer, options = {}) => {
+    if (!feature || !targetLayer) return;
+
+    const cloned = cloneFeature(feature);
+    const geometryType = cloned.geometry?.type || null;
+    const editableKind = getEditableGeometryKind(geometryType);
+    const coords = editableKind ? getCoordsFromEditableFeature(cloned) : [];
+
+    setSelectedFeature(null);
+    setExpanded(false);
+    setEditMenuOpen(false);
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    setDrawToolbarOpen(false);
+    setDrawingMode(null);
+    setDrawingCoords([]);
+    setDrawingHistory([]);
+    setDrawingError("");
+    setDrawFeatureDraft(null);
+
+    setEditSelectMode(false);
+    setEditingFeatureOriginal(cloned);
+    setEditTargetLayer(targetLayer);
+    setEditGeometryType(geometryType);
+    setEditGeometryCoords(coords);
+    setEditGeometryHistory([]);
+    setEditAction("update");
+    setEditForm({
+      name: cloned.properties?.name || "",
+      explainer: cloned.properties?.explainer || "",
+      type: cloned.properties?.["Тип названия"] || "",
+      original_name: cloned.properties?.original_name || "",
+      reason: "",
+    });
+    setEditSubmitError("");
+    setIsSubmittingEdit(false);
+
+    if (options.propertiesOnly || !editableKind) {
+      setEditFormOpen(true);
+    } else {
+      setEditFormOpen(false);
+    }
+  }, []);
+
+  const handleFeatureHover = useCallback((feature, layer, targetLayer) => {
     const name = feature.properties?.["name"];
     if (!name) return;
 
@@ -377,19 +927,41 @@ function App() {
       className: "custom-tooltip",
     });
 
-    layer.on("click", () => {
+    layer.on("click", (event) => {
+      if (event.originalEvent) {
+        L.DomEvent.preventDefault(event.originalEvent);
+      }
+
+      if (editSelectMode) {
+        if (event.originalEvent) L.DomEvent.stopPropagation(event.originalEvent);
+        startEditingFeature(feature, targetLayer);
+        return;
+      }
+
+      if (editingFeatureOriginal || editFormOpen || drawingMode || drawFeatureDraft) {
+        return;
+      }
+
       setSelectedFeature(feature);
+      setSelectedFeatureLayer(targetLayer);
       setExpanded(false);
     });
-  }, []);
+  }, [editSelectMode, editFormOpen, editingFeatureOriginal, drawingMode, drawFeatureDraft, startEditingFeature]);
 
   const closeInfoPanel = () => {
     setSelectedFeature(null);
+    setSelectedFeatureLayer(null);
     setExpanded(false);
   };
 
   const openSubmissionPanel = () => {
-    setSubmissionSuccess(false);
+    setSubmissionNotice(null);
+    setEditMenuOpen(false);
+    setDrawToolbarOpen(false);
+    setDrawingMode(null);
+    setDrawingCoords([]);
+    setDrawingError("");
+    resetEditState();
     setShowSubmissionPanel(true);
   };
 
@@ -398,16 +970,543 @@ function App() {
     setPreviewFeatures([]);
   };
 
-  const handleSubmissionSuccess = () => {
+  const handleSubmissionSuccess = (response = {}) => {
     setShowSubmissionPanel(false);
     setPreviewFeatures([]);
-    setSubmissionSuccess(true);
+    setSubmissionNotice({
+      title: "Заявка отправлена",
+      text: "Спасибо за участие в создании карты! Ваша заявка будет рассмотрена, и после проверки данные смогут быть добавлены в проект.",
+      pullRequestUrl: response?.pullRequestUrl || "",
+    });
   };
 
   const handleSubmissionPanelError = () => {
     setShowSubmissionPanel(false);
     setPreviewFeatures([]);
-    setSubmissionSuccess(true);
+    setSubmissionNotice({
+      title: "Панель заявки закрыта",
+      text: "При обработке формы возникла ошибка, но карта продолжает работать. Попробуйте отправить заявку ещё раз.",
+    });
+  };
+
+  const resetDrawingState = () => {
+    setDrawToolbarOpen(false);
+    setDrawingMode(null);
+    setDrawingCoords([]);
+    setDrawingHistory([]);
+    setDrawingError("");
+    setDrawFeatureDraft(null);
+    setDrawSubmitError("");
+  };
+
+  const closeEditTools = () => {
+    setEditMenuOpen(false);
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    resetDrawingState();
+    resetEditState();
+  };
+
+  const toggleEditMenu = () => {
+    const hasActiveEditTools =
+      editMenuOpen ||
+      showSubmissionPanel ||
+      drawToolbarOpen ||
+      editSelectMode ||
+      Boolean(drawingMode) ||
+      Boolean(drawFeatureDraft) ||
+      Boolean(editingFeatureOriginal) ||
+      editFormOpen;
+
+    if (hasActiveEditTools) {
+      closeEditTools();
+      return;
+    }
+
+    setSubmissionNotice(null);
+    setEditMenuOpen(true);
+  };
+
+  const openExistingEditMode = () => {
+    setSubmissionNotice(null);
+    setSelectedFeature(null);
+    setSelectedFeatureLayer(null);
+    setExpanded(false);
+    setEditMenuOpen(false);
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    resetDrawingState();
+    resetEditState();
+    setEditSelectMode(true);
+  };
+
+  const openDrawTools = () => {
+    setSubmissionNotice(null);
+    setEditMenuOpen(false);
+    setShowSubmissionPanel(false);
+    setPreviewFeatures([]);
+    resetEditState();
+    setDrawToolbarOpen(true);
+    setDrawingError("");
+  };
+
+  const closeDrawTools = () => {
+    resetDrawingState();
+  };
+
+  const startDrawing = (mode) => {
+    setDrawFeatureDraft(null);
+    setDrawSubmitError("");
+    setDrawingError("");
+    setDrawingCoords([]);
+    setDrawingHistory([]);
+    setDrawingMode(mode);
+    setDrawFeatureCityKey(selectedCity);
+  };
+
+  const openDrawDetailsForm = useCallback(
+    (mode, coords) => {
+      const geometry = buildGeometryFromDrawing(mode, coords);
+      if (!geometry) {
+        const minVertices = getMinimumVerticesForDrawingMode(mode);
+        setDrawingError(
+          `Для ${getDrawingModeLabel(mode)} нужно минимум ${minVertices} точек.`
+        );
+        return;
+      }
+
+      setDrawFeatureDraft({
+        type: "Feature",
+        id: Date.now(),
+        properties: {},
+        geometry,
+      });
+      setDrawFeatureCityKey(selectedCity);
+      setDrawForm({
+        name: "",
+        explainer: "",
+        type: "",
+        original_name: "",
+      });
+      setDrawSubmitError("");
+      setDrawingError("");
+      setDrawingMode(null);
+      setDrawingCoords([]);
+      setDrawingHistory([]);
+    },
+    [selectedCity]
+  );
+
+  const handleDrawingMapClick = useCallback(
+    (coord) => {
+      if (!drawingMode) return;
+
+      if (drawingMode === "point") {
+        openDrawDetailsForm("point", [coord]);
+        return;
+      }
+
+      setDrawingCoords((coords) => {
+        setDrawingHistory((history) => [...history, coords]);
+        return [...coords, coord];
+      });
+      setDrawingError("");
+    },
+    [drawingMode, openDrawDetailsForm]
+  );
+
+  const removeDrawingVertex = useCallback(
+    (vertexIndex) => {
+      if (drawingMode !== "line" && drawingMode !== "polygon") return;
+
+      setDrawingCoords((coords) => {
+        const minimumVertices = getMinimumVerticesForDrawingMode(drawingMode);
+
+        if (coords.length <= minimumVertices) {
+          setDrawingError(
+            `Для ${getDrawingModeLabel(drawingMode)} нужно минимум ${minimumVertices} точек.`
+          );
+          return coords;
+        }
+
+        if (
+          typeof vertexIndex !== "number" ||
+          vertexIndex < 0 ||
+          vertexIndex >= coords.length
+        ) {
+          return coords;
+        }
+
+        setDrawingHistory((history) => [...history, coords]);
+        setDrawingError("");
+        return coords.filter((_, index) => index !== vertexIndex);
+      });
+    },
+    [drawingMode]
+  );
+
+  const moveDrawingVertex = useCallback(
+    (vertexIndex, coord) => {
+      if (drawingMode !== "line" && drawingMode !== "polygon") return;
+
+      setDrawingCoords((coords) => {
+        if (
+          typeof vertexIndex !== "number" ||
+          vertexIndex < 0 ||
+          vertexIndex >= coords.length ||
+          !Array.isArray(coord)
+        ) {
+          return coords;
+        }
+
+        setDrawingHistory((history) => [...history, coords]);
+        const next = [...coords];
+        next[vertexIndex] = coord;
+        return next;
+      });
+
+      setDrawingError("");
+    },
+    [drawingMode]
+  );
+
+  const undoLastDrawingAction = useCallback(() => {
+    setDrawingHistory((history) => {
+      if (!history.length) return history;
+
+      const previousCoords = history[history.length - 1];
+      setDrawingCoords(previousCoords);
+      setDrawingError("");
+      return history.slice(0, -1);
+    });
+  }, []);
+
+  const completeDrawing = useCallback(() => {
+    if (!drawingMode || drawingMode === "point") return;
+    openDrawDetailsForm(drawingMode, drawingCoords);
+  }, [drawingMode, drawingCoords, openDrawDetailsForm]);
+
+  const handleDrawFormChange = (field, value) => {
+    setDrawForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const closeDrawDetailsForm = () => {
+    setDrawFeatureDraft(null);
+    setDrawSubmitError("");
+  };
+
+  const pushEditHistory = useCallback((coords) => {
+    setEditGeometryHistory((history) => [...history, coords]);
+  }, []);
+
+  const moveEditingPoint = useCallback(
+    (coord) => {
+      if (!editingFeatureOriginal || getEditableGeometryKind(editGeometryType) !== "point" || editFormOpen) return;
+
+      setEditGeometryCoords((coords) => {
+        pushEditHistory(coords);
+        return [coord];
+      });
+      setEditSubmitError("");
+    },
+    [editingFeatureOriginal, editGeometryType, editFormOpen, pushEditHistory]
+  );
+
+  const removeEditVertex = useCallback(
+    (vertexIndex) => {
+      if (!editingFeatureOriginal) return;
+
+      const kind = getEditableGeometryKind(editGeometryType);
+      if (kind !== "line" && kind !== "polygon") return;
+
+      setEditGeometryCoords((coords) => {
+        const minimumVertices = getMinimumVerticesForGeometryType(editGeometryType);
+
+        if (coords.length <= minimumVertices) {
+          setEditSubmitError(
+            `Для ${getGeometryEditLabel(editGeometryType)} нужно минимум ${minimumVertices} точек.`
+          );
+          return coords;
+        }
+
+        if (
+          typeof vertexIndex !== "number" ||
+          vertexIndex < 0 ||
+          vertexIndex >= coords.length
+        ) {
+          return coords;
+        }
+
+        pushEditHistory(coords);
+        setEditSubmitError("");
+        return coords.filter((_, index) => index !== vertexIndex);
+      });
+    },
+    [editingFeatureOriginal, editGeometryType, pushEditHistory]
+  );
+
+  const addEditVertex = useCallback(
+    (insertIndex, coord) => {
+      if (!editingFeatureOriginal) return;
+
+      const kind = getEditableGeometryKind(editGeometryType);
+      if (kind !== "line" && kind !== "polygon") return;
+
+      setEditGeometryCoords((coords) => {
+        const safeIndex = Math.max(0, Math.min(insertIndex, coords.length));
+        pushEditHistory(coords);
+        const next = [...coords];
+        next.splice(safeIndex, 0, coord);
+        return next;
+      });
+      setEditSubmitError("");
+    },
+    [editingFeatureOriginal, editGeometryType, pushEditHistory]
+  );
+
+  const moveEditVertex = useCallback(
+    (vertexIndex, coord) => {
+      if (!editingFeatureOriginal || editFormOpen || !Array.isArray(coord)) return;
+
+      const kind = getEditableGeometryKind(editGeometryType);
+      if (kind !== "point" && kind !== "line" && kind !== "polygon") return;
+
+      setEditGeometryCoords((coords) => {
+        if (!coords.length) return coords;
+
+        if (kind === "point") {
+          pushEditHistory(coords);
+          setEditSubmitError("");
+          return [coord];
+        }
+
+        if (
+          typeof vertexIndex !== "number" ||
+          vertexIndex < 0 ||
+          vertexIndex >= coords.length
+        ) {
+          return coords;
+        }
+
+        pushEditHistory(coords);
+        setEditSubmitError("");
+        const next = [...coords];
+        next[vertexIndex] = coord;
+        return next;
+      });
+    },
+    [editingFeatureOriginal, editFormOpen, editGeometryType, pushEditHistory]
+  );
+
+  const undoLastEditAction = useCallback(() => {
+    setEditGeometryHistory((history) => {
+      if (!history.length) return history;
+
+      const previousCoords = history[history.length - 1];
+      setEditGeometryCoords(previousCoords);
+      setEditSubmitError("");
+      return history.slice(0, -1);
+    });
+  }, []);
+
+  const openEditFormForUpdate = useCallback(() => {
+    if (!editingFeatureOriginal) return;
+
+    const geometry = buildGeometryFromEditableCoords(editGeometryType, editGeometryCoords, editingFeatureOriginal.geometry);
+    if (!geometry && getEditableGeometryKind(editGeometryType)) {
+      const minimumVertices = getMinimumVerticesForGeometryType(editGeometryType);
+      setEditSubmitError(
+        `Для ${getGeometryEditLabel(editGeometryType)} нужно минимум ${minimumVertices} точек.`
+      );
+      return;
+    }
+
+    setEditAction("update");
+    setEditFormOpen(true);
+    setEditSubmitError("");
+  }, [editingFeatureOriginal, editGeometryType, editGeometryCoords]);
+
+  const openEditFormForDelete = () => {
+    if (!editingFeatureOriginal) return;
+    setEditAction("delete");
+    setEditForm((current) => ({
+      ...current,
+      reason: "",
+    }));
+    setEditFormOpen(true);
+    setEditSubmitError("");
+  };
+
+  const handleEditFormChange = (field, value) => {
+    setEditForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  };
+
+  const submitEditedFeature = async () => {
+    if (!editingFeatureOriginal || !editTargetLayer) return;
+
+    const reason = editForm.reason.trim();
+    if (!reason) {
+      setEditSubmitError("Обоснование правки обязательно для заполнения.");
+      return;
+    }
+
+    const originalFeatureId = normalizeFeatureId(editingFeatureOriginal);
+    if (originalFeatureId === null) {
+      setEditSubmitError("У объекта нет id, поэтому его нельзя отредактировать автоматически.");
+      return;
+    }
+
+    const change = {
+      changeType: editAction,
+      targetLayer: editTargetLayer,
+      originalFeatureId,
+      // The backend primarily updates/deletes by id. During local testing the
+      // GitHub base branch may still contain GeoJSON files without numeric ids,
+      // so we also send the original feature snapshot as a safe fallback for
+      // matching by name/city/geometry.
+      originalFeature: editingFeatureOriginal,
+      reason,
+    };
+
+    let editedFeature = null;
+
+    if (editAction === "update") {
+      const name = editForm.name.trim();
+      const explainer = editForm.explainer.trim();
+
+      if (!name || !explainer) {
+        setEditSubmitError("Название и описание обязательны для заполнения.");
+        return;
+      }
+
+      editedFeature = buildEditedFeatureFromState(
+        editingFeatureOriginal,
+        editGeometryType,
+        editGeometryCoords,
+        editForm
+      );
+
+      change.feature = editedFeature;
+    }
+
+    const submission = {
+      source: "public-map",
+      method: editAction === "delete" ? "delete-existing-feature" : "edit-existing-feature",
+      captchaToken: null,
+      author: { displayName: "", contact: "" },
+      changes: [change],
+    };
+
+    setIsSubmittingEdit(true);
+    setEditSubmitError("");
+
+    try {
+      const response = await submitUserSubmission(submission);
+
+      setSubmittedPreviewFeatures([]);
+
+      resetEditState();
+      setSubmissionNotice({
+        title: editAction === "delete" ? "Удаление отправлено" : "Правка отправлена",
+        text:
+          editAction === "delete"
+            ? "Спасибо за участие в создании карты! Предложение удалить объект отправлено на модерацию."
+            : "Спасибо за участие в создании карты! Предложенная правка отправлена на модерацию и будет применена после проверки.",
+        pullRequestUrl: response?.pullRequestUrl || "",
+      });
+    } catch (err) {
+      setEditSubmitError(err.message || "Не удалось отправить правку.");
+    } finally {
+      setIsSubmittingEdit(false);
+    }
+  };
+
+  const openSelectedFeaturePropertyEdit = () => {
+    if (!selectedFeature || !selectedFeatureLayer) return;
+    startEditingFeature(selectedFeature, selectedFeatureLayer, { propertiesOnly: true });
+  };
+
+  const submitDrawnFeature = async () => {
+    if (!drawFeatureDraft) return;
+
+    const name = drawForm.name.trim();
+    const explainer = drawForm.explainer.trim();
+
+    if (!name || !explainer) {
+      setDrawSubmitError("Название и описание обязательны для заполнения.");
+      return;
+    }
+
+    const cityKey = drawFeatureCityKey || selectedCity;
+    const cityConfig = cityConfigs[cityKey] || cityConfigs.perm;
+    const featureType = drawForm.type || "Другое";
+    const targetLayer = getTargetLayerByGeometryType(drawFeatureDraft.geometry?.type);
+
+    if (!targetLayer) {
+      setDrawSubmitError("Не удалось определить слой для созданной геометрии.");
+      return;
+    }
+
+    const properties = {
+      name,
+      explainer,
+      city: cityConfig.cityName,
+      "Тип названия": featureType,
+    };
+
+    const originalName = drawForm.original_name.trim();
+    if (originalName) {
+      properties.original_name = originalName;
+    }
+
+    const feature = {
+      ...drawFeatureDraft,
+      id: drawFeatureDraft.id || Date.now(),
+      properties,
+    };
+
+    const submission = {
+      source: "public-map",
+      method: "draw-tool",
+      captchaToken: null,
+      author: { displayName: "", contact: "" },
+      changes: [
+        {
+          changeType: "create",
+          targetLayer,
+          originalFeatureId: null,
+          feature,
+        },
+      ],
+    };
+
+    setIsSubmittingDrawFeature(true);
+    setDrawSubmitError("");
+
+    try {
+      const response = await submitUserSubmission(submission);
+      setSubmittedPreviewFeatures([]);
+      setDrawFeatureDraft(null);
+      setDrawToolbarOpen(false);
+      setDrawingMode(null);
+      setDrawingCoords([]);
+
+      setSubmissionNotice({
+        title: "Заявка отправлена",
+        text: "Спасибо за участие в создании карты! Новый объект отправлен на модерацию и будет добавлен после проверки.",
+        pullRequestUrl: response?.pullRequestUrl || "",
+      });
+    } catch (err) {
+      setDrawSubmitError(err.message || "Не удалось отправить заявку.");
+    } finally {
+      setIsSubmittingDrawFeature(false);
+    }
   };
 
   /**
@@ -440,9 +1539,57 @@ function App() {
   const currentCityConfig = cityConfigs[selectedCity] || cityConfigs.perm;
   const currentTypeColors = currentCityConfig.typeColors;
   const titleCityName = cityConfigs[titleCity]?.titleName || cityConfigs.perm.titleName;
+  const drawingPreviewFeatures = buildDrawingPreviewFeatures(drawingMode, drawingCoords);
+  const draftPreviewFeatures = drawFeatureDraft
+    ? [
+        {
+          ...drawFeatureDraft,
+          properties: {
+            ...drawFeatureDraft.properties,
+            name: drawForm.name.trim() || "Новый объект",
+          },
+        },
+      ]
+    : [];
+  const activeEditPreviewFeatures =
+    editingFeatureOriginal && !editFormOpen
+      ? buildEditPreviewFeatures(editingFeatureOriginal, editGeometryType, editGeometryCoords, {
+          includeGeometry: true,
+          includeHandles: true,
+        })
+      : [];
+  const editFormPreviewFeatures =
+    editingFeatureOriginal && editFormOpen
+      ? buildEditPreviewFeatures(editingFeatureOriginal, editGeometryType, editGeometryCoords, {
+          includeGeometry: true,
+          includeHandles: false,
+          deletePreview: editAction === "delete",
+          formValues: editAction === "update" ? editForm : null,
+        })
+      : [];
+  const previewLayerFeatures = [
+    ...previewFeatures,
+    ...submittedPreviewFeatures,
+    ...draftPreviewFeatures,
+    ...drawingPreviewFeatures,
+    ...activeEditPreviewFeatures,
+    ...editFormPreviewFeatures,
+  ];
+  const canCompleteDrawing =
+    drawingMode &&
+    drawingMode !== "point" &&
+    drawingCoords.length >= getMinimumVerticesForDrawingMode(drawingMode);
+  const drawFeatureConfig =
+    cityConfigs[drawFeatureCityKey || selectedCity] || currentCityConfig;
+  const drawTypeOptions = Object.keys(drawFeatureConfig.typeColors || {});
+  const editFeatureConfig =
+    cityConfigs[getFeatureCityKey(editingFeatureOriginal)] || currentCityConfig;
+  const editTypeOptions = Object.keys(editFeatureConfig.typeColors || {});
+  const canEditGeometry = Boolean(getEditableGeometryKind(editGeometryType));
+  const canUndoEdit = editGeometryHistory.length > 0;
 
   return (
-    <div className="App">
+    <div className={`App ${drawingMode || editSelectMode || (editingFeatureOriginal && !editFormOpen) ? "drawing-active" : ""}`}>
       <div className="header-trapezoid">
         <h1 className="header-title">
           Вернакулярная карта{" "}
@@ -469,24 +1616,116 @@ function App() {
 
       {/* New edit button positioned on the left side of the header */}
       <button
-        className="edit-button"
-        onClick={openSubmissionPanel}
+        className={`edit-button ${
+          editMenuOpen ||
+          showSubmissionPanel ||
+          drawToolbarOpen ||
+          editSelectMode ||
+          drawingMode ||
+          drawFeatureDraft ||
+          editingFeatureOriginal ||
+          editFormOpen
+            ? "active"
+            : ""
+        }`}
+        onClick={toggleEditMenu}
         aria-label="Предложить правку"
         title="Предложить правку"
       >
         <span className="edit-icon">✎</span>
       </button>
 
+      {editMenuOpen && (
+        <div className="edit-mode-menu" role="menu" aria-label="Выбор режима правки">
+          <button
+            className="edit-mode-option"
+            type="button"
+            onClick={openSubmissionPanel}
+          >
+            <span className="edit-mode-icon edit-mode-icon-geojson">GJ</span>
+            <span>Импорт GeoJSON</span>
+          </button>
+
+          <button
+            className="edit-mode-option"
+            type="button"
+            onClick={openDrawTools}
+          >
+            <span className="edit-mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M4 17.5L9 5l4.5 9 2-4L20 18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="4" cy="17.5" r="1.8" fill="currentColor" />
+                <circle cx="9" cy="5" r="1.8" fill="currentColor" />
+                <circle cx="13.5" cy="14" r="1.8" fill="currentColor" />
+                <circle cx="20" cy="18" r="1.8" fill="currentColor" />
+              </svg>
+            </span>
+            <span>Нарисовать объект</span>
+          </button>
+
+          <button
+            className="edit-mode-option"
+            type="button"
+            onClick={openExistingEditMode}
+          >
+            <span className="edit-mode-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M5 19l4.5-1 9-9a2.1 2.1 0 0 0-3-3l-9 9z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M13.5 6.5l3 3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.1"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            <span>Редактировать объект</span>
+          </button>
+        </div>
+      )}
+
       <MapContainer
         center={[58.01, 56.25]}
         zoom={12}
         attributionControl={false}
+        zoomControl={false}
         style={{ height: "calc(100vh - var(--header-height))", width: "100%" }}
       >
         <MapEvents
           mapRef={mapRef}
           setMapZoom={setMapZoom}
           setMapReady={setMapReady}
+        />
+
+        <ZoomControl position="topright" />
+
+        <DrawingMapEvents
+          drawingMode={drawingMode}
+          onAddCoordinate={handleDrawingMapClick}
+          onCompleteDrawing={completeDrawing}
+        />
+
+        <EditingMapEvents
+          editingFeature={editingFeatureOriginal}
+          editGeometryType={editGeometryType}
+          editFormOpen={editFormOpen}
+          onMovePoint={moveEditingPoint}
+          onCompleteEdit={openEditFormForUpdate}
         />
 
         <TileLayer
@@ -498,10 +1737,11 @@ function App() {
           {/* Always render districts on the polygons pane; the dataset includes both Perm and Cheboksary objects */}
           {districts && (
             <GeoJSON
+              key={`districts-${editSelectMode ? "edit-select" : "view"}-${editingFeatureOriginal ? "editing" : "idle"}`}
               data={districts}
               pane="polygons-pane"
               style={styleByType}
-              onEachFeature={handleFeatureHover}
+              onEachFeature={(feature, layer) => handleFeatureHover(feature, layer, "districts")}
             />
           )}
         </Pane>
@@ -510,10 +1750,11 @@ function App() {
           {/* Always render lines regardless of selected city */}
           {lines && (
             <GeoJSON
+              key={`lines-${editSelectMode ? "edit-select" : "view"}-${editingFeatureOriginal ? "editing" : "idle"}`}
               data={lines}
               pane="lines-pane"
               style={styleByType}
-              onEachFeature={handleFeatureHover}
+              onEachFeature={(feature, layer) => handleFeatureHover(feature, layer, "lines")}
             />
           )}
         </Pane>
@@ -522,6 +1763,7 @@ function App() {
           {/* Always render points regardless of selected city */}
           {points && (
             <GeoJSON
+              key={`points-${editSelectMode ? "edit-select" : "view"}-${editingFeatureOriginal ? "editing" : "idle"}`}
               data={points}
               pane="points-pane"
               pointToLayer={(feature, latlng) => {
@@ -529,7 +1771,7 @@ function App() {
                   ...styleByType(feature),
                   pane: "points-pane",
                 });
-                handleFeatureHover(feature, layer);
+                handleFeatureHover(feature, layer, "points");
                 return layer;
               }}
             />
@@ -539,10 +1781,15 @@ function App() {
         {/* Preview of user submission features rendered above existing layers.
             SubmissionPreviewLayer creates/uses its own pane, so we do not wrap it
             in an extra <Pane> here to avoid duplicate Leaflet pane errors. */}
-        {previewFeatures.length > 0 && (
+        {previewLayerFeatures.length > 0 && (
           <SubmissionPreviewLayer
-            previewFeatures={previewFeatures}
+            previewFeatures={previewLayerFeatures}
             pane="submission-preview-pane"
+            onRemoveDrawingVertex={removeDrawingVertex}
+            onMoveDrawingVertex={moveDrawingVertex}
+            onRemoveEditVertex={removeEditVertex}
+            onMoveEditVertex={moveEditVertex}
+            onAddEditVertex={addEditVertex}
           />
         )}
       </MapContainer>
@@ -560,29 +1807,389 @@ function App() {
         ))}
       </div>
 
-      {submissionSuccess && (
+      {submissionNotice && (
         <div className="submission-success-panel" role="status" aria-live="polite">
           <button
             className="close-btn"
-            onClick={() => setSubmissionSuccess(false)}
+            onClick={() => setSubmissionNotice(null)}
             aria-label="Закрыть сообщение"
           >
             ×
           </button>
 
-          <h2>Заявка отправлена</h2>
+          <h2>{submissionNotice.title}</h2>
 
-          <p>
-            Спасибо за участие в создании карты! Ваша заявка будет рассмотрена,
-            и после проверки данные смогут быть добавлены в проект.
-          </p>
+          <p>{submissionNotice.text}</p>
+
+          {submissionNotice.pullRequestUrl && (
+            <p className="submission-pr-link">
+              Ваша правка доступна по{" "}
+              <a
+                href={submissionNotice.pullRequestUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ссылке
+              </a>.
+            </p>
+          )}
 
           <button
             className="success-ok-btn"
-            onClick={() => setSubmissionSuccess(false)}
+            onClick={() => setSubmissionNotice(null)}
           >
             Вернуться к карте
           </button>
+        </div>
+      )}
+
+
+      {editSelectMode && (
+        <div className="edit-select-banner">
+          <button
+            className="close-btn"
+            onClick={resetEditState}
+            aria-label="Выйти из режима выбора объекта"
+          >
+            ×
+          </button>
+          <strong>Выберите объект на карте</strong>
+          <span>Кликните по точке, линии или полигону, который нужно отредактировать.</span>
+        </div>
+      )}
+
+      {editingFeatureOriginal && !editFormOpen && (
+        <div className="edit-geometry-toolbar" aria-label="Редактирование объекта">
+          <div className="edit-geometry-title">
+            Редактирование: {editingFeatureOriginal.properties?.name || "объект"}
+          </div>
+
+          {!canEditGeometry && (
+            <div className="edit-geometry-note">
+              Для этой геометрии доступно редактирование описания и удаление.
+            </div>
+          )}
+
+          {getEditableGeometryKind(editGeometryType) === "point" && (
+            <div className="edit-geometry-note">
+              Кликните по карте, чтобы переместить точку.
+            </div>
+          )}
+
+          {(getEditableGeometryKind(editGeometryType) === "line" || getEditableGeometryKind(editGeometryType) === "polygon") && (
+            <div className="edit-geometry-note">
+              Клик по маленькой точке на грани добавляет вершину. Клик по вершине с × удаляет её.
+            </div>
+          )}
+
+          <div className="edit-geometry-actions">
+            <button
+              type="button"
+              className="edit-geometry-btn primary"
+              onClick={openEditFormForUpdate}
+            >
+              Завершить
+            </button>
+
+            {canEditGeometry && (
+              <button
+                type="button"
+                className="edit-geometry-btn"
+                onClick={undoLastEditAction}
+                disabled={!canUndoEdit}
+              >
+                ↶ Отменить
+              </button>
+            )}
+
+            <button
+              type="button"
+              className="edit-geometry-btn danger"
+              onClick={openEditFormForDelete}
+            >
+              Удалить объект
+            </button>
+
+            <button
+              type="button"
+              className="edit-geometry-btn"
+              onClick={resetEditState}
+            >
+              Отмена
+            </button>
+          </div>
+
+          {editSubmitError && <div className="error-message">{editSubmitError}</div>}
+        </div>
+      )}
+
+      {editFormOpen && editingFeatureOriginal && (
+        <div className="draw-feature-form edit-feature-form">
+          <button
+            className="close-btn"
+            onClick={resetEditState}
+            aria-label="Закрыть форму редактирования"
+            disabled={isSubmittingEdit}
+          >
+            ×
+          </button>
+
+          <h2>{editAction === "delete" ? "Удаление объекта" : "Редактирование объекта"}</h2>
+
+          <p className="draw-feature-form-note">
+            Объект: {editingFeatureOriginal.properties?.name || "без названия"}.
+            {editAction === "delete"
+              ? " Укажите обоснование удаления."
+              : " Проверьте поля и укажите обоснование правки."}
+          </p>
+
+          {editSubmitError && <div className="error-message">{editSubmitError}</div>}
+
+          {editAction === "update" && (
+            <>
+              <label>
+                Название *
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(event) => handleEditFormChange("name", event.target.value)}
+                  placeholder="Введите вернакулярное название"
+                  disabled={isSubmittingEdit}
+                />
+              </label>
+
+              <label>
+                Описание *
+                <textarea
+                  value={editForm.explainer}
+                  onChange={(event) => handleEditFormChange("explainer", event.target.value)}
+                  placeholder="Кратко объясните происхождение или смысл названия"
+                  rows={5}
+                  disabled={isSubmittingEdit}
+                />
+              </label>
+
+              <label>
+                Тип названия
+                <select
+                  value={editForm.type}
+                  onChange={(event) => handleEditFormChange("type", event.target.value)}
+                  disabled={isSubmittingEdit}
+                >
+                  <option value="">Другое / не указано</option>
+                  {editTypeOptions.map((typeName) => (
+                    <option key={typeName} value={typeName}>
+                      {getDisplayTypeName(typeName, getFeatureCityKey(editingFeatureOriginal))}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label>
+                Официальное название
+                <input
+                  type="text"
+                  value={editForm.original_name}
+                  onChange={(event) => handleEditFormChange("original_name", event.target.value)}
+                  placeholder="Можно оставить пустым"
+                  disabled={isSubmittingEdit}
+                />
+              </label>
+            </>
+          )}
+
+          <label>
+            Обоснование {editAction === "delete" ? "удаления" : "правки"} *
+            <textarea
+              value={editForm.reason}
+              onChange={(event) => handleEditFormChange("reason", event.target.value)}
+              placeholder="Коротко объясните, почему нужна эта правка"
+              rows={4}
+              disabled={isSubmittingEdit}
+            />
+          </label>
+
+          <div className="draw-feature-form-actions">
+            <button
+              type="button"
+              className={editAction === "delete" ? "danger-submit-btn" : "success-ok-btn"}
+              onClick={submitEditedFeature}
+              disabled={isSubmittingEdit}
+            >
+              {isSubmittingEdit
+                ? "Отправка..."
+                : editAction === "delete"
+                  ? "Отправить удаление на модерацию"
+                  : "Отправить правку на модерацию"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {drawToolbarOpen && (
+        <div className="draw-toolbar" aria-label="Инструменты рисования">
+          <div className="draw-tool-group">
+            <button
+              className={`draw-tool-button ${drawingMode === "polygon" ? "active" : ""}`}
+              type="button"
+              onClick={() => startDrawing("polygon")}
+              title="Добавить полигон"
+              aria-label="Добавить полигон"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M5 7l7-4 7 5-2 10-9 2-5-7z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <button
+              className={`draw-tool-button ${drawingMode === "line" ? "active" : ""}`}
+              type="button"
+              onClick={() => startDrawing("line")}
+              title="Добавить линию"
+              aria-label="Добавить линию"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <path
+                  d="M4 18L9 8l5 5 6-8"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            <button
+              className={`draw-tool-button ${drawingMode === "point" ? "active" : ""}`}
+              type="button"
+              onClick={() => startDrawing("point")}
+              title="Добавить точку"
+              aria-label="Добавить точку"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22">
+                <circle cx="12" cy="12" r="5.5" fill="currentColor" />
+              </svg>
+            </button>
+
+            <button
+              className="draw-tool-button draw-close-button"
+              type="button"
+              onClick={closeDrawTools}
+              title="Выйти из режима создания объектов"
+              aria-label="Выйти из режима создания объектов"
+            >
+              ×
+            </button>
+          </div>
+
+          {drawingMode && drawingMode !== "point" && (
+            <button
+              className="draw-finish-button"
+              type="button"
+              onClick={completeDrawing}
+              disabled={!canCompleteDrawing}
+            >
+              Завершить
+            </button>
+          )}
+
+          {drawingMode && drawingMode !== "point" && (
+            <button
+              className="draw-undo-button"
+              type="button"
+              onClick={undoLastDrawingAction}
+              disabled={!drawingHistory.length}
+            >
+              ↶ Отменить
+            </button>
+          )}
+
+          {drawingError && <div className="draw-error">{drawingError}</div>}
+        </div>
+      )}
+
+      {drawFeatureDraft && (
+        <div className="draw-feature-form">
+          <button
+            className="close-btn"
+            onClick={closeDrawDetailsForm}
+            aria-label="Закрыть форму"
+          >
+            ×
+          </button>
+
+          <h2>Описание нового объекта</h2>
+
+          <p className="draw-feature-form-note">
+            Город: {drawFeatureConfig.cityName}. Геометрия будет отправлена как заявка на модерацию.
+          </p>
+
+          {drawSubmitError && <div className="error-message">{drawSubmitError}</div>}
+
+          <label>
+            Название *
+            <input
+              type="text"
+              value={drawForm.name}
+              onChange={(event) => handleDrawFormChange("name", event.target.value)}
+              placeholder="Введите вернакулярное название"
+            />
+          </label>
+
+          <label>
+            Описание *
+            <textarea
+              value={drawForm.explainer}
+              onChange={(event) => handleDrawFormChange("explainer", event.target.value)}
+              placeholder="Кратко объясните происхождение или смысл названия"
+              rows={5}
+            />
+          </label>
+
+          <label>
+            Тип названия
+            <select
+              value={drawForm.type}
+              onChange={(event) => handleDrawFormChange("type", event.target.value)}
+            >
+              <option value="">Другое / не указано</option>
+              {drawTypeOptions.map((typeName) => (
+                <option key={typeName} value={typeName}>
+                  {getDisplayTypeName(typeName, drawFeatureCityKey || selectedCity)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            Официальное название
+            <input
+              type="text"
+              value={drawForm.original_name}
+              onChange={(event) =>
+                handleDrawFormChange("original_name", event.target.value)
+              }
+              placeholder="Можно оставить пустым"
+            />
+          </label>
+
+          <div className="draw-feature-form-actions">
+            <button
+              type="button"
+              className="success-ok-btn"
+              onClick={submitDrawnFeature}
+              disabled={isSubmittingDrawFeature}
+            >
+              {isSubmittingDrawFeature ? "Отправка..." : "Отправить на модерацию"}
+            </button>
+          </div>
         </div>
       )}
 
@@ -698,6 +2305,16 @@ function App() {
             ) : null;
           })()}
 
+          <button
+            className="panel-edit-button"
+            type="button"
+            onClick={openSelectedFeaturePropertyEdit}
+            aria-label="Предложить правку описания объекта"
+            title="Предложить правку описания объекта"
+          >
+            ✎
+          </button>
+
           <div className="panel-bottom">
             {isExpandable && (
               <button
@@ -724,6 +2341,7 @@ function App() {
             onSubmitted={handleSubmissionSuccess}
             onSubmitSuccess={handleSubmissionSuccess}
             setPreviewFeatures={setPreviewFeatures}
+            defaultCity={currentCityConfig.cityName}
           />
         </SubmissionPanelErrorBoundary>
       )}

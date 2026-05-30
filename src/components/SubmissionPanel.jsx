@@ -20,17 +20,18 @@ import { submitUserSubmission } from '../utils/submissionApi';
  * visibility via onClose and can receive preview features via
  * setPreviewFeatures for display on the map.
  */
-const SubmissionPanel = ({ onClose, setPreviewFeatures }) => {
+const SubmissionPanel = ({ onClose, setPreviewFeatures, onSuccess, onSubmitted, onSubmitSuccess, defaultCity }) => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null);
   const [featureCollection, setFeatureCollection] = useState(null);
   const [mapping, setMapping] = useState({ name: '', explainer: '', type: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Update preview when entering the preview step
   useEffect(() => {
     if (step === 3 && featureCollection && mapping.name && mapping.explainer) {
       try {
-        const normalized = normalizeFeatures(featureCollection, mapping);
+        const normalized = normalizeFeatures(featureCollection, mapping, { city: defaultCity });
         validateNormalizedFeatures(normalized);
         setPreviewFeatures(normalized);
         setError(null);
@@ -38,15 +39,20 @@ const SubmissionPanel = ({ onClose, setPreviewFeatures }) => {
         setError(err.message);
       }
     }
-  }, [step, featureCollection, mapping, setPreviewFeatures]);
+  }, [step, featureCollection, mapping, setPreviewFeatures, defaultCity]);
 
   const propertyKeys = featureCollection ? extractPropertyKeys(featureCollection) : [];
   const previewRows = featureCollection ? buildAttributeRows(featureCollection, 5) : [];
 
   const handleSubmit = async () => {
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setError(null);
+
     try {
       validateRequiredMapping(mapping);
-      const normalizedFeatures = normalizeFeatures(featureCollection, mapping);
+      const normalizedFeatures = normalizeFeatures(featureCollection, mapping, { city: defaultCity });
       validateNormalizedFeatures(normalizedFeatures);
       const changes = normalizedFeatures.map((feat) => ({
         changeType: 'create',
@@ -62,21 +68,29 @@ const SubmissionPanel = ({ onClose, setPreviewFeatures }) => {
         changes,
       };
       const response = await submitUserSubmission(submission);
-      // Display both submissionId and pullRequestUrl if present
-      const prUrl = response.pullRequestUrl || '';
-      let message = `Заявка отправлена на модерацию. ID: ${response.submissionId || ''}`;
-      if (prUrl) {
-        message += `\nPull Request: ${prUrl}`;
-      }
-      alert(message);
-      // Reset state and close panel
+      const successCallback = onSuccess || onSubmitted || onSubmitSuccess;
+
+      // Reset state and close panel. If the parent provided a callback, let it
+      // show the final success message so the map remains visible and usable.
       setStep(1);
       setFeatureCollection(null);
       setMapping({ name: '', explainer: '', type: '' });
       setPreviewFeatures([]);
-      onClose();
+
+      if (typeof successCallback === 'function') {
+        successCallback(response);
+      } else {
+        const prUrl = response.pullRequestUrl || '';
+        let message = `Заявка отправлена на модерацию. ID: ${response.submissionId || ''}`;
+        if (prUrl) {
+          message += `\nPull Request: ${prUrl}`;
+        }
+        alert(message);
+        onClose();
+      }
     } catch (err) {
       setError(err.message);
+      setIsSubmitting(false);
     }
   };
 
@@ -88,7 +102,7 @@ const SubmissionPanel = ({ onClose, setPreviewFeatures }) => {
 
   return (
     <div className="submission-panel">
-      <button className="close-btn" onClick={onClose}>
+      <button className="close-btn" onClick={onClose} disabled={isSubmitting}>
         ×
       </button>
       <h2>Предложить правку</h2>
@@ -114,20 +128,20 @@ const SubmissionPanel = ({ onClose, setPreviewFeatures }) => {
       )}
       <div className="panel-navigation">
         {step > 1 && (
-          <button onClick={() => setStep((s) => s - 1)}>Назад</button>
+          <button onClick={() => setStep((s) => s - 1)} disabled={isSubmitting}>Назад</button>
         )}
         {step < 3 && (
           <button
             onClick={() => {
               if (canNext()) setStep((s) => s + 1);
             }}
-            disabled={!canNext()}
+            disabled={!canNext() || isSubmitting}
           >
             Далее
           </button>
         )}
         {step === 3 && (
-          <button onClick={handleSubmit}>Отправить на модерацию</button>
+          <button onClick={handleSubmit} disabled={isSubmitting}>{isSubmitting ? "Отправка..." : "Отправить на модерацию"}</button>
         )}
       </div>
     </div>

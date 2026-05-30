@@ -76,18 +76,26 @@ export function getTargetLayerByGeometryType(type) {
  * the type field.
  * @param {object} featureCollection GeoJSON FeatureCollection.
  * @param {object} mapping Object with selected keys: name, explainer, type.
+ * @param {object} options Optional defaults such as { city }.
  * @returns {Array<object>} List of normalized GeoJSON features.
  */
-export function normalizeFeatures(featureCollection, mapping) {
+export function normalizeFeatures(featureCollection, mapping, options = {}) {
+  const timestampBase = Date.now();
+
   return featureCollection.features.map((feature, index) => {
     const props = feature.properties || {};
+    const numericFeatureId = Number(feature.id);
+
     return {
       ...feature,
-      id: feature.id || `user_feature_${String(index + 1).padStart(3, '0')}`,
+      id: Number.isFinite(numericFeatureId)
+        ? numericFeatureId
+        : timestampBase + index,
       properties: {
         ...props,
         name: props[mapping.name],
         explainer: props[mapping.explainer],
+        city: props.city || props['Город'] || options.city || '',
         ['Тип названия']:
           mapping.type && props[mapping.type] ? props[mapping.type] : 'Другое',
       },

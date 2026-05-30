@@ -392,6 +392,15 @@
   outline-offset: -8px;
 }
 
+.edit-button.active {
+  background: #0072bc;
+  box-shadow: inset 0 0 0 3px #ffffff, 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.edit-button.active .edit-icon {
+  color: #ffffff;
+}
+
 /* Icon inside the edit triangle */
 .edit-button .edit-icon {
   position: absolute;
@@ -682,4 +691,608 @@
 .success-ok-btn:hover,
 .success-ok-btn:focus-visible {
   background: #005a9e;
+}
+
+
+/* Edit mode popup menu near the pencil button */
+.edit-mode-menu {
+  position: absolute;
+  top: calc(var(--header-height) + 10px);
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  z-index: 1500;
+  font-family: 'Montserrat', sans-serif;
+  backdrop-filter: blur(6px);
+}
+
+.edit-mode-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #222;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.16s ease, background-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.edit-mode-option:hover,
+.edit-mode-option:focus-visible {
+  background: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 114, 188, 0.18);
+  outline: none;
+}
+
+.edit-mode-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0072bc;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.edit-mode-icon-geojson {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+/* Drawing toolbar */
+.draw-toolbar {
+  position: absolute;
+  top: calc(var(--header-height) + 76px);
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1300;
+  font-family: 'Montserrat', sans-serif;
+  pointer-events: auto;
+}
+
+.draw-tool-button,
+.draw-finish-button {
+  border: none;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #0072bc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.draw-tool-button {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draw-tool-button:hover,
+.draw-tool-button:focus-visible,
+.draw-tool-button.active {
+  background: #0072bc;
+  color: #ffffff;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.draw-finish-button {
+  min-width: 108px;
+  padding: 9px 12px;
+  color: #ffffff;
+  background: #0072bc;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.draw-finish-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.draw-error {
+  max-width: 220px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #c91e1e;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+
+/* Manual drawing attribute form */
+.draw-feature-form {
+  position: absolute;
+  top: calc(var(--header-height) + 24px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 40px));
+  max-height: calc(100vh - var(--header-height) - 48px);
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  z-index: 1650;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  font-family: 'Montserrat', sans-serif;
+  text-align: left;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.draw-feature-form h2 {
+  margin: 0 32px 10px 0;
+  font-size: 23px;
+  font-weight: 900;
+  color: #111111;
+  text-align: center;
+}
+
+.draw-feature-form-note {
+  margin: 0 0 16px 0;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.draw-feature-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #333333;
+}
+
+.draw-feature-form input,
+.draw-feature-form textarea,
+.draw-feature-form select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #222222;
+  background: #ffffff;
+}
+
+.draw-feature-form textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.draw-feature-form input:focus,
+.draw-feature-form textarea:focus,
+.draw-feature-form select:focus {
+  outline: 2px solid rgba(0, 114, 188, 0.22);
+  border-color: #0072bc;
+}
+
+.draw-feature-form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.draw-feature-form .success-ok-btn:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
+
+/* Active drawing cursor */
+.App.drawing-active .leaflet-container,
+.App.drawing-active .leaflet-container .leaflet-pane,
+.App.drawing-active .leaflet-container .leaflet-tile,
+.App.drawing-active .leaflet-container .leaflet-interactive {
+  cursor: crosshair !important;
+}
+
+/* Link to the created GitHub Pull Request in success panel */
+.submission-pr-link {
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333333;
+}
+
+.submission-pr-link a {
+  color: #0072bc;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.submission-pr-link a:hover,
+.submission-pr-link a:focus-visible {
+  text-decoration: underline;
+}
+
+/* Drawing vertex removal marker */
+.drawing-vertex-delete-tooltip {
+  background: rgba(244, 162, 97, 0.96);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 2px 7px 4px 7px;
+}
+
+.drawing-vertex-delete-tooltip::before,
+.drawing-vertex-disabled-tooltip::before {
+  display: none;
+}
+
+.drawing-vertex-disabled-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #c7d2da;
+  border-radius: 8px;
+  color: #657786;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 6px;
+}
+
+.panel-navigation button:disabled,
+.submission-panel .close-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+
+/* Stage 1 local refinements */
+.leaflet-top.leaflet-right {
+  top: 10px;
+  right: 16px;
+}
+
+.draw-toolbar {
+  gap: 8px;
+}
+
+.draw-tool-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 42px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.draw-tool-group .draw-tool-button {
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 1px solid rgba(0, 114, 188, 0.16);
+}
+
+.draw-tool-group .draw-tool-button:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.draw-tool-group .draw-tool-button:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom: none;
+}
+
+.draw-close-button {
+  color: #c91e1e;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.draw-close-button:hover,
+.draw-close-button:focus-visible {
+  background: #c91e1e;
+  color: #ffffff;
+}
+
+.draw-undo-button {
+  min-width: 108px;
+  padding: 8px 10px;
+  color: #0072bc;
+  background: rgba(255, 255, 255, 0.94);
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.draw-undo-button:hover:not(:disabled),
+.draw-undo-button:focus-visible:not(:disabled) {
+  background: #0072bc;
+  color: #ffffff;
+  outline: none;
+}
+
+.draw-undo-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.panel-navigation button:disabled,
+.submission-panel .close-btn:disabled,
+.draw-feature-form .success-ok-btn:disabled {
+  cursor: not-allowed;
+}
+
+
+/* Stage 2 existing feature editing */
+.edit-select-banner,
+.edit-geometry-toolbar {
+  position: absolute;
+  top: calc(var(--header-height) + 18px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 40px));
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 14px;
+  padding: 18px 24px;
+  z-index: 1550;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.edit-select-banner strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #111111;
+}
+
+.edit-select-banner span {
+  display: block;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #555555;
+}
+
+.edit-geometry-toolbar {
+  text-align: left;
+}
+
+.edit-geometry-title {
+  padding-right: 28px;
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.35;
+  color: #111111;
+}
+
+.edit-geometry-note {
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #555555;
+}
+
+.edit-geometry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.edit-geometry-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 11px;
+  background: rgba(0, 114, 188, 0.1);
+  color: #0072bc;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+.edit-geometry-btn:hover:not(:disabled),
+.edit-geometry-btn:focus-visible:not(:disabled) {
+  background: #0072bc;
+  color: #ffffff;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.edit-geometry-btn.primary {
+  background: #0072bc;
+  color: #ffffff;
+}
+
+.edit-geometry-btn.danger,
+.danger-submit-btn {
+  background: #d73027;
+  color: #ffffff;
+}
+
+.edit-geometry-btn.danger:hover:not(:disabled),
+.danger-submit-btn:hover:not(:disabled),
+.danger-submit-btn:focus-visible:not(:disabled) {
+  background: #b51f18;
+}
+
+.edit-geometry-btn:disabled,
+.danger-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.edit-feature-form {
+  z-index: 1660;
+}
+
+.danger-submit-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.panel-edit-button {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #0072bc;
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transform: rotate(-12deg);
+  transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.panel-edit-button:hover,
+.panel-edit-button:focus-visible {
+  background: #005a9e;
+  transform: rotate(-12deg) translateY(-1px);
+  outline: none;
+}
+
+.edit-midpoint-add-tooltip {
+  background: rgba(44, 162, 95, 0.96);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  padding: 2px 7px 4px 7px;
+}
+
+.edit-midpoint-add-tooltip::before {
+  display: none;
+}
+
+.App.drawing-active .leaflet-container,
+.App.drawing-active .leaflet-container .leaflet-pane,
+.App.drawing-active .leaflet-container .leaflet-tile,
+.App.drawing-active .leaflet-container .leaflet-interactive {
+  cursor: crosshair !important;
+}
+
+
+/* Draggable geometry edit handles */
+.preview-drag-handle-icon {
+  background: transparent;
+  border: none;
+}
+
+.preview-drag-handle {
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 2px solid #005a9e;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #005a9e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.preview-drag-handle.can-delete:hover {
+  background: #f4a261;
+  border-color: #f4a261;
+  color: #ffffff;
+  transform: scale(1.12);
+}
+
+.preview-drag-handle.can-delete:hover::after {
+  content: '×';
+  font-size: 17px;
+  line-height: 1;
+  margin-top: -1px;
+}
+
+.preview-drag-handle:not(.can-delete):hover {
+  transform: scale(1.08);
+  border-color: #0072bc;
+}
+
+.preview-drag-handle-icon.is-dragging .preview-drag-handle,
+.preview-drag-handle:active {
+  cursor: grabbing;
+  transform: scale(1.16);
+  background: #0072bc;
+  border-color: #0072bc;
+  color: #ffffff;
+}
+
+.preview-drag-handle.edit-midpoint-handle {
+  width: 16px;
+  height: 16px;
+  border-color: #2ca25f;
+  color: #2ca25f;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.preview-drag-handle.edit-midpoint-handle:hover {
+  background: #2ca25f;
+  border-color: #2ca25f;
+  color: #ffffff;
+  transform: scale(1.16);
 }
