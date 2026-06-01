@@ -1112,6 +1112,160 @@ const getFeaturePhotos = (props = {}) => {
 };
 
 
+const normalizeSearchText = (value) =>
+  String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .trim();
+
+const getLayerDisplayName = (layer) => {
+  if (layer === "districts") return "Полигон";
+  if (layer === "lines") return "Линия";
+  if (layer === "points") return "Точка";
+  return "Объект";
+};
+
+const getFeatureDisplayName = (feature) => feature?.properties?.name || "Без названия";
+
+const getFeatureSearchText = (feature) => {
+  const props = feature?.properties || {};
+  return normalizeSearchText([
+    props.name,
+    props.original_name,
+    props.explainer,
+    props["Тип названия"],
+    props.city,
+    props["Город"],
+  ].filter(Boolean).join(" "));
+};
+
+const getPointCoordinate = (geometry) => {
+  if (!geometry) return null;
+
+  if (geometry.type === "Point") {
+    return normalizeCoord(geometry.coordinates);
+  }
+
+  if (geometry.type === "MultiPoint") {
+    return normalizeCoord(geometry.coordinates?.[0]);
+  }
+
+  return null;
+};
+
+const getFeaturePrimaryCoordinate = (feature) => {
+  const point = getPointCoordinate(feature?.geometry);
+  if (point) return point;
+
+  try {
+    const layer = L.geoJSON(feature, { interactive: false });
+    const bounds = layer.getBounds();
+    if (bounds.isValid()) {
+      const center = bounds.getCenter();
+      return [center.lng, center.lat];
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+};
+
+const getFeatureBounds = (feature) => {
+  if (!feature?.geometry) return null;
+
+  const point = getPointCoordinate(feature.geometry);
+  if (point) {
+    const latlng = L.latLng(point[1], point[0]);
+    return L.latLngBounds(latlng, latlng);
+  }
+
+  try {
+    const layer = L.geoJSON(feature, { interactive: false });
+    const bounds = layer.getBounds();
+    return bounds.isValid() ? bounds : null;
+  } catch {
+    return null;
+  }
+};
+
+const removeInternalProperties = (properties = {}) => {
+  const cleaned = {};
+
+  Object.entries(properties || {}).forEach(([key, value]) => {
+    if (!key.startsWith("__")) {
+      cleaned[key] = value;
+    }
+  });
+
+  return cleaned;
+};
+
+const cleanFeatureForExport = (feature, extraProperties = {}) => {
+  if (!feature || feature.type !== "Feature") return null;
+
+  const cloned = cloneFeature(feature);
+  return {
+    ...cloned,
+    properties: {
+      ...removeInternalProperties(cloned.properties || {}),
+      ...extraProperties,
+    },
+  };
+};
+
+const buildExportFeatureCollection = (features = []) => ({
+  type: "FeatureCollection",
+  features: features.filter(Boolean),
+});
+
+const sanitizeFileNamePart = (value, fallback = "object") => {
+  const normalized = String(value || "")
+    .toLowerCase()
+    .replace(/ё/g, "е")
+    .replace(/[^a-zа-я0-9_-]+/gi, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 80);
+
+  return normalized || fallback;
+};
+
+const downloadGeoJsonFile = (features, fileName) => {
+  if (typeof document === "undefined") return;
+
+  const collection = buildExportFeatureCollection(features);
+  const blob = new Blob([JSON.stringify(collection, null, 2)], {
+    type: "application/geo+json;charset=utf-8",
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+const cityExportFileNames = {
+  perm: "perm_vernacular_objects.geojson",
+  cheb: "cheboksary_vernacular_objects.geojson",
+  tver: "tver_vernacular_objects.geojson",
+};
+
+const getLocalPreviewExportType = (feature) => {
+  const previewKind = feature?.properties?.__previewKind;
+
+  if (previewKind === "local-saved-create") return "create";
+  if (previewKind === "local-saved-update") return "update";
+  if (previewKind === "local-saved-delete") return "delete";
+
+  return "preview";
+};
+
+
+
 class SubmissionPanelErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -1179,10 +1333,15 @@ function App() {
   const [titlePhase, setTitlePhase] = useState("in");
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedFeatureLayer, setSelectedFeatureLayer] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [copiedFeatureLink, setCopiedFeatureLink] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [mapZoom, setMapZoom] = useState(12);
   const [mapReady, setMapReady] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [legendMobileOpen, setLegendMobileOpen] = useState(false);
 
   // State for showing the submission panel and previewing user features
   const [showSubmissionPanel, setShowSubmissionPanel] = useState(false);
@@ -1231,6 +1390,7 @@ function App() {
 
   const mapRef = useRef(null);
   const labelLayerRef = useRef(null);
+  const deepLinkAppliedRef = useRef(false);
 
   const activeSnapExcludeId = editingFeatureOriginal
     ? normalizeFeatureId(editingFeatureOriginal)
@@ -1244,6 +1404,73 @@ function App() {
   const traceSources = useMemo(
     () => buildTraceSources([points, lines, districts], activeSnapExcludeId, selectedCity),
     [points, lines, districts, activeSnapExcludeId, selectedCity]
+  );
+
+  const searchableFeatures = useMemo(() => {
+    const collect = (collection, targetLayer) =>
+      (collection?.features || []).map((feature) => ({
+        feature,
+        targetLayer,
+        id: normalizeFeatureId(feature),
+        name: getFeatureDisplayName(feature),
+        cityKey: getFeatureCityKey(feature),
+        cityName: cityConfigs[getFeatureCityKey(feature)]?.cityName || "Пермь",
+        layerLabel: getLayerDisplayName(targetLayer),
+        typeName: feature.properties?.["Тип названия"] || "Другое",
+        searchText: getFeatureSearchText(feature),
+      }));
+
+    return [
+      ...collect(districts, "districts"),
+      ...collect(lines, "lines"),
+      ...collect(points, "points"),
+    ].sort((a, b) => a.name.localeCompare(b.name, "ru"));
+  }, [districts, lines, points]);
+
+  const normalizedSearchQuery = normalizeSearchText(searchQuery);
+  const searchResults = useMemo(() => {
+    if (normalizedSearchQuery.length < 2) return [];
+
+    return searchableFeatures
+      .filter((item) => item.searchText.includes(normalizedSearchQuery))
+      .sort((a, b) => {
+        const aStarts = normalizeSearchText(a.name).startsWith(normalizedSearchQuery) ? 0 : 1;
+        const bStarts = normalizeSearchText(b.name).startsWith(normalizedSearchQuery) ? 0 : 1;
+        if (aStarts !== bStarts) return aStarts - bStarts;
+
+        const aCity = a.cityKey === selectedCity ? 0 : 1;
+        const bCity = b.cityKey === selectedCity ? 0 : 1;
+        if (aCity !== bCity) return aCity - bCity;
+
+        return a.name.localeCompare(b.name, "ru");
+      })
+      .slice(0, 12);
+  }, [normalizedSearchQuery, searchableFeatures, selectedCity]);
+
+  const currentCityExportFeatures = useMemo(() => {
+    const collect = (collection) =>
+      (collection?.features || [])
+        .filter((feature) => getFeatureCityKey(feature) === selectedCity)
+        .map((feature) => cleanFeatureForExport(feature))
+        .filter(Boolean);
+
+    return [
+      ...collect(districts),
+      ...collect(lines),
+      ...collect(points),
+    ];
+  }, [districts, lines, points, selectedCity]);
+
+  const localPreviewExportFeatures = useMemo(
+    () =>
+      submittedPreviewFeatures
+        .map((feature) =>
+          cleanFeatureForExport(feature, {
+            local_preview_type: getLocalPreviewExportType(feature),
+          })
+        )
+        .filter(Boolean),
+    [submittedPreviewFeatures]
   );
 
   const snapCoordinate = useCallback(
@@ -1468,6 +1695,79 @@ function App() {
     }
   }, []);
 
+
+  const buildFeatureLink = useCallback((feature, targetLayer) => {
+    if (typeof window === "undefined" || !feature) return "";
+
+    const url = new URL(window.location.href);
+    const featureId = normalizeFeatureId(feature);
+    const cityKey = getFeatureCityKey(feature);
+
+    url.searchParams.set("city", cityKey);
+    if (targetLayer) url.searchParams.set("layer", targetLayer);
+
+    if (featureId !== null && featureId !== undefined && featureId !== "") {
+      url.searchParams.set("object", String(featureId));
+      url.searchParams.delete("objectName");
+    } else {
+      url.searchParams.set("objectName", getFeatureDisplayName(feature));
+      url.searchParams.delete("object");
+    }
+
+    return url.toString();
+  }, []);
+
+  const updateUrlForFeature = useCallback((feature, targetLayer) => {
+    if (typeof window === "undefined" || !feature) return;
+
+    const link = buildFeatureLink(feature, targetLayer);
+    if (link) {
+      window.history.replaceState(null, "", link);
+    }
+  }, [buildFeatureLink]);
+
+  const focusFeature = useCallback((feature, targetLayer, options = {}) => {
+    if (!feature) return;
+
+    const { flyTo = true, updateUrl = false, syncSearch = false } = options;
+    const cityKey = getFeatureCityKey(feature);
+
+    setSelectedCity(cityKey);
+    setSelectedFeature(feature);
+    setSelectedFeatureLayer(targetLayer);
+    setExpanded(false);
+    setCopiedFeatureLink(false);
+    setSearchFocused(false);
+
+    if (syncSearch) {
+      setSearchQuery(getFeatureDisplayName(feature));
+    }
+
+    if (flyTo && mapRef.current) {
+      const map = mapRef.current;
+      const bounds = getFeatureBounds(feature);
+
+      if (bounds?.isValid()) {
+        const northEast = bounds.getNorthEast();
+        const southWest = bounds.getSouthWest();
+        const isPointBounds = northEast.equals(southWest);
+
+        if (isPointBounds) {
+          map.flyTo(bounds.getCenter(), Math.max(map.getZoom(), 16));
+        } else {
+          map.flyToBounds(bounds.pad(0.2), { maxZoom: 16 });
+        }
+      } else {
+        const coord = getFeaturePrimaryCoordinate(feature);
+        if (coord) map.flyTo([coord[1], coord[0]], Math.max(map.getZoom(), 16));
+      }
+    }
+
+    if (updateUrl) {
+      updateUrlForFeature(feature, targetLayer);
+    }
+  }, [updateUrlForFeature]);
+
   const handleFeatureHover = useCallback((feature, layer, targetLayer) => {
     const name = feature.properties?.["name"];
     if (!name) return;
@@ -1494,15 +1794,14 @@ function App() {
         return;
       }
 
-      setSelectedFeature(feature);
-      setSelectedFeatureLayer(targetLayer);
-      setExpanded(false);
+      focusFeature(feature, targetLayer, { flyTo: false, updateUrl: false });
     });
-  }, [editSelectMode, editFormOpen, editingFeatureOriginal, drawingMode, drawFeatureDraft, startEditingFeature]);
+  }, [editSelectMode, editFormOpen, editingFeatureOriginal, drawingMode, drawFeatureDraft, startEditingFeature, focusFeature]);
 
   const closeInfoPanel = () => {
     setSelectedFeature(null);
     setSelectedFeatureLayer(null);
+    setCopiedFeatureLink(false);
     setExpanded(false);
   };
 
@@ -2094,6 +2393,57 @@ function App() {
     startEditingFeature(selectedFeature, selectedFeatureLayer, { propertiesOnly: true });
   };
 
+  const copySelectedFeatureLink = async () => {
+    if (!selectedFeature) return;
+
+    const link = buildFeatureLink(selectedFeature, selectedFeatureLayer);
+    if (!link) return;
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(link);
+      } else {
+        const input = document.createElement("input");
+        input.value = link;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+      }
+
+      setCopiedFeatureLink(true);
+      window.setTimeout(() => setCopiedFeatureLink(false), 1800);
+    } catch (error) {
+      console.error("Не удалось скопировать ссылку на объект:", error);
+    }
+  };
+  const downloadSelectedFeatureGeoJson = () => {
+    if (!selectedFeature) return;
+
+    const featureId = normalizeFeatureId(selectedFeature);
+    const namePart = sanitizeFileNamePart(
+      featureId !== null ? `object_${featureId}` : getFeatureDisplayName(selectedFeature),
+      "selected_object"
+    );
+
+    downloadGeoJsonFile(
+      [cleanFeatureForExport(selectedFeature)],
+      `selected_${namePart}.geojson`
+    );
+  };
+
+  const downloadCurrentCityGeoJson = () => {
+    const fileName = cityExportFileNames[selectedCity] || `${selectedCity}_vernacular_objects.geojson`;
+    downloadGeoJsonFile(currentCityExportFeatures, fileName);
+    setExportMenuOpen(false);
+  };
+
+  const downloadLocalPreviewGeoJson = () => {
+    downloadGeoJsonFile(localPreviewExportFeatures, "local_preview_changes.geojson");
+    setExportMenuOpen(false);
+  };
+
+
   const buildDrawnFeatureFromForm = () => {
     if (!drawFeatureDraft) return null;
 
@@ -2211,7 +2561,61 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (deepLinkAppliedRef.current || !mapReady || !points || !lines || !districts) {
+      return;
+    }
+
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const objectId = params.get("object");
+    const objectName = normalizeSearchText(params.get("objectName"));
+    const requestedLayer = params.get("layer");
+    const requestedCity = params.get("city");
+
+    if (!objectId && !objectName) return;
+
+    const collections = {
+      districts,
+      lines,
+      points,
+    };
+
+    const layerOrder = requestedLayer && collections[requestedLayer]
+      ? [requestedLayer]
+      : ["districts", "lines", "points"];
+
+    for (const layerName of layerOrder) {
+      const collection = collections[layerName];
+      const foundFeature = collection?.features?.find((feature) => {
+        if (requestedCity && cityConfigs[requestedCity] && getFeatureCityKey(feature) !== requestedCity) {
+          return false;
+        }
+
+        const featureId = normalizeFeatureId(feature);
+        if (objectId && String(featureId) === String(objectId)) return true;
+
+        if (objectName && normalizeSearchText(getFeatureDisplayName(feature)) === objectName) return true;
+
+        return false;
+      });
+
+      if (foundFeature) {
+        deepLinkAppliedRef.current = true;
+        focusFeature(foundFeature, layerName, { flyTo: true, updateUrl: false, syncSearch: false });
+        break;
+      }
+    }
+  }, [mapReady, points, lines, districts, focusFeature]);
+
   const featureProps = selectedFeature?.properties || {};
+  const selectedFeatureCityKey = selectedFeature ? getFeatureCityKey(selectedFeature) : selectedCity;
+  const selectedFeatureCityConfig = cityConfigs[selectedFeatureCityKey] || cityConfigs.perm;
+  const selectedFeatureType = featureProps["Тип названия"] || "Другое";
+  const selectedFeatureTypeColors = selectedFeature ? getFeatureTypeColors(selectedFeature) : cityConfigs.perm.typeColors;
+  const selectedFeatureTypeColor = selectedFeatureTypeColors[selectedFeatureType] || "#999999";
+  const selectedFeatureLink = selectedFeature ? buildFeatureLink(selectedFeature, selectedFeatureLayer) : "";
   const explainer = featureProps["explainer"] || "";
   const explainerSentences = splitIntoSentences(explainer);
   const isExpandable = explainerSentences.length > 3;
@@ -2392,6 +2796,103 @@ function App() {
         </div>
       )}
 
+
+      <div className="map-search-panel">
+        <div className="map-search-row">
+          <div className="map-search-input-wrap">
+            <span className="map-search-icon" aria-hidden="true">⌕</span>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              onFocus={() => {
+                setSearchFocused(true);
+                setExportMenuOpen(false);
+              }}
+              placeholder="Найти"
+              aria-label="Поиск по объектам карты"
+            />
+            {searchQuery && (
+              <button
+                className="map-search-clear"
+                type="button"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSearchFocused(false);
+                }}
+                aria-label="Очистить поиск"
+              >
+                ×
+              </button>
+            )}
+          </div>
+
+          <button
+            className={`map-export-toggle ${exportMenuOpen ? "active" : ""}`}
+            type="button"
+            onClick={() => {
+              setExportMenuOpen((value) => !value);
+              setSearchFocused(false);
+            }}
+            title="Скачать данные карты в формате GeoJSON"
+            aria-label="Скачать данные карты"
+          >
+            ⬇
+          </button>
+        </div>
+
+        {exportMenuOpen && (
+          <div className="map-export-menu">
+            <div className="map-export-title">Скачать данные</div>
+
+            <button
+              type="button"
+              onClick={downloadCurrentCityGeoJson}
+              disabled={!currentCityExportFeatures.length}
+            >
+              Текущий город
+              <span>{currentCityExportFeatures.length} объектов</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={downloadLocalPreviewGeoJson}
+              disabled={!localPreviewExportFeatures.length}
+            >
+              Локальные правки
+              <span>{localPreviewExportFeatures.length || "нет"}</span>
+            </button>
+          </div>
+        )}
+
+        {searchFocused && normalizedSearchQuery.length >= 2 && (
+          <div className="map-search-results" role="listbox">
+            {searchResults.length > 0 ? (
+              searchResults.map((result) => (
+                <button
+                  key={`${result.targetLayer}_${result.id ?? result.name}`}
+                  type="button"
+                  className="map-search-result"
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => focusFeature(result.feature, result.targetLayer, {
+                    flyTo: true,
+                    updateUrl: true,
+                    syncSearch: true,
+                  })}
+                >
+                  <span className="map-search-result-name">{result.name}</span>
+                  <span className="map-search-result-meta">
+                    {result.cityName} · {result.layerLabel} · {getDisplayTypeName(result.typeName, result.cityKey)}
+                  </span>
+                </button>
+              ))
+            ) : (
+              <div className="map-search-empty">Ничего не найдено</div>
+            )}
+          </div>
+        )}
+      </div>
+
       <MapContainer
         center={[58.01, 56.25]}
         zoom={12}
@@ -2559,6 +3060,12 @@ function App() {
             Редактирование: {editingFeatureOriginal.properties?.name || "объект"}
           </div>
 
+          <div className="mobile-editor-hint" aria-live="polite">
+            {editGeometryKind === "point"
+              ? "Перетяните точку или коснитесь карты, чтобы переместить её. Затем нажмите ✓ Завершить."
+              : "Перетаскивайте вершины пальцем. + добавляет вершину, × удаляет. Затем нажмите ✓ Завершить."}
+          </div>
+
           {!canEditGeometry && (
             <div className="edit-geometry-note">
               Для этой геометрии доступно редактирование описания и удаление.
@@ -2584,7 +3091,7 @@ function App() {
               className="edit-geometry-btn primary"
               onClick={openEditFormForUpdate}
             >
-              Завершить
+              ✓ Завершить
             </button>
 
             {canEditGeometry && (
@@ -2814,6 +3321,12 @@ function App() {
             </button>
           </div>
 
+          <div className="mobile-editor-hint" aria-live="polite">
+            {drawingMode
+              ? "Касание по карте добавляет вершину. Перетаскивайте вершины пальцем. × удаляет вершину, ✓ завершает объект."
+              : "Выберите тип объекта: полигон, линия или точка."}
+          </div>
+
           <button
             className={`draw-snap-button ${snappingEnabled ? "active" : ""}`}
             type="button"
@@ -2848,7 +3361,7 @@ function App() {
               onClick={completeDrawing}
               disabled={!canCompleteDrawing}
             >
-              Завершить
+              ✓ Завершить
             </button>
           )}
 
@@ -3015,8 +3528,18 @@ function App() {
         </div>
       )}
 
-      <div className="legend-box-horizontal">
-        <h4>{currentCityConfig.legendTitle}</h4>
+      <div className={`legend-box-horizontal ${legendMobileOpen ? "mobile-open" : ""}`}>
+        <div className="legend-header-row">
+          <h4>{currentCityConfig.legendTitle}</h4>
+          <button
+            className="legend-mobile-toggle"
+            type="button"
+            onClick={() => setLegendMobileOpen((value) => !value)}
+            aria-expanded={legendMobileOpen}
+          >
+            {legendMobileOpen ? "Скрыть" : "Легенда"}
+          </button>
+        </div>
 
         <div className="legend-vertical">
           {Object.entries(currentTypeColors).map(([name, color]) => (
@@ -3036,32 +3559,51 @@ function App() {
 
       {selectedFeature && (
         <div className={`info-panel ${expanded ? "expanded" : ""}`}>
-          <button className="close-btn" onClick={closeInfoPanel}>
+          <button className="close-btn" onClick={closeInfoPanel} aria-label="Закрыть карточку объекта">
             ×
           </button>
 
-          <div className="panel-header">
-            <div className="panel-title">{featureProps["name"]}</div>
-
-            {featureProps["original_name"] && (
-              <div
-                className="panel-original"
-                style={{ color: currentTypeColors["Реальное название"] || cityConfigs.perm.typeColors["Реальное название"] }}
-              >
-                {featureProps["original_name"]}
-              </div>
-            )}
+          <div className="panel-card-topline">
+            <span className="panel-city-badge">{selectedFeatureCityConfig.cityName}</span>
+            <span
+              className="panel-type-badge"
+              style={{
+                borderColor: selectedFeatureTypeColor,
+                backgroundColor: `${selectedFeatureTypeColor}18`,
+                color: selectedFeatureTypeColor,
+              }}
+            >
+              {getDisplayTypeName(selectedFeatureType, selectedFeatureCityKey)}
+            </span>
           </div>
 
-          <div className="panel-explainer">
-            {visibleExplainer || "Описание пока не добавлено."}
+          <div className="panel-header panel-header-enhanced">
+            <div>
+              <div className="panel-kicker">Вернакулярное название</div>
+              <h2 className="panel-title">{featureProps["name"]}</h2>
+            </div>
+          </div>
+
+          {featureProps["original_name"] && (
+            <div className="panel-info-row">
+              <span className="panel-info-label">Официальное название</span>
+              <span className="panel-info-value">{featureProps["original_name"]}</span>
+            </div>
+          )}
+
+          <div className="panel-section">
+            <div className="panel-section-title">Описание</div>
+            <div className="panel-explainer">
+              {visibleExplainer || "Описание пока не добавлено."}
+            </div>
           </div>
 
           {/* Photos section: render only if photos are defined */}
           {(() => {
             const photos = getFeaturePhotos(featureProps);
             return photos.length > 0 ? (
-              <div className="panel-photos">
+              <div className="panel-photos panel-section">
+                <div className="panel-section-title">Фотографии</div>
                 {photos.map((p, index) => (
                   <div key={index} className="panel-photo">
                     <img src={p.src} alt={p.alt || featureProps["name"] || ""} />
@@ -3074,17 +3616,37 @@ function App() {
             ) : null;
           })()}
 
-          <button
-            className="panel-edit-button"
-            type="button"
-            onClick={openSelectedFeaturePropertyEdit}
-            aria-label="Предложить правку описания объекта"
-            title="Предложить правку описания объекта"
-          >
-            ✎
-          </button>
+          <div className="panel-actions">
+            <button
+              className="panel-action-button panel-action-primary"
+              type="button"
+              onClick={openSelectedFeaturePropertyEdit}
+            >
+              ✎ Предложить правку
+            </button>
 
-          <div className="panel-bottom">
+            <button
+              className="panel-action-button"
+              type="button"
+              onClick={copySelectedFeatureLink}
+              disabled={!selectedFeatureLink}
+              title="Скопировать ссылку, которая откроет карту сразу на этом объекте"
+            >
+              🔗 {copiedFeatureLink ? "Ссылка скопирована" : "Скопировать ссылку"}
+            </button>
+
+            <button
+              className="panel-action-button"
+              type="button"
+              onClick={downloadSelectedFeatureGeoJson}
+              disabled={!selectedFeature}
+              title="Скачать выбранный объект в формате GeoJSON"
+            >
+              ⬇ Скачать GeoJSON
+            </button>
+          </div>
+
+          <div className="panel-bottom panel-bottom-enhanced">
             {isExpandable && (
               <button
                 className="expand-btn"
@@ -3093,10 +3655,6 @@ function App() {
                 {expanded ? "Свернуть" : "Развернуть"}
               </button>
             )}
-
-            <div className="panel-type">
-              {getDisplayTypeName(featureProps["Тип названия"], getFeatureCityKey(selectedFeature))}
-            </div>
           </div>
         </div>
       )}
