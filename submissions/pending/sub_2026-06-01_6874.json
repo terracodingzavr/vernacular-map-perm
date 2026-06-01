@@ -1,0 +1,35 @@
+{
+  "source": "public-map",
+  "method": "draw-tool",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "create",
+      "targetLayer": "points",
+      "feature": {
+        "type": "Feature",
+        "id": 1780303311796,
+        "properties": {
+          "name": "дом конченного гандона",
+          "explainer": "тут жил и вырос конченый гандон",
+          "city": "Пермь",
+          "Тип названия": "Ассоциация с объектом",
+          "original_name": "гандоний дом"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            56.273002624511726,
+            58.001173851973334
+          ]
+        }
+      },
+      "originalFeatureId": null
+    }
+  ],
+  "submissionId": "sub_2026-06-01_6874"
+}
