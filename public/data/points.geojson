@@ -1,13 +1,5 @@
 {
   "type": "FeatureCollection",
-  "name": "points",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-    }
-  },
-  "xy_coordinate_resolution": 1e-15,
   "features": [
     {
       "type": "Feature",
@@ -1550,6 +1542,24 @@
         ]
       },
       "id": 263
+    },
+    {
+      "type": "Feature",
+      "id": 1780303311796,
+      "properties": {
+        "name": "дом конченного гандона",
+        "explainer": "тут жил и вырос конченый гандон",
+        "city": "Пермь",
+        "Тип названия": "Ассоциация с объектом",
+        "original_name": "гандоний дом"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          56.273002624511726,
+          58.001173851973334
+        ]
+      }
     }
   ]
 }
