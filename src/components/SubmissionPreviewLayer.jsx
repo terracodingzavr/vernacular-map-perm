@@ -14,6 +14,63 @@ function getPreviewStyle(feature) {
   const midpointColor = '#2ca25f';
   const props = feature.properties || {};
   const geometryType = feature.geometry?.type;
+  const isPoint = geometryType === 'Point' || geometryType === 'MultiPoint';
+  const isPolygon = geometryType === 'Polygon' || geometryType === 'MultiPolygon';
+  const isSelected = props.__previewKind === 'selected-feature';
+  const isLocalSaved =
+    props.__previewKind === 'local-saved-create' ||
+    props.__previewKind === 'local-saved-update' ||
+    props.__previewKind === 'local-saved-delete';
+
+  if (isSelected) {
+    const selectedColor = '#f28c28';
+
+    if (isPolygon) {
+      return {
+        color: selectedColor,
+        fillColor: selectedColor,
+        weight: 3,
+        opacity: 1,
+        fillOpacity: 0.06,
+        dashArray: '7 5',
+      };
+    }
+
+    return {
+      color: selectedColor,
+      fillColor: selectedColor,
+      weight: isPoint ? 3 : 2.4,
+      opacity: 1,
+      fillOpacity: isPoint ? 0.08 : 0.15,
+      radius: isPoint ? 11 : 8,
+      dashArray: '7 5',
+    };
+  }
+
+  if (isLocalSaved) {
+    const savedColor = props.__previewKind === 'local-saved-delete' ? deleteColor : '#6a51a3';
+
+    if (isPolygon) {
+      return {
+        color: savedColor,
+        fillColor: savedColor,
+        weight: 3,
+        opacity: 1,
+        fillOpacity: props.__previewKind === 'local-saved-delete' ? 0.12 : 0.08,
+        dashArray: '8 6',
+      };
+    }
+
+    return {
+      color: savedColor,
+      fillColor: savedColor,
+      weight: isPoint ? 3 : 2.6,
+      opacity: 1,
+      fillOpacity: isPoint ? 0.1 : 0.18,
+      radius: isPoint ? 10 : 8,
+      dashArray: '8 6',
+    };
+  }
 
   if (props.__previewKind === 'drawing-vertex') {
     return {
@@ -186,6 +243,28 @@ function enableMapDragging(layer, wasEnabled) {
   if (wasEnabled && map?.dragging && !map.dragging.enabled()) {
     map.dragging.enable();
   }
+}
+
+function forEachLayerElement(layer, callback) {
+  if (!layer || typeof callback !== 'function') return;
+
+  if (typeof layer.getElement === 'function') {
+    const element = layer.getElement();
+    if (element) callback(element);
+    return;
+  }
+
+  if (typeof layer.eachLayer === 'function') {
+    layer.eachLayer((childLayer) => forEachLayerElement(childLayer, callback));
+  }
+}
+
+function addClassToLayer(layer, className) {
+  forEachLayerElement(layer, (element) => element.classList.add(className));
+}
+
+function removeClassFromLayer(layer, className) {
+  forEachLayerElement(layer, (element) => element.classList.remove(className));
 }
 
 
@@ -395,7 +474,18 @@ const SubmissionPreviewLayer = ({
           const isDrawingVertex = previewKind === 'drawing-vertex';
           const isEditVertex = previewKind === 'edit-vertex';
           const isEditMidpoint = previewKind === 'edit-midpoint';
+          const isPassivePreview =
+            previewKind === 'selected-feature' ||
+            previewKind === 'local-saved-create' ||
+            previewKind === 'local-saved-update' ||
+            previewKind === 'local-saved-delete';
           const canDeleteVertex = Boolean(props.__canDeleteVertex);
+
+          if (isPassivePreview) {
+            layer.on('add', () => {
+              addClassToLayer(layer, 'noninteractive-preview-feature');
+            });
+          }
 
           if (isDrawingVertex) {
             let wasDragged = false;
@@ -421,7 +511,7 @@ const SubmissionPreviewLayer = ({
               layer.on('dragstart', () => {
                 wasDragged = true;
                 mapDraggingWasEnabled = disableMapDragging(layer);
-                layer.getElement()?.classList.add('is-dragging');
+                addClassToLayer(layer, 'is-dragging');
               });
 
               layer.on('drag', (event) => {
@@ -433,7 +523,7 @@ const SubmissionPreviewLayer = ({
 
               layer.on('dragend', (event) => {
                 enableMapDragging(layer, mapDraggingWasEnabled);
-                layer.getElement()?.classList.remove('is-dragging');
+                removeClassFromLayer(layer, 'is-dragging');
                 const latlng = event.target.getLatLng();
                 const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
                 moveLayerToCoord(event.target, snappedCoord);
@@ -483,7 +573,7 @@ const SubmissionPreviewLayer = ({
               layer.on('dragstart', () => {
                 wasDragged = true;
                 mapDraggingWasEnabled = disableMapDragging(layer);
-                layer.getElement()?.classList.add('is-dragging');
+                addClassToLayer(layer, 'is-dragging');
               });
 
               layer.on('drag', (event) => {
@@ -495,7 +585,7 @@ const SubmissionPreviewLayer = ({
 
               layer.on('dragend', (event) => {
                 enableMapDragging(layer, mapDraggingWasEnabled);
-                layer.getElement()?.classList.remove('is-dragging');
+                removeClassFromLayer(layer, 'is-dragging');
                 const latlng = event.target.getLatLng();
                 const snappedCoord = getSnappedCoord([latlng.lng, latlng.lat]);
                 moveLayerToCoord(event.target, snappedCoord);

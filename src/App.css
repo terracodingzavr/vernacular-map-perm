@@ -899,12 +899,48 @@
 .draw-feature-form-actions {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 18px;
 }
 
 .draw-feature-form .success-ok-btn:disabled {
   opacity: 0.62;
   cursor: wait;
+}
+
+.local-save-btn,
+.edit-geometry-btn.local-save {
+  background: rgba(106, 81, 163, 0.12);
+  color: #5b4392;
+}
+
+.local-save-btn {
+  border: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.local-save-btn:hover:not(:disabled),
+.local-save-btn:focus-visible:not(:disabled),
+.edit-geometry-btn.local-save:hover:not(:disabled),
+.edit-geometry-btn.local-save:focus-visible:not(:disabled) {
+  background: #6a51a3;
+  color: #ffffff;
+  outline: none;
+}
+
+.local-save-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.noninteractive-preview-feature {
+  pointer-events: none;
 }
 
 
@@ -1081,7 +1117,8 @@
 .draw-trace-button:hover:not(:disabled),
 .draw-trace-button:focus-visible:not(:disabled),
 .draw-trace-button.active,
-.edit-geometry-btn.snap-toggle.active {
+.edit-geometry-btn.snap-toggle.active,
+.edit-geometry-btn.trace-toggle.active {
   background: #2ca25f;
   color: #ffffff;
   outline: none;
@@ -1361,4 +1398,118 @@
   font-size: 12px;
   line-height: 1.4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+
+
+/* Refinement: side panel for existing-geometry editing */
+.edit-geometry-toolbar {
+  top: calc(var(--header-height) + 76px);
+  left: 12px;
+  right: auto;
+  transform: none;
+  width: min(300px, calc(100% - 24px));
+  padding: 12px;
+  border-radius: 12px;
+  text-align: left;
+  z-index: 1450;
+}
+
+.edit-geometry-toolbar .edit-geometry-title {
+  padding-right: 22px;
+  margin-bottom: 7px;
+  font-size: 14px;
+}
+
+.edit-geometry-toolbar .edit-geometry-note,
+.edit-geometry-toolbar .draw-trace-status,
+.edit-geometry-toolbar .error-message {
+  max-width: 100%;
+  font-size: 11px;
+}
+
+.edit-geometry-actions {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 7px;
+}
+
+.edit-geometry-btn {
+  width: 100%;
+  min-height: 36px;
+  text-align: center;
+}
+
+.edit-trace-status {
+  margin: 8px 0;
+}
+
+/* Local preview checkbox in draw/edit submission forms */
+.local-preview-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 14px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(0, 114, 188, 0.08);
+  color: #243447;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.local-preview-option input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.local-preview-option input:disabled {
+  cursor: not-allowed;
+}
+
+.local-preview-help {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0072bc;
+  border: 1px solid rgba(0, 114, 188, 0.45);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: help;
+}
+
+.local-preview-help::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: min(320px, 70vw);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(34, 34, 34, 0.95);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+  z-index: 1900;
+}
+
+.local-preview-help:hover::after,
+.local-preview-help:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
 }

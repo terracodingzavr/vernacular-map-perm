@@ -209,6 +209,19 @@ const getDrawingModeLabel = (mode) => {
 
 const cloneFeature = (feature) => JSON.parse(JSON.stringify(feature));
 
+const withLocalPreviewKind = (feature, previewKind) => {
+  if (!feature) return null;
+
+  const cloned = cloneFeature(feature);
+  return {
+    ...cloned,
+    properties: {
+      ...(cloned.properties || {}),
+      __previewKind: previewKind,
+    },
+  };
+};
+
 const normalizeFeatureId = (feature) => {
   const rawId = feature?.id ?? feature?.properties?.id ?? feature?.properties?.feature_id;
   if (rawId === undefined || rawId === null || rawId === "") return null;
@@ -783,6 +796,54 @@ const buildTraceCoordsBetween = (startCandidate, endCandidate, map) => {
 };
 
 
+const findNearestInsertIndexForEditableCoords = (coord, coords = [], kind, map) => {
+  const normalized = normalizeCoord(coord);
+
+  if (!normalized || !Array.isArray(coords) || coords.length < 2) {
+    return Array.isArray(coords) ? coords.length : 0;
+  }
+
+  if (kind !== "line" && kind !== "polygon") {
+    return coords.length;
+  }
+
+  const inputPoint = map
+    ? map.latLngToLayerPoint(coordToLeafletLatLng(normalized))
+    : L.point(normalized[0], normalized[1]);
+
+  const segmentCount = kind === "polygon" ? coords.length : coords.length - 1;
+  let best = null;
+
+  for (let segmentIndex = 0; segmentIndex < segmentCount; segmentIndex += 1) {
+    const startCoord = coords[segmentIndex];
+    const endCoord = coords[(segmentIndex + 1) % coords.length];
+
+    if (!startCoord || !endCoord) continue;
+
+    const startPoint = map
+      ? map.latLngToLayerPoint(coordToLeafletLatLng(startCoord))
+      : L.point(startCoord[0], startCoord[1]);
+    const endPoint = map
+      ? map.latLngToLayerPoint(coordToLeafletLatLng(endCoord))
+      : L.point(endCoord[0], endCoord[1]);
+
+    const projected = getClosestLayerPointOnSegmentWithT(inputPoint, startPoint, endPoint);
+    const distance = distanceBetweenLayerPoints(inputPoint, projected.point);
+
+    if (!best || distance < best.distance) {
+      best = {
+        distance,
+        insertIndex: segmentIndex + 1,
+      };
+    }
+  }
+
+  if (!best) return coords.length;
+
+  return Math.max(0, Math.min(best.insertIndex, coords.length));
+};
+
+
 
 const buildEditedFeatureFromState = (originalFeature, geometryType, coords, formValues) => {
   if (!originalFeature) return null;
@@ -931,7 +992,11 @@ function EditingMapEvents({
 }) {
   useMapEvents({
     click: (event) => {
-      if (!editingFeature || editFormOpen || getEditableGeometryKind(editGeometryType) !== "point") return;
+      if (!editingFeature || editFormOpen) return;
+
+      const kind = getEditableGeometryKind(editGeometryType);
+      if (kind !== "point") return;
+
       onMovePoint([event.latlng.lng, event.latlng.lat]);
     },
     contextmenu: (event) => {
@@ -1140,6 +1205,7 @@ function App() {
   });
   const [drawSubmitError, setDrawSubmitError] = useState("");
   const [isSubmittingDrawFeature, setIsSubmittingDrawFeature] = useState(false);
+  const [displayDrawPreviewLocally, setDisplayDrawPreviewLocally] = useState(true);
 
   const [editSelectMode, setEditSelectMode] = useState(false);
   const [editingFeatureOriginal, setEditingFeatureOriginal] = useState(null);
@@ -1158,6 +1224,7 @@ function App() {
   });
   const [editSubmitError, setEditSubmitError] = useState("");
   const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
+  const [displayEditPreviewLocally, setDisplayEditPreviewLocally] = useState(true);
   const [snappingEnabled, setSnappingEnabled] = useState(true);
   const [tracingEnabled, setTracingEnabled] = useState(false);
   const [traceStart, setTraceStart] = useState(null);
@@ -1218,6 +1285,7 @@ function App() {
 
       setTraceStart(null);
       setDrawingError("");
+      setEditSubmitError("");
       return nextValue;
     });
   };
@@ -1349,6 +1417,8 @@ function App() {
     });
     setEditSubmitError("");
     setIsSubmittingEdit(false);
+    setDisplayEditPreviewLocally(true);
+    setTraceStart(null);
   };
 
   const startEditingFeature = useCallback((feature, targetLayer, options = {}) => {
@@ -1370,6 +1440,8 @@ function App() {
     setDrawingHistory([]);
     setDrawingError("");
     setDrawFeatureDraft(null);
+    setTraceStart(null);
+    setTracingEnabled(false);
 
     setEditSelectMode(false);
     setEditingFeatureOriginal(cloned);
@@ -1387,6 +1459,7 @@ function App() {
     });
     setEditSubmitError("");
     setIsSubmittingEdit(false);
+    setDisplayEditPreviewLocally(true);
 
     if (options.propertiesOnly || !editableKind) {
       setEditFormOpen(true);
@@ -1476,6 +1549,7 @@ function App() {
     setDrawingError("");
     setDrawFeatureDraft(null);
     setDrawSubmitError("");
+    setDisplayDrawPreviewLocally(true);
     setTracingEnabled(false);
     setTraceStart(null);
   };
@@ -1575,6 +1649,7 @@ function App() {
         original_name: "",
       });
       setDrawSubmitError("");
+      setDisplayDrawPreviewLocally(true);
       setDrawingError("");
       setDrawingMode(null);
       setDrawingCoords([]);
@@ -1593,11 +1668,27 @@ function App() {
         return;
       }
 
+      const addRegularDrawingPoint = (message = "") => {
+        const snappedCoord = snapCoordinate(coord);
+
+        setDrawingCoords((coords) => {
+          setDrawingHistory((history) => [...history, coords]);
+          return [...coords, snappedCoord];
+        });
+
+        setTraceStart(null);
+        setDrawingError(message);
+      };
+
       if (tracingEnabled) {
         const traceCandidate = getTraceCandidate(coord);
 
         if (!traceCandidate) {
-          setDrawingError("Для трассировки кликните рядом с существующей линией или границей.");
+          addRegularDrawingPoint(
+            traceStart
+              ? "Трассировка отменена: добавлена обычная точка вне существующей границы."
+              : ""
+          );
           return;
         }
 
@@ -1614,13 +1705,13 @@ function App() {
             return [...coords, startCoord];
           });
 
-          setTraceStart(traceCandidate);
-          setDrawingError("Начало трассировки выбрано. Кликните вторую точку на той же границе.");
+          setTraceStart({ ...traceCandidate, mode: "drawing" });
+          setDrawingError("Начало трассировки выбрано. Кликните вторую точку на той же границе или поставьте обычную точку в пустом месте.");
           return;
         }
 
         if (traceStart.pathId !== traceCandidate.pathId) {
-          setDrawingError("Выберите вторую точку на той же линии или границе.");
+          setDrawingError("Выберите вторую точку на той же линии или границе либо кликните в пустом месте, чтобы продолжить обычное рисование.");
           return;
         }
 
@@ -1646,17 +1737,11 @@ function App() {
         });
 
         setTraceStart(null);
-        setDrawingError("Трасса добавлена. Можно продолжить рисование.");
+        setDrawingError("Трассировка добавлена. Можно продолжить рисование.");
         return;
       }
 
-      const snappedCoord = snapCoordinate(coord);
-
-      setDrawingCoords((coords) => {
-        setDrawingHistory((history) => [...history, coords]);
-        return [...coords, snappedCoord];
-      });
-      setDrawingError("");
+      addRegularDrawingPoint("");
     },
     [
       drawingMode,
@@ -1814,16 +1899,18 @@ function App() {
       const kind = getEditableGeometryKind(editGeometryType);
       if (kind !== "line" && kind !== "polygon") return;
 
+      const snappedCoord = snapCoordinate(coord);
+
       setEditGeometryCoords((coords) => {
         const safeIndex = Math.max(0, Math.min(insertIndex, coords.length));
         pushEditHistory(coords);
         const next = [...coords];
-        next.splice(safeIndex, 0, coord);
+        next.splice(safeIndex, 0, snappedCoord);
         return next;
       });
       setEditSubmitError("");
     },
-    [editingFeatureOriginal, editGeometryType, pushEditHistory]
+    [editingFeatureOriginal, editGeometryType, pushEditHistory, snapCoordinate]
   );
 
   const moveEditVertex = useCallback(
@@ -1869,6 +1956,7 @@ function App() {
       const previousCoords = history[history.length - 1];
       setEditGeometryCoords(previousCoords);
       setEditSubmitError("");
+      setTraceStart(null);
       return history.slice(0, -1);
     });
   }, []);
@@ -1885,6 +1973,7 @@ function App() {
       return;
     }
 
+    setTraceStart(null);
     setEditAction("update");
     setEditFormOpen(true);
     setEditSubmitError("");
@@ -1970,15 +2059,27 @@ function App() {
     try {
       const response = await submitUserSubmission(submission);
 
-      setSubmittedPreviewFeatures([]);
+      if (displayEditPreviewLocally) {
+        const localPreviewFeature = editAction === "delete"
+          ? withLocalPreviewKind(editingFeatureOriginal, "local-saved-delete")
+          : withLocalPreviewKind(editedFeature, "local-saved-update");
+
+        if (localPreviewFeature) {
+          setSubmittedPreviewFeatures((features) => [...features, localPreviewFeature]);
+        }
+      }
 
       resetEditState();
       setSubmissionNotice({
         title: editAction === "delete" ? "Удаление отправлено" : "Правка отправлена",
         text:
           editAction === "delete"
-            ? "Спасибо за участие в создании карты! Предложение удалить объект отправлено на модерацию."
-            : "Спасибо за участие в создании карты! Предложенная правка отправлена на модерацию и будет применена после проверки.",
+            ? displayEditPreviewLocally
+              ? "Спасибо за участие в создании карты! Предложение удалить объект отправлено на модерацию, а удаляемый объект временно отмечен на карте."
+              : "Спасибо за участие в создании карты! Предложение удалить объект отправлено на модерацию."
+            : displayEditPreviewLocally
+              ? "Спасибо за участие в создании карты! Предложенная правка отправлена на модерацию и временно отображена на карте пунктиром."
+              : "Спасибо за участие в создании карты! Предложенная правка отправлена на модерацию и будет применена после проверки.",
         pullRequestUrl: response?.pullRequestUrl || "",
       });
     } catch (err) {
@@ -1993,15 +2094,15 @@ function App() {
     startEditingFeature(selectedFeature, selectedFeatureLayer, { propertiesOnly: true });
   };
 
-  const submitDrawnFeature = async () => {
-    if (!drawFeatureDraft) return;
+  const buildDrawnFeatureFromForm = () => {
+    if (!drawFeatureDraft) return null;
 
     const name = drawForm.name.trim();
     const explainer = drawForm.explainer.trim();
 
     if (!name || !explainer) {
       setDrawSubmitError("Название и описание обязательны для заполнения.");
-      return;
+      return null;
     }
 
     const cityKey = drawFeatureCityKey || selectedCity;
@@ -2011,7 +2112,7 @@ function App() {
 
     if (!targetLayer) {
       setDrawSubmitError("Не удалось определить слой для созданной геометрии.");
-      return;
+      return null;
     }
 
     const properties = {
@@ -2031,6 +2132,15 @@ function App() {
       id: drawFeatureDraft.id || Date.now(),
       properties,
     };
+
+    return { feature, targetLayer };
+  };
+
+  const submitDrawnFeature = async () => {
+    const result = buildDrawnFeatureFromForm();
+    if (!result) return;
+
+    const { feature, targetLayer } = result;
 
     const submission = {
       source: "public-map",
@@ -2052,7 +2162,14 @@ function App() {
 
     try {
       const response = await submitUserSubmission(submission);
-      setSubmittedPreviewFeatures([]);
+
+      if (displayDrawPreviewLocally) {
+        setSubmittedPreviewFeatures((features) => [
+          ...features,
+          withLocalPreviewKind(feature, "local-saved-create"),
+        ]);
+      }
+
       setDrawFeatureDraft(null);
       setDrawToolbarOpen(false);
       setDrawingMode(null);
@@ -2060,7 +2177,9 @@ function App() {
 
       setSubmissionNotice({
         title: "Заявка отправлена",
-        text: "Спасибо за участие в создании карты! Новый объект отправлен на модерацию и будет добавлен после проверки.",
+        text: displayDrawPreviewLocally
+          ? "Спасибо за участие в создании карты! Новый объект отправлен на модерацию и временно отображён на карте пунктиром."
+          : "Спасибо за участие в создании карты! Новый объект отправлен на модерацию и будет добавлен после проверки.",
         pullRequestUrl: response?.pullRequestUrl || "",
       });
     } catch (err) {
@@ -2128,9 +2247,20 @@ function App() {
           formValues: editAction === "update" ? editForm : null,
         })
       : [];
+  const selectedFeaturePreviewFeatures =
+    selectedFeature &&
+    !editSelectMode &&
+    !editingFeatureOriginal &&
+    !editFormOpen &&
+    !drawingMode &&
+    !drawFeatureDraft &&
+    !showSubmissionPanel
+      ? [withLocalPreviewKind(selectedFeature, "selected-feature")]
+      : [];
   const previewLayerFeatures = [
     ...previewFeatures,
     ...submittedPreviewFeatures,
+    ...selectedFeaturePreviewFeatures,
     ...draftPreviewFeatures,
     ...drawingPreviewFeatures,
     ...activeEditPreviewFeatures,
@@ -2140,6 +2270,7 @@ function App() {
     drawingMode &&
     drawingMode !== "point" &&
     drawingCoords.length >= getMinimumVerticesForDrawingMode(drawingMode);
+  const editGeometryKind = getEditableGeometryKind(editGeometryType);
   const canUseTracing = Boolean(drawingMode && drawingMode !== "point" && snappingEnabled);
   const drawFeatureConfig =
     cityConfigs[drawFeatureCityKey || selectedCity] || currentCityConfig;
@@ -2147,7 +2278,7 @@ function App() {
   const editFeatureConfig =
     cityConfigs[getFeatureCityKey(editingFeatureOriginal)] || currentCityConfig;
   const editTypeOptions = Object.keys(editFeatureConfig.typeColors || {});
-  const canEditGeometry = Boolean(getEditableGeometryKind(editGeometryType));
+  const canEditGeometry = Boolean(editGeometryKind);
   const canUndoEdit = editGeometryHistory.length > 0;
 
   return (
@@ -2440,11 +2571,12 @@ function App() {
             </div>
           )}
 
-          {(getEditableGeometryKind(editGeometryType) === "line" || getEditableGeometryKind(editGeometryType) === "polygon") && (
+          {(editGeometryKind === "line" || editGeometryKind === "polygon") && (
             <div className="edit-geometry-note">
               Клик по маленькой точке на грани добавляет вершину. Клик по вершине с × удаляет её. Магнит притягивает вершины к соседним точкам и границам.
             </div>
           )}
+
 
           <div className="edit-geometry-actions">
             <button
@@ -2476,6 +2608,7 @@ function App() {
                 🧲 Магнит: {snappingEnabled ? "вкл" : "выкл"}
               </button>
             )}
+
 
             <button
               type="button"
@@ -2584,6 +2717,23 @@ function App() {
             />
           </label>
 
+          <label className="local-preview-option">
+            <input
+              type="checkbox"
+              checked={displayEditPreviewLocally}
+              onChange={(event) => setDisplayEditPreviewLocally(event.target.checked)}
+              disabled={isSubmittingEdit}
+            />
+            <span>Отобразить правку локально</span>
+            <span
+              className="local-preview-help"
+              tabIndex={0}
+              aria-label="После отправки на модерацию правка будет временно показана на карте пунктиром только в вашем браузере. Это не заменяет отправку заявки и не меняет основные данные до принятия Pull Request."
+            >
+              ?
+            </span>
+          </label>
+
           <div className="draw-feature-form-actions">
             <button
               type="button"
@@ -2682,7 +2832,7 @@ function App() {
             title="Трассировка по существующей линии или границе"
             aria-label="Переключить трассировку"
           >
-            ⛓ Трасса: {tracingEnabled ? "вкл" : "выкл"}
+            ⛓ Трассировка: {tracingEnabled ? "вкл" : "выкл"}
           </button>
 
           {traceStart && (
@@ -2780,6 +2930,23 @@ function App() {
               }
               placeholder="Можно оставить пустым"
             />
+          </label>
+
+          <label className="local-preview-option">
+            <input
+              type="checkbox"
+              checked={displayDrawPreviewLocally}
+              onChange={(event) => setDisplayDrawPreviewLocally(event.target.checked)}
+              disabled={isSubmittingDrawFeature}
+            />
+            <span>Отобразить правку локально</span>
+            <span
+              className="local-preview-help"
+              tabIndex={0}
+              aria-label="После отправки на модерацию новый объект будет временно показан на карте пунктиром только в вашем браузере. Это не заменяет отправку заявки и не меняет основные данные до принятия Pull Request."
+            >
+              ?
+            </span>
           </label>
 
           <div className="draw-feature-form-actions">
