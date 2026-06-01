@@ -1,0 +1,52 @@
+{
+  "source": "public-map",
+  "method": "delete-existing-feature",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "delete",
+      "targetLayer": "points",
+      "originalFeatureId": 218,
+      "reason": "Да нет тут ничего",
+      "originalFeature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 4,
+          "fid": 5,
+          "name": "Стометровка",
+          "original_name": "ул. Ленина 72А",
+          "explainer": "Здание бывшего магазина «Стометровка». Он был назван так из-за того, что длина здания, в котором он располагался — 100 метров.",
+          "Тип названия": "Историческая ассоциация",
+          "auxiliary_storage_labeling_positionx": 452307.6551832446,
+          "auxiliary_storage_labeling_positiony": 6430822.235178164,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "photos": [
+            {
+              "src": "/images/descriptions/image_30_1.jpeg",
+              "alt": "Стометровка"
+            }
+          ],
+          "city": "Пермь"
+        },
+        "geometry": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              56.221507078736344,
+              58.00795028434051
+            ]
+          ]
+        },
+        "id": 218
+      }
+    }
+  ],
+  "submissionId": "sub_2026-06-01_7921"
+}
