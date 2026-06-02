@@ -1,0 +1,167 @@
+{
+  "source": "public-map",
+  "method": "edit-existing-feature",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "update",
+      "targetLayer": "districts",
+      "feature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 160,
+          "fid": 141,
+          "name": "Мед комплекс",
+          "explainer": "Тут все просто, район так называется, так как тут находится больница скорой медицинской помощи и медицинский факультет.",
+          "Тип названия": "Ассоциация с объектом",
+          "idlabel": 62,
+          "auxiliary_storage_labeling_labelrotation": null,
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_labeling_lineanchorpercent": null,
+          "auxiliary_storage_labeling_lineanchorclipping": null,
+          "auxiliary_storage_labeling_lineanchortype": null,
+          "auxiliary_storage_labeling_lineanchortextpoint": null,
+          "auxiliary_storage_labeling_show": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "city": "Чебоксары"
+        },
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  47.19821136982254,
+                  56.14087767600019
+                ],
+                [
+                  47.20109388711702,
+                  56.1383686534342
+                ],
+                [
+                  47.20334828587727,
+                  56.137155293975674
+                ],
+                [
+                  47.20299074573713,
+                  56.13548360296808
+                ],
+                [
+                  47.199806490605674,
+                  56.13628651530288
+                ],
+                [
+                  47.196861052943746,
+                  56.13671197548411
+                ],
+                [
+                  47.1963102501475,
+                  56.137087091463535
+                ],
+                [
+                  47.193127833991426,
+                  56.13616634570804
+                ],
+                [
+                  47.190860321350954,
+                  56.13803024722277
+                ],
+                [
+                  47.19821136982254,
+                  56.14087767600019
+                ]
+              ]
+            ]
+          ]
+        },
+        "id": 127
+      },
+      "originalFeatureId": 127,
+      "reason": "Я Стас дурак",
+      "originalFeature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 160,
+          "fid": 141,
+          "name": "Мед комплекс",
+          "original_name": null,
+          "explainer": "Тут все просто, район так называется, так как тут находится больница скорой медицинской помощи и медицинский факультет.",
+          "Тип названия": "Ассоциация с объектом",
+          "idlabel": 62,
+          "auxiliary_storage_labeling_labelrotation": null,
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_labeling_lineanchorpercent": null,
+          "auxiliary_storage_labeling_lineanchorclipping": null,
+          "auxiliary_storage_labeling_lineanchortype": null,
+          "auxiliary_storage_labeling_lineanchortextpoint": null,
+          "auxiliary_storage_labeling_show": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "city": "Чебоксары"
+        },
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  47.19821136982254,
+                  56.14087767600019
+                ],
+                [
+                  47.20109388711702,
+                  56.1383686534342
+                ],
+                [
+                  47.20334828587727,
+                  56.137155293975674
+                ],
+                [
+                  47.20236908090618,
+                  56.13647326340985
+                ],
+                [
+                  47.20028827034259,
+                  56.13763270817308
+                ],
+                [
+                  47.196861052943746,
+                  56.13671197548411
+                ],
+                [
+                  47.1963102501475,
+                  56.137087091463535
+                ],
+                [
+                  47.193127833991426,
+                  56.13616634570804
+                ],
+                [
+                  47.190860321350954,
+                  56.13803024722277
+                ],
+                [
+                  47.19821136982254,
+                  56.14087767600019
+                ]
+              ]
+            ]
+          ]
+        },
+        "id": 127
+      }
+    }
+  ],
+  "submissionId": "sub_2026-06-02_1966"
+}
