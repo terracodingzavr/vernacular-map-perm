@@ -17878,9 +17878,9 @@
       "properties": {
         "qc_id": 32,
         "fid": 33,
-        "name": "Сад камней",
+        "name": "Пермский Стоунхендж",
         "original_name": "Парк камней",
-        "explainer": null,
+        "explainer": "Назван так в шутку студентами университета ПГНИУ",
         "Тип названия": "Визуальная ассоциация",
         "idlabel": 21,
         "auxiliary_storage_labeling_labelrotation": null,
