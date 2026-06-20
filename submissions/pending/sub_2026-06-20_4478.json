@@ -1,0 +1,86 @@
+{
+  "source": "public-map",
+  "method": "edit-existing-feature",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "update",
+      "targetLayer": "points",
+      "feature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 10,
+          "fid": 11,
+          "name": "Козий загон",
+          "original_name": "Сквер им. Решетникова",
+          "explainer": "В XIX веке это место жители называли «загоном». Потом стали называть козьим, т.к. там выгуливали коз. По другой версии название «загон» появилось из-за небольшой площади и ограждение забором.",
+          "Тип названия": "Историческая ассоциация",
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "photos": [
+            {
+              "src": "/images/descriptions/image_33_1.jpeg",
+              "alt": "Козий загон"
+            }
+          ],
+          "city": "Пермь"
+        },
+        "geometry": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              56.24357352484058,
+              58.01843119153309
+            ]
+          ]
+        },
+        "id": 224
+      },
+      "originalFeatureId": 224,
+      "reason": "Уточнение местным экспертом",
+      "originalFeature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 10,
+          "fid": 11,
+          "name": "Козий загон",
+          "original_name": "Сквер им. Решетникова",
+          "explainer": "Козьим загоном называют нынешний сквер Решетникова из-за того, что он огорожен забором и имеет небольшую площадь.",
+          "Тип названия": "Историческая ассоциация",
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "photos": [
+            {
+              "src": "/images/descriptions/image_33_1.jpeg",
+              "alt": "Козий загон"
+            }
+          ],
+          "city": "Пермь"
+        },
+        "geometry": {
+          "type": "MultiPoint",
+          "coordinates": [
+            [
+              56.24357352484058,
+              58.01843119153309
+            ]
+          ]
+        },
+        "id": 224
+      }
+    }
+  ],
+  "submissionId": "sub_2026-06-20_4478"
+}
