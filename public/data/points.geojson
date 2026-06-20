@@ -1,13 +1,5 @@
 {
   "type": "FeatureCollection",
-  "name": "points",
-  "crs": {
-    "type": "name",
-    "properties": {
-      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
-    }
-  },
-  "xy_coordinate_resolution": 1e-15,
   "features": [
     {
       "type": "Feature",
@@ -347,7 +339,7 @@
         "fid": 11,
         "name": "Козий загон",
         "original_name": "Сквер им. Решетникова",
-        "explainer": "Козьим загоном называют нынешний сквер Решетникова из-за того, что он огорожен забором и имеет небольшую площадь.",
+        "explainer": "В XIX веке это место жители называли «загоном». Потом стали называть козьим, т.к. там выгуливали коз. По другой версии название «загон» появилось из-за небольшой площади и ограждение забором.",
         "Тип названия": "Историческая ассоциация",
         "auxiliary_storage_labeling_positionx": null,
         "auxiliary_storage_labeling_positiony": null,
