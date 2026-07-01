@@ -1,0 +1,35 @@
+{
+  "source": "public-map",
+  "method": "draw-tool",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "create",
+      "targetLayer": "points",
+      "feature": {
+        "type": "Feature",
+        "id": 1781953918085,
+        "properties": {
+          "name": "Лысый",
+          "explainer": "Происхождение связано с отсутствием волосяного головного покрова у Владимира Ильича Ленина в скульптурном исполнении.",
+          "city": "Пермь",
+          "Тип названия": "Визуальная ассоциация",
+          "original_name": "Памятник Ленину"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            56.24718809891819,
+            58.01465178569237
+          ]
+        }
+      },
+      "originalFeatureId": null
+    }
+  ],
+  "submissionId": "sub_2026-06-20_8247"
+}
