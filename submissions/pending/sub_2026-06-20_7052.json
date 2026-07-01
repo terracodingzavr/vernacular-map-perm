@@ -1,0 +1,127 @@
+{
+  "source": "public-map",
+  "method": "edit-existing-feature",
+  "captchaToken": null,
+  "author": {
+    "displayName": "",
+    "contact": ""
+  },
+  "changes": [
+    {
+      "changeType": "update",
+      "targetLayer": "districts",
+      "feature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 68,
+          "fid": 69,
+          "name": "Эспланада",
+          "explainer": "Центральная площадь города, под которой обычно подразумевают не только центральную часть между улицами Борчанинова и Попова, но и пространство около Драмсарая и площадки около Законодательного собрания края. Само название пришло из испанского и означает площадь перед крепостью.\nВ Советское время имело название «Дураково поле»",
+          "Тип названия": "Ассоциация с объектом",
+          "idlabel": 1,
+          "auxiliary_storage_labeling_labelrotation": null,
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_labeling_lineanchorpercent": null,
+          "auxiliary_storage_labeling_lineanchorclipping": null,
+          "auxiliary_storage_labeling_lineanchortype": null,
+          "auxiliary_storage_labeling_lineanchortextpoint": null,
+          "auxiliary_storage_labeling_show": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "city": "Пермь"
+        },
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  56.21209234205136,
+                  58.00833030102078
+                ],
+                [
+                  56.21296773913689,
+                  58.006932733243076
+                ],
+                [
+                  56.23405074948255,
+                  58.010445883325005
+                ],
+                [
+                  56.23320379824429,
+                  58.01182206843618
+                ],
+                [
+                  56.21209234205136,
+                  58.00833030102078
+                ]
+              ]
+            ]
+          ]
+        },
+        "id": 1
+      },
+      "originalFeatureId": 1,
+      "reason": "Уточнение местных экспертом",
+      "originalFeature": {
+        "type": "Feature",
+        "properties": {
+          "qc_id": 68,
+          "fid": 69,
+          "name": "Эспланада",
+          "original_name": null,
+          "explainer": "Центральная площадь города, под которой обычно подразумевают не только центральную часть между улицами Борчанинова и Попова, но и пространство около Драмсарая и площадки около Законодательного собрания края. Само название пришло из испанского и означает площадь перед крепостью.",
+          "Тип названия": "Ассоциация с объектом",
+          "idlabel": 1,
+          "auxiliary_storage_labeling_labelrotation": null,
+          "auxiliary_storage_labeling_positionx": null,
+          "auxiliary_storage_labeling_positiony": null,
+          "auxiliary_storage_labeling_lineanchorpercent": null,
+          "auxiliary_storage_labeling_lineanchorclipping": null,
+          "auxiliary_storage_labeling_lineanchortype": null,
+          "auxiliary_storage_labeling_lineanchortextpoint": null,
+          "auxiliary_storage_labeling_show": null,
+          "auxiliary_storage_callouts_originx": null,
+          "auxiliary_storage_callouts_originy": null,
+          "auxiliary_storage_callouts_destinationx": null,
+          "auxiliary_storage_callouts_destinationy": null,
+          "city": "Пермь"
+        },
+        "geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  56.21209234205136,
+                  58.00833030102078
+                ],
+                [
+                  56.21296773913689,
+                  58.006932733243076
+                ],
+                [
+                  56.23405074948255,
+                  58.010445883325005
+                ],
+                [
+                  56.23320379824429,
+                  58.01182206843618
+                ],
+                [
+                  56.21209234205136,
+                  58.00833030102078
+                ]
+              ]
+            ]
+          ]
+        },
+        "id": 1
+      }
+    }
+  ],
+  "submissionId": "sub_2026-06-20_7052"
+}
